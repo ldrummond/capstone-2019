@@ -1,0 +1,69 @@
+
+@import "~susy/sass/susy"
+@import 'vars'
+@import 'loaderPage'
+@import 'selectorPage'
+@import 'simulationPage'
+@import 'aboutPage'
+@import 'components'
+
+// Grid (throws compile error if not on single line)
+$susy: ('columns': susy-repeat(16), 'gutters': 16px, 'spread': 'narrow', 'container-spread': 'narrow',);
+
+// Resets
+* 
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+a
+  text-decoration: none
+  color: inherit
+
+// Global Styles
+.app
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  
+.page-wrapper
+  display: block
+  width: 100%
+  height: 100%
+  overflow: hidden
+  background: transparent
+
+// Page Transitions
+
+// Fade
+.fade-enter 
+  opacity: 0
+  z-index: 1
+
+.fade-enter.fade-enter-active 
+  opacity: 1
+  transition: opacity $fast ease-in
+
+.fade-exit
+  opacity: 1
+
+.fade-exit.fade-exit-active
+  opacity: 0
+  transition: opacity $fast ease-out
+
+// Wipe
+.wipe-enter 
+  height: 100%
+
+.wipe-enter.wipe-enter-active 
+  height: 0
+  transition: height $fast ease-in
+
+.wipe-exit
+  height: 0
+
+.wipe-exit.wipe-exit-active
+  height: 100%
+  transition: height $fast ease-out

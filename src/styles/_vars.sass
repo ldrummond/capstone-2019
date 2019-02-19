@@ -1,0 +1,55 @@
+
+
+// Grid
+  
+
+// Colors
+$traffic-color: #A38E76 // brown
+$bats-color: #F7A558 // orange
+$fish-color: #579CC6 // blue
+$crowd-color: #EFB2C5 // pink
+$mold-color: #79857E // green
+
+// Fonts
+$brothers-stack: brothers, Helvetica, sans-serif;
+$calluna-stack: calluna, serif;
+$poppins-stack: poppins, sans-serif;
+
+// Font Mixins 
+@mixin big-brother-font
+  font-family: $brothers-stack
+  font-weight: 100
+  font-size: 88px
+  line-height: 98px
+  
+@mixin middle-brother-font
+  font-family: $brothers-stack
+  font-weight: 100
+  font-size: 38px
+  line-height: 48px
+
+@mixin little-brother-font
+  font-family: $brothers-stack
+  text-transform: lowercase
+  font-weight: 700
+  font-size: 22px
+  letter-spacing: .07em
+  line-height: 26px
+
+@mixin poppins-font
+  font-family: $poppins-stack
+  font-size: 12px
+  line-height: 20px
+
+@mixin body
+  font-family: $poppins-stack
+  font-weight: 200
+  font-size: 12px
+  line-height: 18px
+
+// Transitions
+$slow: 999ms
+$med: 666ms
+$fast: 333ms 
+
+// Media Queries
