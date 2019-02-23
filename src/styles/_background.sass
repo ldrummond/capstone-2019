@@ -1,0 +1,57 @@
+
+@mixin center
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 50%
+  transform: translate(-50%, -50%)
+
+.background
+  .system-image
+    +center
+    z-index: -5
+    transition: opacity $slow ease-in
+    opacity: 1
+
+  .system-icon
+    +center
+    z-index: -10
+
+  .texture
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -15
+
+  &.selector
+    .system-image
+      opacity: 0.1
+      transition: opacity $slow ease-out
+
+    .system-icon
+      opacity: 0
+
+  &.transition
+    .system-image
+      opacity: 1
+
+    .system-icon
+      opacity: 1
+
+  &.simulation
+    .system-image
+      opacity: 0.15
+      position: absolute
+      left: -50%
+      top: 0
+      height: 100%
+      width: auto
+      transform: none
+      transition: opacity $slow ease-out
+
+    .system-icon
+      opacity: 0
+
+ 

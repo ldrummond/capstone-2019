@@ -2,6 +2,7 @@
 @import "~susy/sass/susy"
 @import 'vars'
 @import 'loaderPage'
+@import 'background'
 @import 'selectorPage'
 @import 'simulationPage'
 @import 'aboutPage'
@@ -35,35 +36,11 @@ a
   overflow: hidden
   background: transparent
 
-// Page Transitions
 
-// Fade
-.fade-enter 
-  opacity: 0
-  z-index: 1
-
-.fade-enter.fade-enter-active 
-  opacity: 1
-  transition: opacity $fast ease-in
-
-.fade-exit
-  opacity: 1
-
-.fade-exit.fade-exit-active
-  opacity: 0
-  transition: opacity $fast ease-out
-
-// Wipe
-.wipe-enter 
+.background-texture
+  z-index: -50
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
   height: 100%
-
-.wipe-enter.wipe-enter-active 
-  height: 0
-  transition: height $fast ease-in
-
-.wipe-exit
-  height: 0
-
-.wipe-exit.wipe-exit-active
-  height: 100%
-  transition: height $fast ease-out

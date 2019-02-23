@@ -1,0 +1,34 @@
+
+
+.page-wrapper.about-page
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $dark
+  padding-top: 100px
+  z-index: $about-page-z
+
+  .content
+    color: white
+    +big-brother-font
+    padding: 40px
+
+.toggle-about-enter
+  opacity: 0
+  transition: opacity $fast ease-in
+
+.toggle-about-enter.toggle-about-enter-active
+  opacity: 1
+
+.toggle-about-exit
+  opacity: 0
+  transition: opacity $fast ease-out
+
+.toggle-about-exit.toggle-about-exit-active
+  opacity: 0
+
+.toggle-about-exit-done
+  opacity: 0
+  z-index: -10

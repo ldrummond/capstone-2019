@@ -10,4 +10,8 @@ it('renders without crashing', () => {
 
 
 
+it('gets the query params from the url', () => {
+  
+});
+
 

@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 240.6 227.9" xml:space="preserve">
-  <polygon class='p1' points="46.3,227.5 194,227.5 120.3,126.5 "/>
-  <polygon class='p2' points="0.2,87.3 45.9,227.9 120.3,126.5 "/>
-  <polygon class='p3' points="194.3,227.5 240.4,87.3 120.3,126.5 "/>
-  <polygon class='p4' points="120.3,0 120.3,126.5 240.6,87.4 "/>
-  <polygon class='p5' points="120.3,0 0,87.4 120.3,126.5 "/>
+<svg class='pentagonIcon' viewBox="0 0 240.64 227.85">
+  <polygon class='p1' points="46.32 227.47 193.96 227.47 120.32 126.47 46.32 227.47"/>
+  <polygon class='p2' points="0.25 87.26 45.93 227.85 120.32 126.47 0.25 87.26"/>
+  <polygon class='p3' points="193.96 227.47 240.39 87.26 120.32 126.47 193.96 227.47"/>
+  <polygon class='p4' points="120.32 0 120.32 126.47 240.63 87.42 120.32 0"/>
+  <polygon class='p5' points="120.32 0 0 87.42 120.32 126.47 120.32 0"/>
 </svg>

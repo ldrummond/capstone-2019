@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 // import $ from 'jquery'; 
 import { connect } from 'react-redux'
 import Pixi from '../components/pixi'; 
+import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class SimulationPage extends Component {
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
       coverImage = {src: 'test'},
+      color = 'red', 
     } = curSystem; 
 
     return (
@@ -43,25 +45,26 @@ class SimulationPage extends Component {
             </span>
           </span>
         }
-        <span className='content'>
-          <Link to='/selector'>Back</Link>
+        <span className='content' >
           <section className='description-panel'>
-            <h3 className='index'>{index + 1}/5</h3>
-            <h2 className='question'>{question}</h2>
-            –
-            <h2 className='title'>Emergent System</h2>
-            <h2 className='description'>{description}</h2>
-            <h2 className='title'>Rules</h2>
-            <h2 className='rules'>{rules}</h2>
-            {/* <Link to={`/simulation/${prevSystem.path}`}>{prevSystem.path}</Link> 
-            {/* <Link to={`/simulation/${nextSystem.path}`}>{nextSystem.path}</Link> */}
+            <span>
+              <h3 className='index'>{index + 1}/5</h3>
+              <h2 className='question'>{question}</h2>
+            </span>
+            <span>
+              <span className='line'></span>
+              <h2 className='title'>Emergent System</h2>
+              <h2 className='description'>{description}</h2>
+              <h2 className='title'>Rules</h2>
+              <h2 className='rules'>{rules}</h2>
+              <Link to={`/selector`}>
+                <Pentagon/>
+              </Link> 
+            </span>
           </section>
-          <span className='simulation-panel'>
+          <span className='simulation-panel' style={{background: color}}>
             <Pixi/> 
           </span>
-        </span>
-        <span className='background'>
-          <img src={coverImage.src}></img>
         </span>
       </div>    
     );
@@ -94,7 +97,3 @@ SimulationPage = connect(mapStateToProps, mapDispatchToProps)(SimulationPage)
 
 export default SimulationPage
 
-
-function contains(arr, val) {
-  return !(arr.indexOf(val) == -1)
-}

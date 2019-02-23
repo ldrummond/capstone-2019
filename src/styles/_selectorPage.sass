@@ -1,70 +1,107 @@
 
 
 // SCOPED through page name
-.selector-page
-
-  .option-container
-    position: absolute
-    top: 0
-    left: 300px
-    height: 100%
-    display: flex
-    flex-direction: column
-    justify-content: center
-
-    .option-inner
-      .title
-        +big-brother-font
-      .subtitle
-        +poppins-font
-        h4
-          display: inline
-        .index
-          display: inline
-
-      .cover-image
-        opacity: .5
-        width: 80%
-        position: absolute
-        left: 0
-        top: 50%
-        transform: translate(0, -50%)
-        z-index: -5
-
+.page-wrapper.selector-page
   $pentagon-width: 500px 
 
-  .pentagon-container
-    z-index: -5
-    position: absolute
-    left: -$pentagon-width / 2 + 20
-    top: 0
-    bottom: 0
-    width: $pentagon-width
+  .content 
     display: flex
-    flex-direction: column
-    justify-content: center
     align-items: center
-    .pentagonIcon 
-      transform: rotate(-18deg)
-      width: $pentagon-width
-      .p1
-        fill: $traffic-color
-      .p2
-        fill: $bats-color
-      .p3
-        fill: $fish-color
-      .p4
-        fill: $mold-color
-      .p5
-        fill: $crowd-color
+    justify-content: flex-start
+    margin-left: -$pentagon-width / 2
+    height: 100%
+    padding: 10% 0
 
-  .arrowIcon 
-    width: 30px
-    fill: none
-    stroke: #000
-    stroke-miterlimit: 10
-    &::hover
-      fill: black
+    .pentagon-container
+      display: inline-block
+      height: 100%
+      .pentagonIcon 
+        transition: transform $med ease
+        width: $pentagon-width
+        .p1
+          fill: $traffic-color
+        .p2
+          fill: $bats-color
+        .p3
+          fill: $fish-color
+        .p4
+          fill: $mold-color
+        .p5
+          fill: $crowd-color
+
+    .arrows-container
+      display: inline-flex
+      float: left
+      height: 100%
+      flex-direction: column
+      justify-content: space-between
+      width: 30px
+      .arrowIcon 
+        width: 30px
+        fill: none
+        stroke: #000
+        stroke-miterlimit: 10
+        pointer-events: all
+        &:last-of-type
+          transform: rotate(180deg)
+        &:hover
+          fill: black
+        
+
+    .option-container
+      .option-inner
+        .title
+          padding-right: 10%
+          +big-brother-font
+        .subtitle
+          +poppins-font
+          opacity: 0.4
+          h4
+            display: inline
+            text-transform: uppercase
+            font-weight: 500
+            font-size: 18px
+            letter-spacing: 0.15em
+            margin-right: 2em
+          .index
+            +abolition-font
+            font-size: 25px
+            display: inline
+            font-weight: 100
+
+        .cover-image
+          opacity: .3
+          width: 50%
+          position: absolute
+          top: 50%
+          left: 50%
+          transform: translate(-50%, -50%)
+          z-index: -5
+
+    .option-container
+      .option-inner
+        &.fade-exit
+          .title
+            opacity: 1
+        &.fade-exit.fade-exit-active
+          .title
+            transition: opacity $fast ease-out
+            opacity: 0
+
+        &.fade-enter
+          .title 
+            position: absolute
+            opacity: 0
+
+        &.fade-enter.fade-enter-active 
+          .title
+            opacity: 0
+            transition: opacity $fast ease-in
+
+        &.fade-enter-done
+          .title 
+            transition: opacity $fast ease-in
+            opacity: 1
 
   .background-texture
     position: absolute

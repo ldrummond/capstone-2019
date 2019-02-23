@@ -1,7 +1,6 @@
 
 // SCOPED through page name
-.simulation-page
-
+.page-wrapper.simulation-page
   .overlay
     position: absolute
     top: 0
@@ -23,56 +22,64 @@
         +body
         line-height: 20px
 
+  .content 
+    display: flex
+    height: 100%
 
-  .description-panel
-    position: absolute
-    top: 0
-    bottom: 0
-    left: 0
-    width: span(4 of 16)
-    overflow: hidden
-    padding: 32px
+    .description-panel
+      flex-basis: span(4 of 16)
+      padding: 16px
+      padding-right: 0
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+      color: $sim-color
 
-    .index
+      .index
+        display: block
+        color: black
+        opacity: 0.4
+        +abolition-font
+        font-size: 30px
+        margin-bottom: 1em
 
-    .question
-      +middle-brother-font 
+      .question
+        +middle-brother-font 
 
-    .title
-      +little-brother-font
+      .line
+        display: block
+        height: 1px
+        width: 30px
+        border-bottom: 1px solid $sim-color
+        margin-bottom: 30px
 
-    .description
-      +body
+      .title
+        +little-brother-font
+        margin: 1em 0 0.3em 0 
 
-    .rules
-      +body
+      .description
+        +body-serif
+        font-size: 12px
+        line-height: 18px
 
-  .simulation-panel
-    position: absolute
-    top: 0
-    bottom: 0
-    left: span(4 of 16)
-    right: 0
-    // cursor: none
-    overflow: hidden
+      .rules
+        +body
 
-  &.traffic .simulation-panel
-    background: $traffic-color
-  &.colony .simulation-panel
-    background: $bats-color
-  &.school .simulation-panel
-    background: $fish-color
-  &.crowd .simulation-panel
-    background: $crowd-color
-  &.slime .simulation-panel
-    background: $mold-color
-    
-    .pixi-container
-      position: absolute
-      left: 0
-      top: 0
-      width: 100%
+      .pentagonIcon
+        width: 50px
+        margin-top: 30px
+
+    .simulation-panel
+      flex-basis: span(12 of 16)
       height: 100%
+      margin-left: gutter(1 of 16)
+      overflow: hidden
+      opacity: .9
+
+      .pixi-container
+        width: 100%
+        height: 100%
+        box-shadow: inset 0px 0px 50px 10px rgba(0, 0, 0, 0.05)
 
   .background
     img 

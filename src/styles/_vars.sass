@@ -1,8 +1,5 @@
 
 
-// Grid
-  
-
 // Colors
 $traffic-color: #A38E76 // brown
 $bats-color: #F7A558 // orange
@@ -10,17 +7,62 @@ $fish-color: #579CC6 // blue
 $crowd-color: #EFB2C5 // pink
 $mold-color: #79857E // green
 
+$light: #eee
+$dark: #111
+$sim-color: #43555F
+
 // Fonts
 $brothers-stack: brothers, Helvetica, sans-serif;
 $calluna-stack: calluna, serif;
 $poppins-stack: poppins, sans-serif;
+$abolition-stack: abolition, sans-serif; 
+
+// Z-stack
+$nav-z: 15
+$about-page-z: 10
+$base-page-z: 5
+$background-z: 0
+
+// Query Sizes
+$bg-desktop: 1824px
+$md-desktop: 1224px
+$sm-desktop: 1024px // ipad landscape
+$bg-mobile: 768px
+$sm-mobile: 480px
+
+// Media Queries
+@mixin after-bg-desktop
+  @media only screen and (min-width:$bg-desktop)
+    @content
+
+@mixin after-md-desktop
+  @media only screen and (min-width:$md-desktop)
+    @content
+
+@mixin after-sm-desktop
+  @media only screen and (min-width:$sm-desktop)
+    @content
+
+@mixin after-bg-mobile
+  @media only screen and (min-width:$bg-mobile)
+    @content
+
+@mixin after-sm-mobile
+  @media only screen and (min-width:$sm-mobile)
+    @content
 
 // Font Mixins 
 @mixin big-brother-font
   font-family: $brothers-stack
   font-weight: 100
-  font-size: 88px
-  line-height: 98px
+  font-size: 18px
+  line-height: 22px
+  +after-sm-mobile
+    font-size: 60px
+    line-height: 72px
+  +after-md-desktop
+    font-size: 88px
+    line-height: 98px
   
 @mixin middle-brother-font
   font-family: $brothers-stack
@@ -47,9 +89,92 @@ $poppins-stack: poppins, sans-serif;
   font-size: 12px
   line-height: 18px
 
+@mixin body-serif
+  font-family: $calluna-stack
+  font-size: 22px
+  line-height: 30px
+  font-weight: 200
+
+@mixin abolition-font
+  font-family: $abolition-stack
+  font-weight: 400
+  font-size: 30
+  letter-spacing: 0.15em
+
 // Transitions
 $slow: 999ms
 $med: 666ms
 $fast: 333ms 
 
-// Media Queries
+// Fade
+.fade-enter 
+  opacity: 0
+  z-index: 1
+
+.fade-enter.fade-enter-active 
+  opacity: 1
+  transition: opacity $fast ease-in
+
+.fade-exit
+  opacity: 1
+
+.fade-exit.fade-exit-active
+  opacity: 0
+  transition: opacity $fast ease-out
+
+// Wipe
+.wipe-enter 
+  height: 100%
+
+.wipe-enter.wipe-enter-active 
+  height: 0
+  transition: height $fast ease-in
+
+.wipe-exit
+  height: 0
+
+.wipe-exit.wipe-exit-active
+  height: 100%
+  transition: height $fast ease-out
+
+// Grid
+.row
+  display: flex
+  flex-wrap: wrap
+
+.col
+  flex-basis: 0
+  flex-grow: 1
+  max-width: 100%
+
+// Clearfix
+@mixin clearfix
+  &::after 
+    display: block
+    content: ""
+    clear: both
+
+// Hover Styles
+@mixin hoverline 
+  position: relative
+  height: 22px
+  overflow: hidden
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    background: $dark
+    height: 2px
+    border-radius: 10px
+    transform: translateX(-101%)
+    transition: transform $fast ease 
+
+  .light &:after
+    background: $light
+    
+  &:hover
+    &:after
+      transform: translateX(0)

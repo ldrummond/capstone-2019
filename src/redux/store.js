@@ -16,20 +16,20 @@ function stateFromIndex(index) {
 function prevSystemState(state) {
   let curi = state.curSystem.index; 
   let previ = (curi > 0) ? curi - 1 : systems.length - 1; 
-  return stateFromIndex(previ);  
+  return {...stateFromIndex(previ), aboutVisible: state.aboutVisible};  
 }
 
 function nextSystemState(state) {
   let curi = state.curSystem.index; 
   let nexti = (curi < systems.length - 1) ? curi + 1 : 0; 
-  return stateFromIndex(nexti);    
+  return {...stateFromIndex(nexti), aboutVisible: state.aboutVisible};;    
 }
 
 function stateFromPath(state, path = "") {
   for(let i = 0; i < paths.length; i++) {
     if(paths[i] === path) {
       // console.log('hitpath', paths[i])
-      return stateFromIndex(i);
+      return {...stateFromIndex(i), aboutVisible: state.aboutVisible};
     }
   }
   // throw new Error(`System path "${path}" does not exist`);
@@ -60,9 +60,15 @@ function systemsReducer(state = [], action) {
 
     case 'SYSTEM_FROM_PATH': 
       return stateFromPath(state, action.path)
+
+    case 'HIDE_ABOUT':
+      return {...state, aboutVisible: false}; 
+
+    case 'SHOW_ABOUT':
+      return {...state, aboutVisible: true}; 
     
     default:
-    return state
+      return state
   }
 }
 
@@ -73,7 +79,7 @@ function systemsReducer(state = [], action) {
 
 // Create a Redux store holding the state of your app.
 // Its API is { subscribe, dispatch, getState }.
-export default function createStoreFromPath(path = 'traffic') {
+export default function createStoreFromPath(path = 'traffic', _aboutVisible = false) {
   // console.log("path", path)
-  return createStore(systemsReducer, stateFromPath({}, path)); 
+  return createStore(systemsReducer, stateFromPath({aboutVisible: _aboutVisible}, path)); 
 } 

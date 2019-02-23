@@ -47,9 +47,3 @@ export class FadeIn extends Component {
       );
   }
 }
-
-function mergeObjects(a = {}, b = {}) {
-  let aCopy = Object.assign({}, a);
-  let bCopy = Object.assign({}, b);
-  return Object.assign(aCopy, bCopy)
-}
