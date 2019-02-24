@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
 import data from '../data/data.js'; 
+import { next, prev } from '../components/helper-functions'
 
 const systems = data.systems.map((system, i) => {system.index = i; return system}); 
 const paths = systems.map(system => system.path); 
@@ -16,36 +17,24 @@ function stateFromIndex(index) {
 function prevSystemState(state) {
   let curi = state.curSystem.index; 
   let previ = (curi > 0) ? curi - 1 : systems.length - 1; 
-  return {...stateFromIndex(previ), aboutVisible: state.aboutVisible};  
+  return {...state, ...stateFromIndex(previ)};  
 }
 
 function nextSystemState(state) {
   let curi = state.curSystem.index; 
   let nexti = (curi < systems.length - 1) ? curi + 1 : 0; 
-  return {...stateFromIndex(nexti), aboutVisible: state.aboutVisible};;    
+  return {...state, ...stateFromIndex(nexti)};;    
 }
 
 function stateFromPath(state, path = "") {
   for(let i = 0; i < paths.length; i++) {
     if(paths[i] === path) {
       // console.log('hitpath', paths[i])
-      return {...stateFromIndex(i), aboutVisible: state.aboutVisible};
+      return {...state, ...stateFromIndex(i)};
     }
   }
   // throw new Error(`System path "${path}" does not exist`);
   return state; 
-}
-
-function next(arr, i) {
-  if(i < 0 || i >= arr.length) {throw new RangeError("Array index is out of range.")}
-  let nexti = (i < arr.length - 1) ? i + 1 : 0; 
-  return arr[nexti]; 
-}
-
-function prev(arr, i) {
-  if(i < 0 || i >= arr.length) {throw new RangeError("Array index is out of range.")}
-  let previ = (i > 0) ? i - 1 : arr.length - 1; 
-  return arr[previ]; 
 }
 
 // Reducer 
@@ -66,6 +55,12 @@ function systemsReducer(state = [], action) {
 
     case 'SHOW_ABOUT':
       return {...state, aboutVisible: true}; 
+
+    case 'WHEEL_UP':
+      return {...prevSystemState(state), wheelIndex: state.wheelIndex + 1};
+
+    case 'WHEEL_DOWN':
+      return {...nextSystemState(state), wheelIndex: state.wheelIndex - 1};
     
     default:
       return state
@@ -81,5 +76,5 @@ function systemsReducer(state = [], action) {
 // Its API is { subscribe, dispatch, getState }.
 export default function createStoreFromPath(path = 'traffic', _aboutVisible = false) {
   // console.log("path", path)
-  return createStore(systemsReducer, stateFromPath({aboutVisible: _aboutVisible}, path)); 
+  return createStore(systemsReducer, stateFromPath({aboutVisible: _aboutVisible, wheelIndex: 0}, path)); 
 } 
