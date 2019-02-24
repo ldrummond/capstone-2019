@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery'; 
-import { } from './canvas-functions.js'; 
+import { Point } from './canvas-functions.js'; 
 
 export default class Canvas extends Component {
   constructor(props) {
@@ -10,11 +10,13 @@ export default class Canvas extends Component {
     this.canvas = undefined;
     this.ctx = undefined; 
     this.mousePos = {x: -100, y: -100}
-    this.center = new Point(canvas.width / 2, canvas.height / 2);
+    this.fps = props.fps || '60'; 
+    this.onUpdate = props.onUpdate || function() {}; 
   }
   
   componentDidMount() {
     this.canvas = this.canvasRef.current; 
+    this.center = new Point(this.canvas.width / 2, this.canvas.height / 2);
     
     // Make the canvas react to the Device Pixel Ratio. 
     this.sizeCanvasRender(); 
@@ -39,36 +41,40 @@ export default class Canvas extends Component {
     this.ctx.scale(this.dpr, this.dpr);
   }
 
-  startUpdateLoop = (fps) => {
-    var fps, fpsInterval, startTime, now, then, elapsed, ticker, increment;
-
-    fpsInterval = 1000 / fps;
-    then = Date.now();
-    startTime = then;
-    ticker = 0; 
-    increment = 1;  
+  startUpdateLoop = () => {
+    this.fpsInterval = 1000 / this.fps;
+    this.then = Date.now();
+    this.startTime = this.then;
+    this.ticker = 0; 
+    this.increment = 1;  
     this.updateCanvas();
+  }
+
+  onMouseMove = (e) => {
+    var rect = this.canvas.getBoundingClientRect();
+    this.mousePos = {
+      x: (e.clientX - rect.left),
+      y: (e.clientY - rect.top)
+    };
   }
 
   updateCanvas = () => {
     requestAnimationFrame(this.updateCanvas);
-    now = Date.now();
-    elapsed = now - then;
-    ticker += increment; 
+    this.now = Date.now();
+    this.elapsed = this.now - this.then;
+    this.ticker += this.increment; 
 
     // if enough time has elapsed, draw the next frame
-    if (elapsed > fpsInterval) {
-      // Clear the canvas
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.elapsed > this.fpsInterval) {
 
-
-
+      // Implement whatever functions are passed into this to extend the component. 
+      this.onUpdate();
     }
   }
   
   render() {
     return (
-      <canvas ref={this.canvasRef}></canvas>
+      <canvas ref={this.canvasRef} className='canvas-base'></canvas>
     );
   }
 }

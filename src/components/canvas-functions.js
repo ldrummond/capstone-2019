@@ -1,22 +1,22 @@
-// Functions for programming a canvas. 
+// // Functions for programming a canvas. 
 
-/*
-* Pentagon
-*/
-class Pentagon extends Polygon {
-  constructor(opts = {}) {
-    let {center, size, colors} = opts; 
+// /*
+// * Pentagon
+// */
+// class Pentagon extends Polygon {
+//   constructor(opts = {}) {
+//     let {center, size, colors} = opts; 
 
-    let allOpts = {
-      colors: colors,
-      center: center,
-      size: size, 
-      sides: 5,
-      rotation: 18, 
-    }
-    super(allOpts)
-  }
-}
+//     let allOpts = {
+//       colors: colors,
+//       center: center,
+//       size: size, 
+//       sides: 5,
+//       rotation: 18, 
+//     }
+//     super(allOpts)
+//   }
+// }
 
 /*
 * Polygon
@@ -133,53 +133,53 @@ export function lerpLine(ctx, start, end, numPoints = 1, magnitude = 5) {
   }
 }
 
-/*
-* Curve Line
-*/
-export function curveLine(ctx, start, end, numPoints = 1, magnitude = 5) {
-  if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
-  let points = [start]; 
-  let xUnit = (end.x - start.x) / numPoints
-  let yUnit = (end.y - start.y) / numPoints
+// /*
+// * Curve Line
+// */
+// export function curveLine(ctx, start, end, numPoints = 1, magnitude = 5) {
+//   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+//   let points = [start]; 
+//   let xUnit = (end.x - start.x) / numPoints
+//   let yUnit = (end.y - start.y) / numPoints
 
-  for(let i = 0; i < numPoints; i++) {
-    let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
-    let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
-    points.push(new Point(x, y)); 
-  }
+//   for(let i = 0; i < numPoints; i++) {
+//     let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
+//     let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
+//     points.push(new Point(x, y)); 
+//   }
 
-  ctx.moveTo(start.x, start.y);
+//   ctx.moveTo(start.x, start.y);
   
-  if(points.length >= 2) {
-    for(let i = 1; i <= points.length - 2; i++) {
-      var xc = (points[i].x + points[i + 1].x) / 2;
-      var yc = (points[i].y + points[i + 1].y) / 2;
-      ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-      ctx.strokeStyle = 'red'; 
-      ctx.strokeRect(points[i].x, points[i].y, 1, 1);
-      ctx.strokeStyle = 'white'; 
-      ctx.quadraticCurveTo(points[i].x, points[i].y, points[i+1].x,points[i+1].y);
-    }
-  } else {
-    ctx.lineTo(x, y)
-  }
-}
+//   if(points.length >= 2) {
+//     for(let i = 1; i <= points.length - 2; i++) {
+//       var xc = (points[i].x + points[i + 1].x) / 2;
+//       var yc = (points[i].y + points[i + 1].y) / 2;
+//       ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+//       ctx.strokeStyle = 'red'; 
+//       ctx.strokeRect(points[i].x, points[i].y, 1, 1);
+//       ctx.strokeStyle = 'white'; 
+//       ctx.quadraticCurveTo(points[i].x, points[i].y, points[i+1].x,points[i+1].y);
+//     }
+//   } else {
+//     ctx.lineTo(start.x, start.y)
+//   }
+// }
 
-/*
-* Simplex Line
-*/
-export function simplexLine(ctx, start, end, numPoints = 1, simplex, time, magnitude = 1) {
-  if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
-  ctx.moveTo(start.x, start.y);
-  let xUnit = (end.x - start.x) / numPoints
-  let yUnit = (end.y - start.y) / numPoints
-  for(let i = 1; i <= numPoints; i++) {
-    let x = start.x + (xUnit * i) + simplex.noise2D(i, time) * magnitude; 
-    let y = start.y + (yUnit * i) + simplex.noise2D(i, time) * magnitude;
-    ctx.strokeStyle = 'red'; 
-    ctx.lineTo(x, y); 
-  }
-}
+// /*
+// * Simplex Line
+// */
+// export function simplexLine(ctx, start, end, numPoints = 1, simplex, time, magnitude = 1) {
+//   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+//   ctx.moveTo(start.x, start.y);
+//   let xUnit = (end.x - start.x) / numPoints
+//   let yUnit = (end.y - start.y) / numPoints
+//   for(let i = 1; i <= numPoints; i++) {
+//     let x = start.x + (xUnit * i) + simplex.noise2D(i, time) * magnitude; 
+//     let y = start.y + (yUnit * i) + simplex.noise2D(i, time) * magnitude;
+//     ctx.strokeStyle = 'red'; 
+//     ctx.lineTo(x, y); 
+//   }
+// }
 
 /*
 * Point 
@@ -215,55 +215,55 @@ export function toRad(angle) {
 
 
 
-// export function drawCirc(x, y, r, ctx) {
-//   ctx.beginPath();
-//   ctx.arc(x, y, r, 0, 2 * Math.PI);
-//   ctx.stroke();
-// }
+// // export function drawCirc(x, y, r, ctx) {
+// //   ctx.beginPath();
+// //   ctx.arc(x, y, r, 0, 2 * Math.PI);
+// //   ctx.stroke();
+// // }
 
-// export function drawRect(x, y, ctx) {
+// // export function drawRect(x, y, ctx) {
 
-// }
+// // }
 
-// export class Circle {
-//   constructor(options = {}) {
-//     const {x = 0, y = 0, r = 20, ctx} = options; 
-//     this.x = x;
-//     this.y = y;
-//     this.r = Math.max(r, 10);  
-//     this.ctx = ctx; 
-//     this.active = true; 
+// // export class Circle {
+// //   constructor(options = {}) {
+// //     const {x = 0, y = 0, r = 20, ctx} = options; 
+// //     this.x = x;
+// //     this.y = y;
+// //     this.r = Math.max(r, 10);  
+// //     this.ctx = ctx; 
+// //     this.active = true; 
 
-//     if(typeof(ctx) === 'undefined') {
-//       throw undefined;
-//     }
-//   }
+// //     if(typeof(ctx) === 'undefined') {
+// //       throw undefined;
+// //     }
+// //   }
 
-//   draw = () => {
-//     if(this.active && this.ctx) {
-//       drawCirc(this.x, this.y, this.r, this.ctx); 
-//     }
-//   }
-// }
+// //   draw = () => {
+// //     if(this.active && this.ctx) {
+// //       drawCirc(this.x, this.y, this.r, this.ctx); 
+// //     }
+// //   }
+// // }
 
-// export class Ripple extends Circle {
-//   constructor(options) {
-//     super(options)
-//   }
+// // export class Ripple extends Circle {
+// //   constructor(options) {
+// //     super(options)
+// //   }
 
-//   update() {
-//     this.r--;
-//     if(this.r <= 0) {
-//       this.active = false; 
-//     }
-//   }
+// //   update() {
+// //     this.r--;
+// //     if(this.r <= 0) {
+// //       this.active = false; 
+// //     }
+// //   }
 
-//   draw = () => {
-//     if(this.active && this.ctx) {
-//       drawCirc(this.x, this.y, this.r, this.ctx); 
-//     }
-//   }
-// }
+// //   draw = () => {
+// //     if(this.active && this.ctx) {
+// //       drawCirc(this.x, this.y, this.r, this.ctx); 
+// //     }
+// //   }
+// // }
 
 
 
