@@ -6,6 +6,7 @@
 @import 'selectorPage'
 @import 'simulationPage'
 @import 'aboutPage'
+@import 'transitionPage'
 @import 'components'
 
 // Grid (throws compile error if not on single line)
@@ -16,6 +17,8 @@ $susy: ('columns': susy-repeat(16), 'gutters': 16px, 'spread': 'narrow', 'contai
   margin: 0
   padding: 0
   box-sizing: border-box
+  &::selection
+    background: pink
 
 a
   text-decoration: none

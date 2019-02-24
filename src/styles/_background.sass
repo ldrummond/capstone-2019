@@ -9,12 +9,18 @@
 .background
   .system-image
     +center
+    left: 55%
+    top: 45%
+    max-height: 50%
     z-index: -5
-    transition: opacity $slow ease-in
+    transition: opacity $fast ease-in
     opacity: 1
 
   .system-icon
     +center
+    width: 30%
+    left: 40%
+    top: 60%
     z-index: -10
 
   .texture
@@ -25,21 +31,26 @@
     height: 100%
     z-index: -15
 
+  // Selector Page
   &.selector
     .system-image
-      opacity: 0.1
-      transition: opacity $slow ease-out
+      opacity: 0.2
+      transition: opacity $fast ease-out
 
     .system-icon
       opacity: 0
+      transition: opacity $fast ease-out
 
+  // Transition Page
   &.transition
     .system-image
       opacity: 1
 
     .system-icon
       opacity: 1
+      transition: opacity $fast ease-out
 
+  // Simulation Page
   &.simulation
     .system-image
       opacity: 0.15

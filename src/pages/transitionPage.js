@@ -26,7 +26,7 @@ class TransitionPage extends Component {
     return (
       <div className={`page-wrapper transition-page ${path}`}>
         <span className='content'>
-          <Link to={`/simulation/${path}`} className='option-inner'>NEXT</Link>
+          <Link to={`/simulation/${path}`} className='next-button'>NEXT</Link>
         </span>
       </div>    
     );
