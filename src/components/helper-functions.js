@@ -20,6 +20,24 @@ export function contains(arr, val) {
 }
 
 /*
+* Array Next
+*/
+export function next(arr, i) {
+  if(i < 0 || i >= arr.length) {throw new RangeError("Array index is out of range.")}
+  let nexti = (i < arr.length - 1) ? i + 1 : 0; 
+  return arr[nexti]; 
+}
+
+/*
+* Array Prev
+*/
+export function prev(arr, i) {
+  if(i < 0 || i >= arr.length) {throw new RangeError("Array index is out of range.")}
+  let previ = (i > 0) ? i - 1 : arr.length - 1; 
+  return arr[previ]; 
+}
+
+/*
 * Merge objects
 */
 export function mergeObjects(a = {}, b = {}) {
