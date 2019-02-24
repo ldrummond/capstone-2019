@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
-import { CSSTransition } from 'react-transition-group'; 
+import { Transition } from 'react-transition-group'; 
 import { connect } from 'react-redux'
 let pubUrl = url => `${process.env.PUBLIC_URL}/assets/${url}`; 
+
+const duration = 300; 
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 0, display: 'block' },
+  entered:  { opacity: 1, display: 'block' },
+  exited: {opacity: 0, display: 'none' }
+};
 
 class AboutResolver extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
   }
 
   render() {
     return (
-      <CSSTransition in={Boolean(this.props.aboutVisible)} timeout={300} classNames='toggle-about'>
-        <div className='page-wrapper about-page'>
-          <span className='content'>
-            About Page
-          </span>
-        </div>
-      </CSSTransition>
+      <Transition in={Boolean(this.props.aboutVisible)} timeout={duration} classNames='toggle-about'>
+        {(state) => (
+          <div className='page-wrapper about-page' style={{...defaultStyle, ...transitionStyles[state]}}>
+            <span className='content'>
+              About Page
+            </span>
+          </div>
+        )}
+      </Transition>
     );
   }
 }

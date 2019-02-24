@@ -35,6 +35,10 @@ class SimulationPage extends Component {
       color = 'red', 
     } = curSystem; 
 
+    const styles = {
+      background: color, 
+    }
+
     return (
       <div className={`page-wrapper simulation-page ${path}`}>
         {this.state.showOverlay &&
@@ -62,7 +66,7 @@ class SimulationPage extends Component {
               </Link> 
             </span>
           </section>
-          <span className='simulation-panel' style={{background: color}}>
+          <span className='simulation-panel' style={styles}>
             <Pixi/> 
           </span>
         </span>
