@@ -16,7 +16,7 @@ const
   fishColor = '#579CC6',
   crowdColor = '#EFB2C5',
   moldColor = '#79857E';
-  
+
 export default {
   systems: [
     {
@@ -29,7 +29,7 @@ export default {
       question: "What causes traffic?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Chase the fish to see how they follow their neighbors to avoid predators.",
+      instructions: "Navigate the lanes to get work.",
       color: trafficColor,
       icon: carIcon, 
     },

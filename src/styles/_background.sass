@@ -7,21 +7,37 @@
   transform: translate(-50%, -50%)
 
 .background
-  .system-image
-    +center
-    left: 55%
-    top: 45%
-    max-height: 50%
-    z-index: -5
-    transition: opacity $fast ease-in
-    opacity: 1
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  display: flex
+  align-items: center
+  padding: 32px
+  z-index: $background-z
+  .content
+    width: span(7 of 16)
+    margin-left: span(6 of 16)
+    height: 60%
+    position: relative
 
-  .system-icon
-    +center
-    width: 30%
-    left: 40%
-    top: 60%
-    z-index: -10
+    .system-image
+      position: absolute
+      top: 0
+      left: span(1 of 7)
+      width: 100%
+      max-height: 90%
+      z-index: -5
+      transition: opacity $fast ease-in
+      opacity: 1
+
+    .system-icon
+      position: absolute
+      top: 20%
+      width: span(4 of 7)
+      left: 0
+      z-index: -10
 
   .texture
     position: absolute
@@ -30,11 +46,12 @@
     width: 100%
     height: 100%
     z-index: -15
+    opacity: 0.4
 
   // Selector Page
   &.selector
     .system-image
-      opacity: 0.2
+      opacity: 0.1
       transition: opacity $fast ease-out
 
     .system-icon
