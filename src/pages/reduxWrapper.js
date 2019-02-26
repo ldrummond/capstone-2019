@@ -15,12 +15,12 @@ class ReduxWrapper extends Component{
 
 
     // Checks if the url is a simulation, then initializes the store with that sim. 
-    let simRegex = /\/simulation\/([A-Za-z]+)/
+    let simRegex = /\/(simulation|transition)\/([A-Za-z]+)/
     let matches = props.location.pathname.match(simRegex); 
     let simulationPath; 
 
-    if(matches && matches.length > 0 && typeof(matches[1]) != 'undefined') {
-      simulationPath = matches[1]; 
+    if(matches && matches.length > 0 && typeof(matches[2]) != 'undefined') {
+      simulationPath = matches[2]; 
     } 
 
     // Checks if the about query param is active, and initializes the store with that param. 
@@ -35,12 +35,12 @@ class ReduxWrapper extends Component{
     let {location} = this.props; 
     return(
       <Provider store={this.store}>
-        <div className='app'>
-          <Route path='/(selector|simulation|about)' component={NavResolver}></Route>
-          <AboutResolver location={location}/>
-          <PageResolver location={location}/>
-          <BackgroundResolver location={location}/>
-        </div>
+          <div className='app'>
+            <Route path='/(selector|transition|simulation|about)' component={NavResolver}></Route>
+            <AboutResolver location={location}/>
+            <PageResolver location={location}/>
+            <BackgroundResolver location={location}/>
+          </div>
       </Provider>
     )
   }
