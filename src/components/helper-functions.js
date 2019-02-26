@@ -1,4 +1,96 @@
 
+//////////////////////////////////////////////////
+//
+// Easing Functions
+// https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
+// https://hackernoon.com/writing-an-easing-function-a-slightly-interesting-story-70ce667c212a
+//
+//////////////////////////////////////////////////
+
+// t: current time, b: beginning value, c: change in value, d: duration
+export function easeInQuad(x, t, b, c, d) {
+  return c*(t/=d)*t + b;
+}
+
+// export class Transition {
+//   /**
+//   * Create a Pentagon
+//   * @param {number} startTime start time - The start time in ms. 
+//   * @param {number} initialValue intial value - The start value of the transition.
+//   * @param {number} finalValue final value - The end value of the transition.
+//   * @param {number} duration duration - The duration of the transition in ms.
+//   * @param {updateCallback} callback update callback - The function to be called on each update. 
+//   */
+//   constructor(startTime, initialValue, finalValue, duration, callback) {
+//     this.startTime = startTime;
+//     this.initialValue = initialValue;
+//     this.finalValue = finalValue;
+//     this.duration = duration; 
+//     this.callback = callback;
+//     // t: current time, b: beginning value, c: change in value, d: duration
+//     this.easeFn = (c, t, d, b) => c*(t/=d)*t + b; 
+//   }
+
+//   update() {
+//     if(!this.isDone) {
+//       const curTime = Date.now() - this.startTime; // curTime
+//       const val = this.easeFn(curTime, this.initialValue, this.finalValue - this.initialValue, this.duration);
+//       this.callback(val); 
+//     }
+//   }
+
+//   get isDone() {
+//     return (Date.now() - this.startTime >= this.duration); 
+//   }
+
+//   /**
+//    * This callback is displayed as part of the Transition class.
+//    * @callback Transition~updateCallback
+//    * @param {value} newValue
+//    */
+// }
+
+/**
+ * 
+ * @function Transition
+ * @param {Object} Options
+ * @property {number} startValue 
+ * @property {number} endValue
+ * @property {number} durationMs
+ * @property {number} fps
+ * @callback {function} onStep
+ * @callback {function} onComplete  
+ * 
+ */
+export function Transition({startValue = 0, endValue = 1, durationMs = 200, fps = 60, onStep, onComplete = _ => {}}) {
+  this.isDone = false; 
+  
+  this.stepCount = Math.floor(durationMs / (1000 / fps));
+  this.valueIncrement = (endValue - startValue) / this.stepCount;
+  this.sinValueIncrement = Math.PI / this.stepCount;
+  
+  this.currentValue = startValue;
+  this.currentSinValue = 0;
+  
+  this.step = () => {
+    this.currentSinValue += this.sinValueIncrement;
+    this.currentValue += this.valueIncrement * (Math.sin(this.currentSinValue) ** 2) * 2;
+    
+    if (this.currentSinValue < Math.PI) {
+      onStep(this.currentValue);
+    } else {
+      onStep(endValue);
+      onComplete();
+      this.isDone = true; 
+    }
+  }
+}
+
+//////////////////////////////////////////////////
+//
+// Url Functions
+//
+//////////////////////////////////////////////////
 
 /*
 * Get url params.
@@ -12,8 +104,16 @@ export function getQueryParamsFromLocation(location = {search: ""}) {
   }, {})
 }
 
-/*
-* Array Contains
+//////////////////////////////////////////////////
+//
+// Array Functions
+//
+//////////////////////////////////////////////////
+
+/**
+* @param {Array} array
+* @param {any} value
+* @returns {boolean} True if array contains value
 */
 export function contains(arr, val) {
   return !(arr.indexOf(val) == -1)
@@ -37,6 +137,12 @@ export function prev(arr, i) {
   return arr[previ]; 
 }
 
+//////////////////////////////////////////////////
+//
+// Object Functions
+//
+//////////////////////////////////////////////////
+
 /*
 * Merge objects
 */
@@ -45,3 +151,121 @@ export function mergeObjects(a = {}, b = {}) {
   let bCopy = Object.assign({}, b);
   return Object.assign(aCopy, bCopy)
 }
+
+//////////////////////////////////////////////////
+//
+// Color Functions
+//
+//////////////////////////////////////////////////
+
+/*
+* Ran RGB 
+*/
+export function ranRGB() {
+  return `rgb(${255 * Math.random()|0}, ${255 * Math.random()|0}, ${255 * Math.random()|0})`;
+}
+
+
+//////////////////////////////////////////////////
+//
+// Math Functions
+//
+//////////////////////////////////////////////////
+
+/*
+* To Deg 
+*/
+export function toDeg(angle) {
+  return angle * (180 / Math.PI);
+}
+
+/*
+* To Rad 
+*/
+export function toRad(angle) {
+  return angle * (Math.PI / 180);
+}
+
+//////////////////////////////////////////////////
+//
+// Canvas Functions
+//
+//////////////////////////////////////////////////
+
+/* 
+* Simple Circle draw method. 
+*/
+export function drawCircle(ctx, x, y, r, color) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 2 * Math.PI);
+  if(color) {ctx.fillColor = color}
+  ctx.stroke();
+  ctx.fill(); 
+}
+
+/*
+* Lerp Line
+*/
+export function drawLerpLine(ctx, start, end, numPoints = 1, magnitude = 5) {
+  if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+  ctx.moveTo(start.x, start.y);
+  let xUnit = (end.x - start.x) / numPoints
+  let yUnit = (end.y - start.y) / numPoints
+  for(let i = 1; i <= numPoints; i++) {
+    let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
+    let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
+    ctx.strokeStyle = 'red'; 
+    ctx.strokeRect(x, y, 1, 1);
+    ctx.strokeStyle = 'white'; 
+    ctx.lineTo(x, y); 
+  }
+}
+
+/*
+* Curve Line
+*/
+// export function drawCurveLine(ctx, start, end, numPoints = 1, magnitude = 5) {
+//   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+//   let points = [start]; 
+//   let xUnit = (end.x - start.x) / numPoints
+//   let yUnit = (end.y - start.y) / numPoints
+
+//   for(let i = 0; i < numPoints; i++) {
+//     let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
+//     let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
+//     points.push(new Point(x, y)); 
+//   }
+
+//   ctx.moveTo(start.x, start.y);
+  
+//   if(points.length >= 2) {
+//     for(let i = 1; i <= points.length - 2; i++) {
+//       var xc = (points[i].x + points[i + 1].x) / 2;
+//       var yc = (points[i].y + points[i + 1].y) / 2;
+//       ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+//       ctx.strokeStyle = 'red'; 
+//       ctx.strokeRect(points[i].x, points[i].y, 1, 1);
+//       ctx.strokeStyle = 'white'; 
+//       ctx.quadraticCurveTo(points[i].x, points[i].y, points[i+1].x,points[i+1].y);
+//     }
+//   } else {
+//     ctx.lineTo(start.x, start.y)
+//   }
+// }
+
+/*
+* Simplex Line
+*/
+export function drawSimplexLine(ctx, start, end, numPoints = 1, simplex, time, magnitude = 1) {
+  if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+  ctx.moveTo(start.x, start.y);
+  let xUnit = (end.x - start.x) / numPoints
+  let yUnit = (end.y - start.y) / numPoints
+  for(let i = 1; i <= numPoints; i++) {
+    let x = start.x + (xUnit * i) + simplex.noise2D(i, time) * magnitude; 
+    let y = start.y + (yUnit * i) + simplex.noise2D(i, time) * magnitude;
+    ctx.strokeStyle = 'red'; 
+    ctx.lineTo(x, y); 
+  }
+}
+

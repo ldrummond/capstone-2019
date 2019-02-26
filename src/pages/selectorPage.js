@@ -5,6 +5,7 @@ import { ReactComponent as Pentagon } from '../assets/pentagon.svg';
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { PentagonWheel } from '../components/pentagon-wheel'
+import { SvgOutline } from '../components/svg-outline'
 
 class SelectorPage extends Component {
   constructor(props) {
@@ -14,21 +15,18 @@ class SelectorPage extends Component {
 
   render() {
     let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
-    let rotation = 360 / 5 * wheelIndex - 18;
+
     return (
       <div className='page-wrapper selector-page'>
         <span className='content'>
-          {/* <span className='pentagon-container'>
-            <Pentagon style={{transform: `rotate(${rotation}deg)`}}/>
-          </span> */}
-          <PentagonWheel/>
+          <PentagonWheel {...this.props} wheelIndex={wheelIndex}/>
           <span className='arrows-container'>
-            <Arrow onClick={onPrevClick}/>
-            <Arrow onClick={onNextClick}/>
+            <SvgOutline component={Arrow} onClick={onPrevClick} color='black'/>
+            <SvgOutline component={Arrow} onClick={onNextClick} color='black' style={{transform: 'rotate(180deg)'}}/>
           </span>
             <span className='option-container'>
               <TransitionGroup component={null}>
-                <CSSTransition key={curSystem.index} timeout={{enter: 150, exit: 100}} classNames='fade'>
+                <CSSTransition key={curSystem.path} timeout={{enter: 333, exit: 666}} classNames='rotate'>
                   <Link to={`/transition/${curSystem.path}`} className='option-inner'>
                       <h1 className='title'>{curSystem.question}</h1>
                     <span className='subtitle'>
@@ -36,7 +34,7 @@ class SelectorPage extends Component {
                       <h3 className='index'>{curSystem.index + 1}/5</h3>
                     </span>
                   </Link>
-                </CSSTransition>
+                </CSSTransition> 
               </TransitionGroup>
             </span>
         </span>

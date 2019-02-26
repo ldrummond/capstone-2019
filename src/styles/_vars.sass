@@ -21,7 +21,7 @@ $abolition-stack: abolition, sans-serif;
 $nav-z: 15
 $about-page-z: 10
 $base-page-z: 5
-$background-z: 0
+$background-z: -10
 
 // Query Sizes
 $bg-desktop: 1824px
@@ -53,16 +53,16 @@ $sm-mobile: 480px
 
 // Font Mixins 
 @mixin big-brother-font
-  font-family: $brothers-stack
-  font-weight: 100
-  font-size: 18px
-  line-height: 22px
+  font-family: $calluna-stack
+  font-weight: 500
+  font-size: 36px
+  line-height: 42px
   +after-sm-mobile
-    font-size: 60px
-    line-height: 72px
+    font-size: 58px
+    line-height: 58px
   +after-md-desktop
-    font-size: 88px
-    line-height: 98px
+    font-size: 78px
+    line-height: 84px
   
 @mixin middle-brother-font
   font-family: $brothers-stack

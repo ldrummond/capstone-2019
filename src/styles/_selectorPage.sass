@@ -2,9 +2,10 @@
 
 // SCOPED through page name
 .page-wrapper.selector-page
-  $pentagon-width: 500px 
 
   .content 
+    $pentagon-width: span(6 of 16)
+
     display: flex
     align-items: center
     justify-content: flex-start
@@ -14,91 +15,86 @@
 
     .pentagon-container
       display: inline-block
+      width: $pentagon-width
       height: 100%
-      .pentagonIcon 
-        transition: transform $med ease
-        width: $pentagon-width
-        .p1
-          fill: $traffic-color
-        .p2
-          fill: $bats-color
-        .p3
-          fill: $fish-color
-        .p4
-          fill: $mold-color
-        .p5
-          fill: $crowd-color
 
     .arrows-container
       display: inline-flex
+      width: span(1 of 16)
       float: left
       height: 100%
       flex-direction: column
       justify-content: space-between
-      width: 30px
-      .arrowIcon 
-        width: 30px
-        fill: none
-        stroke: #000
-        stroke-miterlimit: 10
-        pointer-events: all
-        &:last-of-type
-          transform: rotate(180deg)
-        &:hover
-          fill: black
-        
+      .svg-outline-container
+        width: 40px
+        height: 40px
 
     .option-container
+      width: span(8 of 16)
+      height: 100%
+      position: relative
       .option-inner
+        display: block
+        position: absolute
+        bottom: 30%
+        left: 0%
         .title
           padding-right: 10%
           +big-brother-font
+          margin-bottom: 50px
+          &:hover
+            // font-style: italic
         .subtitle
           +poppins-font
-          opacity: 0.4
+          opacity: 0.7
           h4
+            font-family: 'Helvetica', sans-serif
             display: inline
             text-transform: uppercase
-            font-weight: 500
-            font-size: 18px
-            letter-spacing: 0.15em
-            margin-right: 2em
+            font-weight: 200
+            font-size: 14px
+            letter-spacing: 0.08em
           .index
-            +abolition-font
-            font-size: 25px
+            // +abolition-font
+            font-family: 'Helvetica', sans-serif
+            // font-style: italic
+            font-size: 15px
             display: inline
             font-weight: 100
-
-        .cover-image
-          opacity: .3
-          width: 50%
-          position: absolute
-          top: 50%
-          left: 50%
-          transform: translate(-50%, -50%)
-          z-index: -5
+            text-align: right
+            width: 40px
+            display: inline-block
+            letter-spacing: 0.1em
 
     .option-container
       .option-inner
-        &.fade-exit
+        // transform-origin: -200px 50%
+        &.rotate-exit
+          .title
+            opacity: 1 
+            transition: transform $med ease, opacity $fast ease
+          .subtitle
+            display: none
+            .index
+          // transform: rotate(0)
+
+        &.rotate-exit.rotate-exit-active
+          .title
+            opacity: 0
+          .subtitle
+            display: none
+
+        &.rotate-enter
+          .title
+            opacity: 0
+            transition: $slow transform $med ease, $fast opacity $fast ease
+          .subtitle
+            display: block
+
+        &.rotate-enter.rotate-enter-active
           .title
             opacity: 1
-        &.fade-exit.fade-exit-active
-          .title
-            transition: opacity $fast ease-out
-            opacity: 0
-
-        &.fade-enter
-          .title 
-            position: absolute
-            opacity: 0
-
-        &.fade-enter.fade-enter-active 
-          .title
-            opacity: 0
-            transition: opacity $fast ease-in
-
-        &.fade-enter-done
-          .title 
-            transition: opacity $fast ease-in
-            opacity: 1
+          .subtitle
+            display: block
+            .index
+          // transform: rotate(0deg)
