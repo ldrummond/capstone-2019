@@ -7,49 +7,6 @@
 //
 //////////////////////////////////////////////////
 
-// t: current time, b: beginning value, c: change in value, d: duration
-export function easeInQuad(x, t, b, c, d) {
-  return c*(t/=d)*t + b;
-}
-
-// export class Transition {
-//   /**
-//   * Create a Pentagon
-//   * @param {number} startTime start time - The start time in ms. 
-//   * @param {number} initialValue intial value - The start value of the transition.
-//   * @param {number} finalValue final value - The end value of the transition.
-//   * @param {number} duration duration - The duration of the transition in ms.
-//   * @param {updateCallback} callback update callback - The function to be called on each update. 
-//   */
-//   constructor(startTime, initialValue, finalValue, duration, callback) {
-//     this.startTime = startTime;
-//     this.initialValue = initialValue;
-//     this.finalValue = finalValue;
-//     this.duration = duration; 
-//     this.callback = callback;
-//     // t: current time, b: beginning value, c: change in value, d: duration
-//     this.easeFn = (c, t, d, b) => c*(t/=d)*t + b; 
-//   }
-
-//   update() {
-//     if(!this.isDone) {
-//       const curTime = Date.now() - this.startTime; // curTime
-//       const val = this.easeFn(curTime, this.initialValue, this.finalValue - this.initialValue, this.duration);
-//       this.callback(val); 
-//     }
-//   }
-
-//   get isDone() {
-//     return (Date.now() - this.startTime >= this.duration); 
-//   }
-
-//   /**
-//    * This callback is displayed as part of the Transition class.
-//    * @callback Transition~updateCallback
-//    * @param {value} newValue
-//    */
-// }
-
 /**
  * 
  * @function Transition

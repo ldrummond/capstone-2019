@@ -1,5 +1,11 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
 
+//////////////////////////////////////////////////
+//
+// Boid Pool Controller
+// https://github.com/ianmcgregor/boid
+//
+//////////////////////////////////////////////////
 
 export default class BoidPoolController {
   constructor(options = {}) {
@@ -32,25 +38,36 @@ export default class BoidPoolController {
     }
   }
 
-  updatePool() {
-    this.boidPool.map(boid => {
-      switch(this.state) {
-        case "flock":
-          boid.flock(this.boidPool).update();
-          break; 
+  stepPool() {
+    let updateBoid = boid => boid.wander().update(); 
 
-        case "flee": 
-          boid.flock(this.boidPool).flee(this.chaser).update();
+    switch(this.state) {
+      case "flock":
+        updateBoid = boid => boid.flock(this.boidPool).update();
+        break; 
 
-        case "wander":
-        default: 
-          boid.wander().update();
-          break;
+      case "flee": 
+        updateBoid = boid => boid.flock(this.boidPool).flee(this.chaser).update();
 
-      }
-    })
+      case "wander":
+      default: 
+        updateBoid = boid => boid.wander().update();
+        break;
+    }
+
+    this.boidPool.map(updateBoid)
   }
 
+  // Updates target or chaser for the flee and seek states. 
+  updateTarget(x, y) {
+    this.target = Boid.vec2(x, y);
+  }
+
+  updateChaser(x, y) {
+    this.chaser = Boid.vec2(x, y);
+  }
+
+  // States for  the collection to use. 
   setStateFlee() {
     this.state = "flee";
     this.boidPool.map(boid => boid.maxSpeed = 2);
@@ -68,11 +85,16 @@ export default class BoidPoolController {
     this.state = "flock";
   }
 
-  updateTarget(x, y) {
-    this.target = Boid.vec2(x, y);
+  setStateBeach() {
+    this.state = 'flock';
+    this.boidPool.map(boid => {
+      boid.minDistance = 100;
+      boid.maxSpeed = 1;
+    })
   }
 
-  updateChaser(x, y) {
-    this.chaser = Boid.vec2(x, y);
+  // Updates for individual boids. 
+  setBounds(width, height) {
+    this.boidPool.map(boid => boid.setBounds(width, height))
   }
 }

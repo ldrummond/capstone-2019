@@ -34,6 +34,7 @@
       flex-direction: column
       justify-content: space-between
       color: $sim-color
+      display: none
 
       .index
         display: block
@@ -70,16 +71,17 @@
         margin-top: 30px
 
     .simulation-panel
-      flex-basis: span(12 of 16)
+      flex-basis: span(16 of 16)
+      // flex-basis: span(12 of 16)
       height: 100%
-      margin-left: gutter(1 of 16)
+      // margin-left: gutter(1 of 16)
       overflow: hidden
       opacity: .9
 
-      .pixi-container
+      .simulation-canvas
         width: 100%
         height: 100%
-        box-shadow: inset 0px 0px 50px 10px rgba(0, 0, 0, 0.05)
+        box-shadow: inset 0px 0px 50px 30px rgba(0, 0, 0, 0.02)
 
   .background
     img 
