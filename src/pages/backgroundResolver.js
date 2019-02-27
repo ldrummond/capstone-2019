@@ -9,7 +9,7 @@ function BackgroundResolver(props){
   const {location, curSystem = {}} = props;
   return(
     <TransitionGroup className={`background ${location.pathname.split('/')[1]}`}>
-      <CSSTransition key={location.pathname} timeout={{enter: 300, exit: 300}} classNames='fade'>
+      <CSSTransition key={location.pathname} timeout={3000} classNames='back'>
         <Route path="/(selector|transition|simulation)" render={_ => {
           let {coverImage = '', icon, color} = curSystem;
           let Icon = icon; 

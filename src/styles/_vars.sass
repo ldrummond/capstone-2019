@@ -153,28 +153,3 @@ $fast: 333ms
     display: block
     content: ""
     clear: both
-
-// Hover Styles
-@mixin hoverline 
-  position: relative
-  height: 22px
-  overflow: hidden
-  &:after
-    content: ''
-    display: block
-    position: absolute
-    left: 0
-    bottom: 0
-    width: 100%
-    background: $dark
-    height: 2px
-    border-radius: 10px
-    transform: translateX(-101%)
-    transition: transform $fast ease 
-
-  .light &:after
-    background: $light
-    
-  &:hover
-    &:after
-      transform: translateX(0)
