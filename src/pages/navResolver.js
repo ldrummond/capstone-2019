@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
  function NavResolver(props) {
-  
   let { history, aboutVisible = false, hideAbout, showAbout} = props; 
   let classes = 'navbar'; 
   let aboutLink = (<a className='about-link' onClick={_ => props.showAbout(history)}>About</a>)
@@ -30,6 +29,7 @@ const mapDispatchToProps = dispatch => {
     hideAbout: history => {
       dispatch({type: 'HIDE_ABOUT'});
       history.push({search: ''});
+      window.scrollTo(0, 0);
     },
     showAbout: history => {
       dispatch({type: 'SHOW_ABOUT'});

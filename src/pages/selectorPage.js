@@ -8,10 +8,6 @@ import { PentagonWheel } from '../components/pentagon-wheel'
 import { SvgOutline } from '../components/svg-outline'
 
 class SelectorPage extends Component {
-  constructor(props) {
-    super(props)
-    console.log(props.wheelIndex)
-  }
 
   render() {
     let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
