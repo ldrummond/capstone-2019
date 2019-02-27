@@ -10,7 +10,7 @@ export default class Canvas extends Component {
     this.ctx = undefined; 
     this.mousePos = {x: -100, y: -100}
     this.fps = props.fps || '60'; 
-    this.onStep = props.onStep || function() {}; 
+    this.onStep = props.onStep; 
     this.drawBuffer = props.drawBuffer || [];  
   }
 
