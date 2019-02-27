@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Transition from 'react-transition-group/Transition'
-import CanvasBase from './canvas-base'
+import CanvasBase from './canvasBase'
 import $ from 'jquery'
 import { PentagonController } from './polygonController'
 import data from '../data/data'

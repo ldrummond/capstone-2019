@@ -1,5 +1,5 @@
 
-import { toRad, ranRGB, drawLerpLine, drawCircle, Transition } from './helper-functions'
+import { toRad, ranRGB, drawLerpLine, drawCircle, Transition } from './helperFunctions'
 
 //////////////////////////////////////////////////
 //

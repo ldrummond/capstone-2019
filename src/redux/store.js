@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import data from '../data/data.js'; 
-import { next, prev } from '../components/helper-functions'
+import { next, prev } from '../components/helperFunctions'
 
 const systems = data.systems.map((system, i) => {system.index = i; return system}); 
 const paths = systems.map(system => system.path); 

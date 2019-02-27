@@ -6,7 +6,7 @@ import NavResolver from './navResolver';
 import PageResolver from './pageResolver';
 import AboutResolver from './aboutResolver'; 
 import BackgroundResolver from './backgroundResolver'; 
-import { getQueryParamsFromLocation } from '../components/helper-functions.js';
+import { getQueryParamsFromLocation } from '../components/helperFunctions.js';
 
 
 class ReduxWrapper extends Component{
