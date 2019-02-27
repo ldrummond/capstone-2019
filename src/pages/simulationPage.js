@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 // import $ from 'jquery'; 
 import { connect } from 'react-redux'
-import Pixi from '../components/pixi'; 
+// import Pixi from '../components/pixi'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
+import SimulationBase from '../simulations/simulationView'
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class SimulationPage extends Component {
             </span>
           </section>
           <span className='simulation-panel' style={styles}>
-            <Pixi/> 
+            <SimulationBase {...curSystem}/>
           </span>
         </span>
       </div>    
