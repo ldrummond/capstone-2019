@@ -29,8 +29,6 @@ class Polygon {
     this.triangles = this.getTrianglesPoints(); 
     this.cursor = new Point(0, 0);
     this.transitions = []; 
-
-    // Methods for defining redraws, to save performance. 
     this.hasChanged = true; 
   }
 
@@ -158,14 +156,6 @@ class Polygon {
     // a redraw, the draw function will be defined 
     // for the canvas to redraw. 
     if(this.hasChanged || forceRedraw) {
-      /**
-       * @function draw
-       * Function to draw the object. If no drawing required
-       * function is false. 
-       * @param {CanvasRenderingContext2D} ctx
-       * @param {Point} mousepos
-       * @param {number} current_time
-       */
       draw = (ctx, mousePos, time) => {
         // const distanceFromMouse = Math.hypot(mousePos.x - this.center.x, mousePos.y - this.center.y)
         // const magnitude = Math.round(distanceFromMouse / 1 * 2 / 50);
@@ -173,8 +163,6 @@ class Polygon {
         // Maps over the triangles that compose the shape
         // and draws them all. 
         this.triangles.map((points, i) => {
-
-          // Draws each triangle as an array of points with specified fill. 
           ctx.beginPath(); 
           ctx.moveTo(points[0].x, points[0].y);
           ctx.fillStyle = this.colors[i]; 
