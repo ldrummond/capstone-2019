@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import PixiBoidPoolController from './pixi-boid-pool-controller.js'; 
+import BoidPoolController from './pixi-boid-pool-controller.js'; 
 import $ from 'jquery'; 
 import * as PIXI from 'pixi.js'; 
-
-let pubUrl = url => `${process.env.PUBLIC_URL}/assets/${url}`; 
 
 export default class Pixi extends Component {
   constructor(props) {
@@ -34,7 +32,7 @@ export default class Pixi extends Component {
     this.$pixiContainer = $(this.pixiContainer); 
     this.$pixiContainer.append(this.app.view);
 
-    this.pixiBoidPoolController = new PixiBoidPoolController({
+    this.pixiBoidPoolController = new BoidPoolController({
       boidCount: 50,
       containerWidth: this.pixiContainer.width, 
       containerHeight: this.pixiContainer.height, 
@@ -43,7 +41,7 @@ export default class Pixi extends Component {
     let boidSprite; 
 
     this.spritePool = this.pixiBoidPoolController.boidPool.map(_ => {
-      boidSprite = new PIXI.Sprite.fromImage(pubUrl('circle.png'));
+      // boidSprite = new PIXI.Sprite.fromImage(pubUrl('circle.png'));
       boidSprite.width = 10;
       boidSprite.height = 10;
       this.app.stage.addChild(boidSprite);
@@ -57,7 +55,7 @@ export default class Pixi extends Component {
     $(window).on(`resize.${namespace}`, this.onResize); 
 
     this.onResize(); 
-    this.cursorSprite = new PIXI.Sprite.fromImage(pubUrl('circle.png'));
+    // this.cursorSprite = new PIXI.Sprite.fromImage(pubUrl('circle.png'));
     this.cursorSprite.width = 10;
     this.cursorSprite.height = 10;
     this.app.stage.addChild(this.cursorSprite); 
