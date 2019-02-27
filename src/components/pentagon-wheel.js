@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Transition from 'react-transition-group/Transition'
 import CanvasBase from './canvas-base'
 import $ from 'jquery'
-import { Pentagon, Point } from './canvas-shapes'
+import { PentagonController } from './polygonController'
 import data from '../data/data'
-
 
 export class PentagonWheel extends Component {
   constructor(props) {
@@ -27,7 +26,7 @@ export class PentagonWheel extends Component {
       this.pentagon = this.pentagonRef.current; 
       this.width = $(this.pentagon).width();
       this.height = $(this.pentagon).height();
-      this.center = new Point(this.width / 2, this.height / 2);
+      this.center = {x: this.width / 2, y: this.height / 2};
       this.wheelIndex = 0;
 
       this.pentagonOptions = {
@@ -36,7 +35,7 @@ export class PentagonWheel extends Component {
         colors: this.colors,
       }
   
-      this.pentagonController = new Pentagon(this.pentagonOptions)
+      this.pentagonController = new PentagonController(this.pentagonOptions)
       this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 36);
 
       this.canvasOptions = {
@@ -73,7 +72,6 @@ export class PentagonWheel extends Component {
     // If only props are changing and  
     // state is same, do not rerender.
     if(this.state == nextState) {
-      console.log(nextProps.wheelIndex)
       this.wheelIndex = nextProps.wheelIndex;
       this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 36, 666);
       return false 
