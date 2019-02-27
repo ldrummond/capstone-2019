@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Transition } from 'react-transition-group'; 
 import { connect } from 'react-redux'
-let pubUrl = url => `${process.env.PUBLIC_URL}/assets/${url}`; 
 
 const duration = 300; 
 

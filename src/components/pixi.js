@@ -3,8 +3,6 @@ import PixiBoidPoolController from './pixi-boid-pool-controller.js';
 import $ from 'jquery'; 
 import * as PIXI from 'pixi.js'; 
 
-let pubUrl = url => `${process.env.PUBLIC_URL}/assets/${url}`; 
-
 export default class Pixi extends Component {
   constructor(props) {
     super(props)
