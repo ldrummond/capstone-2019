@@ -6,14 +6,14 @@ let pubUrl = url => `${process.env.PUBLIC_URL}/assets/${url}`;
 const duration = 300; 
 
 const defaultStyle = {
+  display: 'block',
   transition: `opacity ${duration}ms ease-in-out`,
   opacity: 0,
 }
 
 const transitionStyles = {
-  entering: { opacity: 0, display: 'block' },
-  entered:  { opacity: 1, display: 'block' },
-  exited: {opacity: 0, display: 'none' }
+  entered:  { opacity: 1, },
+  exited: { display: 'none'}
 };
 
 class AboutResolver extends Component {
@@ -23,7 +23,7 @@ class AboutResolver extends Component {
 
   render() {
     return (
-      <Transition in={Boolean(this.props.aboutVisible)} timeout={duration} classNames='toggle-about'>
+      <Transition in={Boolean(this.props.aboutVisible)} timeout={{enter: 0, exit: duration}} classNames='toggle-about'>
         {(state) => (
           <div className='page-wrapper about-page' style={{...defaultStyle, ...transitionStyles[state]}}>
             <span className='content'>
