@@ -29,14 +29,14 @@ export class PentagonWheel extends Component {
       this.center = {x: this.width / 2, y: this.height / 2};
       this.wheelIndex = 0;
 
-      this.pentagonOptions = {
+      this.pentagonControllerOptions = {
         center: this.center,
         size: this.width / 2,
         colors: this.colors,
       }
   
-      this.pentagonController = new PentagonController(this.pentagonOptions)
-      this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 36);
+      this.pentagonController = new PentagonController(this.pentagonControllerOptions)
+      this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 108);
 
       this.canvasOptions = {
         fps: 60,
@@ -47,45 +47,19 @@ export class PentagonWheel extends Component {
         width: this.width,
         height: this.height,
       })
-
-      $(window).resize(_ => {
-        if(this.pentagon) {
-          this.width = $(this.pentagon).width();
-          this.height = $(this.pentagon).height();
-          this.setState({width: this.width, height: this.height})
-        }
-      })
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // If props do not change, but  
-    // state does, that means the size
-    // changed. This changed size is passed 
-    // to canvas base through render.
-    if(this.props == nextProps) {
-
-
-      return true 
-    }
-
-    // If only props are changing and  
-    // state is same, do not rerender.
-    if(this.state == nextState) {
-      this.wheelIndex = nextProps.wheelIndex;
-      this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 36, 666);
-      return false 
-    }
-    return false
+  componentWillUpdate(nextProps) {
+    this.wheelIndex = nextProps.wheelIndex;
+    this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 108, 666);
   }
 
   render() {
     return (
       <span className='pentagon-container' ref={this.pentagonRef}>
-        {
-          this.state.width && this.state.height &&
-            <CanvasBase {...this.canvasOptions} />
-        }
+        {this.state.width && this.state.height &&
+          <CanvasBase {...this.canvasOptions} />}
       </span>
     );
   }

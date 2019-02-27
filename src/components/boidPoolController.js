@@ -1,5 +1,11 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
 
+//////////////////////////////////////////////////
+//
+// Boid Pool Controller
+// https://github.com/ianmcgregor/boid
+//
+//////////////////////////////////////////////////
 
 export default class BoidPoolController {
   constructor(options = {}) {

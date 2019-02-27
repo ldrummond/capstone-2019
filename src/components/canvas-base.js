@@ -129,10 +129,6 @@ export default class Canvas extends Component {
     }
   }
 
-  addToDrawBuffer(drawable) {
-    this.drawBuffer.push(drawable)
-  }
-
   shouldComponentUpdate() {
     return false 
   }
