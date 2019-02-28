@@ -16,7 +16,7 @@ export default class Canvas extends Component {
 
   onMouseMove = (e) => {
     // Mouse events throttled by raf
-    if(this.ticker % 4 == 0) {
+    if(this.ticker % 4 === 0) {
       var rect = this.canvas.getBoundingClientRect();
       this.mousePos = {
         x: (e.clientX - rect.left),

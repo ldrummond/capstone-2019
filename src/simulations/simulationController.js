@@ -1,5 +1,6 @@
-import BoidPoolController from '../components/boidPoolController.js'; 
 import Boid from 'boid'; // import $ from 'jquery'; 
+import BoidPoolController from '../components/boidPoolController'; 
+import RafController from '../components/rafController'
 
 //////////////////////////////////////////////////
 //
@@ -22,7 +23,7 @@ export default class SimulationController {
       width: width - padding.width,
       height: height - padding.height
     }
-    
+
     this.boidPoolController = new BoidPoolController({
       boidCount: options.boidCount,
       width: this.bounds.width, 
@@ -31,7 +32,8 @@ export default class SimulationController {
       y: this.bounds.y
     })
 
-    switch(simulationType) {
+    this.rafController = new RafController({fps: 1});
+    this.rafController.onStep = function() {
 
     }
 
@@ -68,7 +70,7 @@ export default class SimulationController {
     ctx.lineWidth = 2
     ctx.beginPath(); 
     this.boidPoolController.boidPool.map(boid => {
-      let rotation = boid.velocity.angle + Math.PI / 2
+      // let rotation = boid.velocity.angle + Math.PI / 2
       // console.log(rotation)
       
       ctx.moveTo(boid.position.x, boid.position.y)
@@ -77,11 +79,7 @@ export default class SimulationController {
     })
     ctx.stroke();
   }
-
-  generateDrawBuffer() {
-    
-  }
-
+  
   resize(scale) {
     this.center = {x: this.center.x * scale.x, y: this.center.y * scale.y};
     this.width *= scale.x; 
@@ -99,19 +97,5 @@ export default class SimulationController {
         ctx.strokeRect(boid.x, boid.y, 5, 5);
       })
     }
-  }
-
- 
-  getDrawFn(forceRedraw = false) {
-    let draw = false; 
-    if(this.hasChanged || forceRedraw) {
-      draw = (ctx, mousePos, time) => {
-        this.boidPoolController.boidPool.map(boid => {
-          ctx.fillRect(boid.x, boid.y, 5, 5);
-        })
-      }
-      this.hasChanged = false; 
-    }
-    return draw;
   }
 }

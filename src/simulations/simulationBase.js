@@ -45,6 +45,11 @@ export default class SimulationBase extends Component {
         height: this.height,
       })
     }
+    console.log('mount')
+  }
+
+  componentWillUnmount() {
+    console.log('unmount')
   }
 
   // componentWillUpdate(props) {
@@ -57,7 +62,7 @@ export default class SimulationBase extends Component {
   // }
 
   render() {
-    console.log(this.state);
+    console.log(this.state, "render");
     return (
       <div className={`simulation-canvas ${this.props.path}`} ref={this.simulationRef}>
         {this.state.width && this.state.height &&
