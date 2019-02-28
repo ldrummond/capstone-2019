@@ -3,24 +3,24 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class TransitionPage extends Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
 
     
-  }
+  // }
 
   render() {
     let {curSystem = {}} = this.props; 
 
     let {
-      index = 0, 
-      question = "question", 
-      description = "description", 
-      rules = ["test", "test"], 
-      type = "birds",
+      // index = 0, 
+      // question = "question", 
+      // description = "description", 
+      // rules = ["test", "test"], 
+      // type = "birds",
       path = 'path', 
-      instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
-      coverImage = {src: 'test'},
+      // instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
+      // coverImage = {src: 'test'},
     } = curSystem; 
 
     return (

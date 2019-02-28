@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {HashRouter} from 'react-router-dom';
 import ReduxWrapper from './pages/reduxWrapper.js';
-import { withRouter } from 'react-router-dom';
 import './styles/index.sass';
-import PageResolver from './pages/pageResolver.js';
-
 
 function App() {
   return (

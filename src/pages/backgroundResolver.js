@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import {Route, Switch} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import background from '../assets/backgroundTest.jpg'; 
 import { connect } from 'react-redux'
-import backgroundRepeat from '../assets/back-repeat.png'
+// import backgroundRepeat from '../assets/back-repeat.png'
 
 function BackgroundResolver(props){
   const {location, curSystem = {}} = props;
@@ -16,10 +16,11 @@ function BackgroundResolver(props){
           return(
             <Fragment>
               <div className='content'>
-                <img className='system-image' src={coverImage.src}></img>
+              {/* TODO: ALT */}
+                <img className='system-image' alt='' src={coverImage.src}></img>
                 <Icon className='system-icon' style={{fill: color}}/>
               </div>
-              <img className='texture' src={background}></img>       
+              <img className='texture' alt='' src={background}></img>       
             </Fragment>
           )}
         }  
@@ -33,6 +34,5 @@ const mapStateToProps = state => {
   return {curSystem: state.curSystem}
 }
 
-BackgroundResolver = connect(mapStateToProps)(BackgroundResolver)
-export default BackgroundResolver;
+export default connect(mapStateToProps)(BackgroundResolver);
 

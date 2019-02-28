@@ -16,23 +16,23 @@ class SimulationPage extends Component {
   }
 
   componentDidMount() {
-    const timeout = setTimeout(_ => {
+    setTimeout(_ => {
       this.setState({showOverlay: false})
     }, 4000)
   }
 
   render() {
-    let {prevSystem = {}, curSystem = {}, nextSystem = {}, aboutVisible} = this.props; 
+    let {curSystem = {}, aboutVisible} = this.props; 
+    // let {prevSystem = {}, curSystem = {}, nextSystem = {}, aboutVisible} = this.props; 
     
     let {
       index = 0, 
       question = "question", 
       description = "description", 
       rules = ["test", "test"], 
-      type = "birds",
+      // type = "birds",
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
-      coverImage = {src: 'test'},
       color = 'red', 
     } = curSystem; 
 
@@ -78,9 +78,9 @@ class SimulationPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    nextSystem: state.nextSystem,
+    // nextSystem: state.nextSystem,
     curSystem: state.curSystem,
-    prevSystem: state.prevSystem,
+    // prevSystem: state.prevSystem,
     aboutVisible: state.aboutVisible, 
   }
 }

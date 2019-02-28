@@ -1,5 +1,4 @@
-
-import { toRad, ranRGB, drawLerpLine, drawCircle, Transition } from './helperFunctions'
+import { drawCircle } from './helperFunctions'
 
 //////////////////////////////////////////////////
 //
@@ -32,7 +31,7 @@ export class Circle {
     this.active = true; 
 
     if(typeof(ctx) === 'undefined') {
-      throw undefined;
+      throw new Error(undefined);
     }
   }
 
@@ -47,9 +46,9 @@ export class Circle {
 * Ripple Visual 
 */
 export class Ripple extends Circle {
-  constructor(options) {
-    super(options)
-  }
+  // constructor(options) {
+  //   super(options)
+  // }
 
   update() {
     this.r--;

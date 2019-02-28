@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom'
 
 export default class NoMatchPage extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   render() {
     return (

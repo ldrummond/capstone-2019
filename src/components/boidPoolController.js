@@ -9,7 +9,7 @@ import Boid from 'boid'; // import $ from 'jquery';
 
 export default class BoidPoolController {
   constructor(options = {}) {
-    const {boidCount = 40, width = 100, height = 100, x = 0, y = 0, ctx} = options; 
+    const {boidCount = 40, width = 100, height = 100, x = 0, y = 0} = options; 
 
     this.center = Boid.vec2(width / 2,height / 2);
     this.boidPool = []; 

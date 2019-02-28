@@ -73,7 +73,7 @@ export function getQueryParamsFromLocation(location = {search: ""}) {
 * @returns {boolean} True if array contains value
 */
 export function contains(arr, val) {
-  return !(arr.indexOf(val) == -1)
+  return !(arr.indexOf(val) === -1)
 }
 
 /*

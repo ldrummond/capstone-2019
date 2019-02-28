@@ -1,4 +1,4 @@
-import { toRad, ranRGB, drawLerpLine, drawCircle, Transition } from './helperFunctions'
+import { toRad, ranRGB, Transition } from './helperFunctions'
 import { Point } from './canvasShapes'
 
 //////////////////////////////////////////////////

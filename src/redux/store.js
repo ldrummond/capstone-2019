@@ -23,7 +23,7 @@ function prevSystemState(state) {
 function nextSystemState(state) {
   let curi = state.curSystem.index; 
   let nexti = (curi < systems.length - 1) ? curi + 1 : 0; 
-  return {...state, ...stateFromIndex(nexti)};;    
+  return {...state, ...stateFromIndex(nexti)};   
 }
 
 function stateFromPath(state, path = "") {

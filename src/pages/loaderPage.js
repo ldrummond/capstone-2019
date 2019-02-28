@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import $ from 'jquery'; 
+// import $ from 'jquery'; 
 
 export default class LoaderPage extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   render() {
     return (

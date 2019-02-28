@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
  function NavResolver(props) {
-  let { history, aboutVisible = false, hideAbout, showAbout} = props; 
+  let { history, aboutVisible = false, showAbout, hideAbout} = props; 
   let classes = 'navbar'; 
   
-  let onAboutClick = _ => props.showAbout(history)
+  let onAboutClick = _ => showAbout(history)
 
   if(aboutVisible) {
     classes += ' light'; 
-    onAboutClick = _ => props.hideAbout(history)
+    onAboutClick = _ => hideAbout(history)
   }
 
   const thinArrow = 
@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
   return (
     <div className={classes}>
       <Link className='back-link' to='/selector'>{thinArrow}Back</Link>
-      <a className='about-link' onClick={onAboutClick}>About</a>
+      <button className='about-link' onClick={onAboutClick}>About</button>
     </div>
   )
 }
@@ -45,6 +45,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-NavResolver = connect(mapStateToProps, mapDispatchToProps)(NavResolver)
-
-export default NavResolver
+export default connect(mapStateToProps, mapDispatchToProps)(NavResolver)

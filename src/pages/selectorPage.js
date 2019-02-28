@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
-import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
+// import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { PentagonWheel } from '../components/pentagonWheel'
@@ -9,7 +9,8 @@ import { SvgOutline } from '../components/svgOutline'
 
 class SelectorPage extends Component {
   render() {
-    let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
+    // let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
+    let {curSystem, onPrevClick, onNextClick, wheelIndex} = this.props
 
     return (
       <div className='page-wrapper selector-page'>
