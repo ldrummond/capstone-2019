@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
 import SimulationController from './simulationController'
-import CanvasBase from '../components/canvas-base'
+import CanvasBase from '../components/canvasBase'
 
 export default class SimulationBase extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export default class SimulationBase extends Component {
 
     this.simulationType = props.path; 
     this.simulationRef = React.createRef();
+    // this.isPaused = false; 
   }
 
   componentDidMount() {
@@ -26,14 +27,15 @@ export default class SimulationBase extends Component {
       this.center = {x: this.width / 2, y: this.height / 2};
 
       this.simulationController = new SimulationController({
-        boidCount: 50,
-        containerWidth: this.width,
-        containerHeight: this.height,
+        boidCount: 80,
+        width: this.width,
+        height: this.height,
         simulationType: this.simulationType,
+        padding: {width: 50, height: 50}
       })
 
       this.canvasOptions = {
-        fps: 1,
+        fps: 50,
         // drawBuffer: [this.simulationController]
         onStep: this.simulationController.step
       }
@@ -44,6 +46,15 @@ export default class SimulationBase extends Component {
       })
     }
   }
+
+  // componentWillUpdate(props) {
+  //   this.isPaused = this.props.aboutVisible; 
+  //   if(this.isPaused && this.simulationController) {
+  //     this.simulationController.pause(); 
+  //   } else {
+  //     this.simulationController.play();
+  //   }
+  // }
 
   render() {
     console.log(this.state);

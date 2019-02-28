@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 // import Pixi from '../components/pixi'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
-import SimulationBase from '../simulations/simulationView'
+import SimulationBase from '../simulations/simulationBase'
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class SimulationPage extends Component {
   }
 
   render() {
-    let {prevSystem = {}, curSystem = {}, nextSystem = {}} = this.props; 
+    let {prevSystem = {}, curSystem = {}, nextSystem = {}, aboutVisible} = this.props; 
     
     let {
       index = 0, 
@@ -68,7 +68,7 @@ class SimulationPage extends Component {
             </span>
           </section>
           <span className='simulation-panel' style={styles}>
-            <SimulationBase {...curSystem}/>
+            <SimulationBase {...curSystem} aboutVisible={aboutVisible}/>
           </span>
         </span>
       </div>    
@@ -80,7 +80,8 @@ const mapStateToProps = state => {
   return {
     nextSystem: state.nextSystem,
     curSystem: state.curSystem,
-    prevSystem: state.prevSystem
+    prevSystem: state.prevSystem,
+    aboutVisible: state.aboutVisible, 
   }
 }
 
