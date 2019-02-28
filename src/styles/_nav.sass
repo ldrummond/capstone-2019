@@ -38,9 +38,22 @@
     +hoverline
     cursor: pointer
 
+  .back-link
+    +hoverline
+    cursor: pointer
+    .thin-arrow 
+      width: 26px
+      .line, .point
+        stroke: black
+        fill: none
+
   &.light
     color: $light
     cursor: pointer
     .about-link
       &:after
         background: $light
+
+    .back-link
+      .thin-arrow
+        stroke: white

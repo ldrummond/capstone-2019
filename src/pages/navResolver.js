@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
   }
 
   const thinArrow = 
-    (<svg className='thinArrow' viewBox="0 0 35 13">
-      <line className="line" x1="30" y1="6.8" x2="0.76" y2="6.8"/>
+    (<svg className='thin-arrow' viewBox="0 0 35 13">
+      <line className="line" x1="25" y1="6.8" x2="0.76" y2="6.8"/>
       <polyline className="point" points="8.19 0.38 0.76 6.8 8.19 13.23"/>
     </svg>)
 

@@ -69,17 +69,18 @@
 
   // Simulation Page
   &.simulation
-    .system-image
-      opacity: 0.15
-      position: absolute
-      left: -50%
-      top: 0
-      height: 100%
-      width: auto
-      transform: none
-      transition: opacity $slow ease-out
+    .content
+      position: unset
+      .system-image
+        opacity: 0.2
+        position: absolute
+        left: -50%
+        top: 0
+        height: 100%
+        width: auto
+        transition: opacity $slow ease-out
 
-    .system-icon
-      opacity: 0
+      .system-icon
+        opacity: 0
 
  
