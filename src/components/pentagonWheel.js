@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import CanvasBase from './canvasBase'
 import $ from 'jquery'
-import { PentagonController } from './polygonController'
+import PentagonController from './polygonController'
+import CanvasBase from './canvasBase'
+import RafController from '../components/rafController'
 import data from '../data/data'
 
 export class PentagonWheel extends Component {
@@ -12,12 +13,16 @@ export class PentagonWheel extends Component {
       width: undefined,
       height: undefined,
     }
-
+    
+    this.pentagonRef = React.createRef();
+    
     this.pentagonOptions = {}; 
     this.canvasOptions = {}; 
+    this.colors = data.systems.map(system => system.color);    
 
-    this.pentagonRef = React.createRef();
-    this.colors = data.systems.map(system => system.color);
+    this.hoistContext = _ctx => {
+      this.ctx = _ctx;
+    }
   }
 
   componentDidMount() {
@@ -37,9 +42,16 @@ export class PentagonWheel extends Component {
       this.pentagonController = new PentagonController(this.pentagonControllerOptions)
       this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 108);
 
-      this.canvasOptions = {
-        fps: 60,
-        drawBuffer: [this.pentagonController]
+      // Executing the step function for the given framerate. 
+      this.rafController = new RafController({fps: 60}); 
+      this.rafController.onStep = ticker => {
+        if(this.ctx) {
+          this.pentagonController.update(); 
+          if(this.pentagonController.shouldDraw) {
+            this.ctx.clearRect(0, 0, this.width, this.height);
+            this.pentagonController.draw(this.ctx);
+          }
+        }
       }
 
       this.setState({
@@ -58,7 +70,7 @@ export class PentagonWheel extends Component {
     return (
       <span className='pentagon-container' ref={this.pentagonRef}>
         {this.state.width && this.state.height &&
-          <CanvasBase {...this.canvasOptions} />}
+          <CanvasBase hoistContext={this.hoistContext} />}
       </span>
     );
   }

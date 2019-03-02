@@ -11,14 +11,14 @@ class SimulationPage extends Component {
     super(props)
 
     this.state = {
-      showOverlay: true,
+      showOverlay: false,
     }
   }
 
   componentDidMount() {
-    setTimeout(_ => {
-      this.setState({showOverlay: false})
-    }, 4000)
+    // setTimeout(_ => {
+    //   this.setState({showOverlay: false})
+    // }, 4000)
   }
 
   render() {

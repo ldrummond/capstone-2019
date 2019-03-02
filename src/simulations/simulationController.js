@@ -1,6 +1,5 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
 import BoidPoolController from '../components/boidPoolController'; 
-import RafController from '../components/rafController'
 
 //////////////////////////////////////////////////
 //
@@ -24,6 +23,13 @@ export default class SimulationController {
       height: height - padding.height
     }
 
+    this.activeBounds = this.bounds; 
+
+    this.minX = this.bounds.x + this.bounds.width;
+    this.maxX = 0; 
+    this.minY = this.bounds.y + this.bounds.height;
+    this.maxY = 0;
+
     this.boidPoolController = new BoidPoolController({
       boidCount: options.boidCount,
       width: this.bounds.width, 
@@ -32,70 +38,116 @@ export default class SimulationController {
       y: this.bounds.y
     })
 
-    this.rafController = new RafController({fps: 1});
-    this.rafController.onStep = function() {
-
-    }
-
     this.cursorBoid = new Boid(); 
     this.cursorBoid.maxSpeed = 2;
 
     this.boidPoolController.setStateSchool();
-    this.drawBuffer = []; 
-    this.hasChanged = false; 
-    this.isPaused = false;
   }
 
-  play() {
-    this.isPaused = false;
-  }
-
-  pause() {
-    this.isPaused = true;
-  }
-
-  step = (ctx, mousePos, time) => {
-    if(this.isPaused) {return}
-    this.boidPoolController.updateChaser(mousePos.x, mousePos.y);
-    this.boidPoolController.stepPool();
-    // this.cursorBoid.arrive(Boid.vec2(mousePos.x, mousePos.y)).update(); 
-    // ctx.strokeStyle = 'black'
-    // ctx.beginPath();
-    // ctx.moveTo(this.cursorBoid.position.x, this.cursorBoid.position.y)
-    // ctx.lineTo(this.cursorBoid.position.x + this.cursorBoid.velocity.x * 6, this.cursorBoid.position.y + this.cursorBoid.velocity.y * 6);
-    // ctx.stroke();
-
-    // ctx.fillRect(mousePos.x, mousePos.y, 8, 8);
-    ctx.strokeStyle = 'white'
-    ctx.lineWidth = 2
-    ctx.beginPath(); 
-    this.boidPoolController.boidPool.map(boid => {
-      // let rotation = boid.velocity.angle + Math.PI / 2
-      // console.log(rotation)
-      
-      ctx.moveTo(boid.position.x, boid.position.y)
-      ctx.lineTo(boid.position.x + boid.velocity.x * 6, boid.position.y + boid.velocity.y * 6);
-      // ctx.strokeRect(boid.position.x, boid.position.y, 10, 10);
-    })
-    ctx.stroke();
-  }
-  
   resize(scale) {
     this.center = {x: this.center.x * scale.x, y: this.center.y * scale.y};
     this.width *= scale.x; 
     this.height *= scale.y; 
-    this.drawBuffer = this.generateDrawBuffer();
     this.boidPoolController.setBounds(
       this.bounds.width, 
       this.bounds.height,
       this.bounds.x,
       this.bounds.y,
     ) 
+  }
 
-    return (ctx, mousePos, time) => {
-      this.boidPoolController.boidPool.map(boid => {
-        ctx.strokeRect(boid.x, boid.y, 5, 5);
-      })
+  shouldDraw() {
+    return true
+  }
+
+  updateCursor(mousePos) {
+    // this.cursorBoid.arrive(Boid.vec2(mousePos.x, mousePos.y)).update(); 
+  }
+
+  drawCursor(ctx, cursor) {
+    // ctx.strokeStyle = 'black'
+    // ctx.beginPath();
+    // ctx.moveTo(this.cursorBoid.position.x, this.cursorBoid.position.y)
+    // ctx.lineTo(this.cursorBoid.position.x + this.cursorBoid.velocity.x * 6, this.cursorBoid.position.y + this.cursorBoid.velocity.y * 6);
+    // ctx.stroke();
+  }
+
+  drawBoid(ctx, boid) {
+      // let rotation = boid.velocity.angle + Math.PI / 2
+      // console.log(rotation)
+    ctx.moveTo(boid.position.x + boid.velocity.x * -3, boid.position.y + boid.velocity.y * -3)
+    ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+    // ctx.strokeRect(boid.position.x, boid.position.y, 10, 10);
+  }
+
+  update = (mousePos) => {
+    this.updateCursor(mousePos);
+    this.boidPoolController.updateChaser(mousePos.x, mousePos.y);
+    this.updateFn = this.boidPoolController.getUpdateFn(); 
+    this.boidPoolController.boidPool.map(boid => {
+      this.updateFn(boid);       
+    });
+  }
+
+  updateBounds = (position) => {
+    if(position.x > this.maxX) {
+      this.maxX = position.x;
+    } else if (position.x < this.minX) {
+      this.minX = position.x; 
     }
+    if(position.y > this.maxY) {
+      this.maxY = position.y;
+    } else if (position.y < this.minY) {
+      this.minY = position.y; 
+    }
+  }
+
+  draw(ctx, mousePos) {
+    this.drawCursor(mousePos); 
+
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = 2
+    ctx.beginPath(); 
+    this.boidPoolController.boidPool.map(boid => {
+      this.drawBoid(ctx, boid); 
+    })
+    ctx.stroke();
+  }
+
+  updateAndDraw(ctx, mousePos) {
+    // Batches update and draw calls to improve performance. 
+    this.updateFn = this.boidPoolController.getUpdateFn(); 
+
+    ctx.clearRect(mousePos.x, mousePos.y, 5, 5);
+    this.boidPoolController.updateChaser(mousePos.x, mousePos.y); 
+    ctx.fillRect(mousePos.x, mousePos.y, 5, 5);
+
+    // Reset the bounds for the drawing area of the simulation.
+    // Compares the bounds of each boid to the min to find the sim area.
+    // Passes this to canvas to define clear area. 
+    this.minX = this.bounds.x + this.bounds.width;
+    this.maxX = 0; 
+    this.minY = this.bounds.y + this.bounds.height;
+    this.maxY = 0;
+
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = 2
+    ctx.beginPath(); 
+
+    this.boidPoolController.boidPool.map(boid => {
+      this.updateFn(boid); 
+      this.updateBounds(boid.position); 
+      this.drawBoid(ctx, boid); 
+    });
+
+    // Sets the active bounds to match the mins and maxes
+    this.activeBounds = {
+      x: this.minX - 15,
+      y: this.minY - 15,
+      width: this.maxX - this.minX + 30,
+      height: this.maxY - this.minY + 30, 
+    }
+
+    ctx.stroke(); 
   }
 }

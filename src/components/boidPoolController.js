@@ -45,6 +45,30 @@ export default class BoidPoolController {
     return Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
   }
 
+  getUpdateFn() {
+    switch(this.state) {
+      case "flock":
+        return boid => boid.flock(this.boidPool).update();
+        break; 
+
+      case 'school': 
+        return boid => {
+          if(this.distance(boid.position, this.chaser) < 50) {
+            boid.flee(this.chaser).update();
+          } else if(this.distance(boid.position, this.center) > (this.width * 0.3)) {
+            boid.seek(this.center).update();
+          } else {
+            boid.flock(this.boidPool).update();
+          }
+        }
+        break;
+          
+      case "wander":
+      default: 
+        return boid => boid.wander().update();
+    }
+  }
+
   stepPool() {
     let updateBoid = boid => boid.wander().update(); 
 
@@ -58,8 +82,10 @@ export default class BoidPoolController {
         updateBoid = boid => {
           if(this.distance(boid.position, this.chaser) < 50) {
             boid.flee(this.chaser).update();
-          } else if(this.distance(boid.position, this.center) > (this.width * 0.3)) {
-            boid.seek(this.center).update();
+          // } else if(this.distance(boid.position, this.center) > (this.width * 0.3)) {
+            // boid.seek(this.center).update();
+            // boid.velocity *= 0;
+            // boid.update();
           } else {
             boid.flock(this.boidPool).update();
           }
