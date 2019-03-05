@@ -12,7 +12,7 @@ const defaultStyle = {
 
 const transitionStyles = {
   entered:  { opacity: 1, zIndex: 10},
-  exited: { pointerEvents: 'none', zIndex: -5}
+  exited: { pointerEvents: 'none', zIndex: -5,}
 };
 
 class AboutResolver extends Component {
@@ -23,7 +23,8 @@ class AboutResolver extends Component {
     // If the forward or back button is pressed with the 
     props.history.listen((location, action) => {
       if(action === 'POP' && props.aboutVisible) {
-        props.hideSelf(); 
+        props.hideSelf();
+        console.log(location)
       }
     });
   }

@@ -4,7 +4,9 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 // import Pixi from '../components/pixi'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
-import SimulationWrapper from '../simulations/simulationWrapper'
+import SimulationWrapper from '../simulations/simulationWrapper';
+import RafController from '../components/rafController';
+
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -13,12 +15,20 @@ class SimulationPage extends Component {
     this.state = {
       showOverlay: false,
     }
+
+    this.rafController = new RafController({fps: 60}); 
   }
 
   componentDidMount() {
     setTimeout(_ => {
       this.setState({showOverlay: false})
     }, 4000)
+  }
+
+  onMouseMove = (e) => {
+    if(this.rafController && this.rafController.ticker % 10 == 0) {
+      this.setState({mouseX: e.clientX, mouseY: e.clientY});
+    }
   }
 
   render() {
@@ -38,8 +48,14 @@ class SimulationPage extends Component {
       background: color, 
     }
 
+    const PseudoCursor = function({mouseX = 0, mouseY = 0}) {
+      const styles = {transform: `translate(${mouseX}px, ${mouseY}px)`}
+      return <div className='pseudoCursor' style={styles}></div>
+    }
+
     return (
-      <div className={`page-wrapper simulation-page ${path}`}>
+      <div className={`page-wrapper simulation-page ${path}`} onMouseMove={this.onMouseMove}>
+        <PseudoCursor mouseX={this.state.mouseX} mouseY={this.state.mouseY}/>
         {this.state.showOverlay &&
           <span className='overlay'>
             <span className='inner'>
