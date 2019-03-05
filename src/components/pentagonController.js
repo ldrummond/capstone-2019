@@ -34,12 +34,6 @@ class Polygon {
     this.hasChanged = true; 
   }
 
-  // rotate(deg) {
-  //   this.rotation = this.rotation + deg;
-  //   this.triangles = this.getTrianglesPoints(); 
-  //   this.hasChanged = true;
-  // }
-
   rotateTo(deg) {
     this.rotation = deg;
     this.triangles = this.getTrianglesPoints(); 
@@ -201,7 +195,7 @@ export default class PentagonController extends Polygon {
   * @param {Array.<string>} options.colors - The five colors that make up the Pentagon
   */
   constructor(options) {
-    let {center, size, colors, rotation = 18} = options
+    let {center, size, colors, rotation} = options
 
     let allOpts = {
       colors: colors,

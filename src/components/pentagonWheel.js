@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery'
-import PentagonController from './polygonController'
+import PentagonController from './pentagonController'
 import CanvasBase from './canvasBase'
 import RafController from '../components/rafController'
 import data from '../data/data'
@@ -12,6 +12,7 @@ export class PentagonWheel extends Component {
     this.state = {
       width: undefined,
       height: undefined,
+      mounted: false, 
     }
     
     this.pentagonRef = React.createRef();
@@ -23,10 +24,12 @@ export class PentagonWheel extends Component {
     this.hoistContext = _ctx => {
       this.ctx = _ctx;
     }
+    console.log('constructed')
   }
 
   componentDidMount() {
     if(this.pentagonRef) {
+      console.log('mount')
       this.pentagon = this.pentagonRef.current; 
       this.width = $(this.pentagon).width();
       this.height = $(this.pentagon).height();
@@ -44,10 +47,10 @@ export class PentagonWheel extends Component {
         center: this.center,
         size: clamp(this.width / 2, 200),
         colors: this.colors,
+        rotation: -(360 / 5 * this.wheelIndex) + 108,
       }
   
       this.pentagonController = new PentagonController(this.pentagonControllerOptions)
-      this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 108);
 
       // Executing the step function for the given framerate. 
       this.rafController = new RafController({fps: 60}); 
@@ -64,13 +67,18 @@ export class PentagonWheel extends Component {
       this.setState({
         width: this.width,
         height: this.height,
+        mounted: true, 
       })
     }
   }
 
   componentWillUpdate(nextProps) {
-    this.wheelIndex = nextProps.wheelIndex;
-    this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 108, 666);
+    console.log()
+    if(this.state.mounted) {
+      console.log('update mounted');
+      this.wheelIndex = nextProps.wheelIndex;
+      this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 108, 666);
+    }
   }
 
   render() {
