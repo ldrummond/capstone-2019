@@ -1,4 +1,4 @@
-import { drawCircle } from './helperFunctions'
+import { fillCircle } from './helperFunctions'
 
 //////////////////////////////////////////////////
 //
@@ -37,7 +37,7 @@ export class Circle {
 
   draw = () => {
     if(this.active && this.ctx) {
-      drawCircle(this.x, this.y, this.r, this.ctx); 
+      fillCircle(this.x, this.y, this.r, this.ctx); 
     }
   }
 }
@@ -59,7 +59,7 @@ export class Ripple extends Circle {
 
   draw = () => {
     if(this.active && this.ctx) {
-      drawCircle(this.x, this.y, this.r, this.ctx); 
+      fillCircle(this.x, this.y, this.r, this.ctx); 
     }
   }
 }

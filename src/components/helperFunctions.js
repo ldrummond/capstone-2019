@@ -152,12 +152,18 @@ export function toRad(angle) {
 /* 
 * Simple Circle draw method. 
 */
-export function drawCircle(ctx, x, y, r, color) {
+export function fillCircle(ctx, x, y, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   if(color) {ctx.fillColor = color}
-  ctx.stroke();
   ctx.fill(); 
+}
+
+export function strokeCircle(ctx, x, y, r, color) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 2 * Math.PI);
+  if(color) {ctx.strokeColor = color}
+  ctx.stroke();
 }
 
 /*
