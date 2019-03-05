@@ -10,6 +10,7 @@ export default class Canvas extends Component {
     this.ctx = undefined; 
 
     this.hoistContext = props.hoistContext;
+    this.hoistGetCanvasMousePos = props.hoistGetCanvasMousePos; 
   }
 
   getRelativePos(clientX, clientY) {
@@ -29,6 +30,9 @@ export default class Canvas extends Component {
 
     // Passes the context to the parent when the ref is defined. 
     this.hoistContext(this.ctx); 
+
+    // Passes a function to get translate mouse pos. 
+    this.hoistGetCanvasMousePos(this.getRelativePos); 
   }
 
   sizeCanvasRender = () => {

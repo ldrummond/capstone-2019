@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 // import Pixi from '../components/pixi'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
-import SimulationBase from '../simulations/simulationBase'
+import SimulationWrapper from '../simulations/simulationWrapper'
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class SimulationPage extends Component {
             </span>
           </section>
           <span className='simulation-panel' style={styles}>
-            <SimulationBase {...curSystem} aboutVisible={aboutVisible}/>
+            <SimulationWrapper {...curSystem}/>
           </span>
         </span>
       </div>    
