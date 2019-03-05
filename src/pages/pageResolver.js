@@ -7,7 +7,7 @@ import TransitionPage from '../pages/transitionPage.js';
 import NoMatchPage from '../pages/noMatchPage'; 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-function PageResolver({location}) {
+function PageResolver({location, history}) {
   return(
     <TransitionGroup component={null}>
       <CSSTransition key={location.pathname} timeout={{enter: 300, exit: 300}} classNames='fade'>

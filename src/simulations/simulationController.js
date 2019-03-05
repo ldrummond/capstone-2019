@@ -38,7 +38,9 @@ export default class SimulationController {
       y: this.bounds.y
     })
 
-    this.cursorBoid = new Boid(); 
+    this.cursorBoid = new Boid();
+    this.cursorBoid.position.x = this.bounds.width / 2 + this.bounds.x;
+    this.cursorBoid.position.y = this.bounds.height / 2 + this.bounds.y;
     this.cursorBoid.maxSpeed = 2;
 
     this.boidPoolController.setStateSchool();
@@ -61,28 +63,43 @@ export default class SimulationController {
   }
 
   updateCursor(mousePos) {
-    // this.cursorBoid.arrive(Boid.vec2(mousePos.x, mousePos.y)).update(); 
+    this.cursorBoid.arrive(Boid.vec2(mousePos.x, mousePos.y)).update(); 
   }
 
   drawCursor(ctx, cursor) {
-    // ctx.strokeStyle = 'black'
-    // ctx.beginPath();
-    // ctx.moveTo(this.cursorBoid.position.x, this.cursorBoid.position.y)
-    // ctx.lineTo(this.cursorBoid.position.x + this.cursorBoid.velocity.x * 6, this.cursorBoid.position.y + this.cursorBoid.velocity.y * 6);
-    // ctx.stroke();
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(this.cursorBoid.position.x - this.cursorBoid.velocity.x * 4, this.cursorBoid.position.y - this.cursorBoid.velocity.y * 4);
+    ctx.lineTo(this.cursorBoid.position.x + this.cursorBoid.velocity.x * 4, this.cursorBoid.position.y + this.cursorBoid.velocity.y * 4);
+    ctx.stroke();
+  }
+
+  updateAndDrawCursor(ctx, mousePos) {
+
+    ctx.clearRect(this.cursorBoid.position.x - 20, this.cursorBoid.position.y - 20, 40, 40);
+
+    this.cursorBoid.arrive(Boid.vec2(mousePos.x, mousePos.y)).update();
+    this.boidPoolController.updateChaser(this.cursorBoid.position.x, this.cursorBoid.position.y);
+    
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(this.cursorBoid.position.x - this.cursorBoid.velocity.x * 5, this.cursorBoid.position.y - this.cursorBoid.velocity.y * 5);
+    ctx.lineTo(this.cursorBoid.position.x + this.cursorBoid.velocity.x * 5, this.cursorBoid.position.y + this.cursorBoid.velocity.y * 5);
+    ctx.stroke();
   }
 
   drawBoid(ctx, boid) {
       // let rotation = boid.velocity.angle + Math.PI / 2
       // console.log(rotation)
-    ctx.moveTo(boid.position.x + boid.velocity.x * -3, boid.position.y + boid.velocity.y * -3)
+    ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3)
     ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
     // ctx.strokeRect(boid.position.x, boid.position.y, 10, 10);
   }
 
   update = (mousePos) => {
     this.updateCursor(mousePos);
-    this.boidPoolController.updateChaser(mousePos.x, mousePos.y);
     this.updateFn = this.boidPoolController.getUpdateFn(); 
     this.boidPoolController.boidPool.map(boid => {
       this.updateFn(boid);       
@@ -117,10 +134,6 @@ export default class SimulationController {
   updateAndDraw(ctx, mousePos) {
     // Batches update and draw calls to improve performance. 
     this.updateFn = this.boidPoolController.getUpdateFn(); 
-
-    ctx.clearRect(mousePos.x, mousePos.y, 5, 5);
-    this.boidPoolController.updateChaser(mousePos.x, mousePos.y); 
-    ctx.fillRect(mousePos.x, mousePos.y, 5, 5);
 
     // Reset the bounds for the drawing area of the simulation.
     // Compares the bounds of each boid to the min to find the sim area.

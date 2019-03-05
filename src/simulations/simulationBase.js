@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import CanvasBase from '../components/canvasBase'
 import RafController from '../components/rafController'
-import SimulationController from './simulationController'
+import SimulationController from './simulationController.js'
 
 
 export default class SimulationBase extends Component {
@@ -60,15 +60,18 @@ export default class SimulationBase extends Component {
       // Executing the step function for the given framerate. 
       this.rafController = new RafController({fps: 60}); 
       let canvasMousePos; 
+      let cursorBoid;
 
       this.rafController.onStep = ticker => {
         if(this.ctx) {
           canvasMousePos = this.getCanvasMousePos(this.mousePos.x, this.mousePos.y);
-          // this.ctx.clearRect(0, 0, this.width, this.height);
+          
           this.simBounds = this.simulationController.activeBounds; 
           this.ctx.clearRect(this.simBounds.x, this.simBounds.y, this.simBounds.width, this.simBounds.height);
           // this.ctx.strokeRect(this.simBounds.x, this.simBounds.y, this.simBounds.width, this.simBounds.height);
           this.simulationController.updateAndDraw(this.ctx, canvasMousePos);
+
+          this.simulationController.updateAndDrawCursor(this.ctx, this.mousePos);
         }
       }
 

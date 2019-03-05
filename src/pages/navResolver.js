@@ -3,15 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
  function NavResolver(props) {
-  let { history, aboutVisible = false, showAbout, hideAbout} = props; 
-  let classes = 'navbar'; 
-  
-  let onAboutClick = _ => showAbout(history)
-
-  if(aboutVisible) {
-    classes += ' light'; 
-    onAboutClick = _ => hideAbout(history)
-  }
+  let { history, aboutVisible = false, showAbout, hideAbout, match = {params: ['']}} = props; 
 
   const thinArrow = 
     (<svg className='thin-arrow' viewBox="0 0 35 13">
@@ -19,9 +11,24 @@ import { connect } from 'react-redux';
       <polyline className="point" points="8.19 0.38 0.76 6.8 8.19 13.23"/>
     </svg>)
 
+  let pageType = match.params[0]; 
+  let BackLink = <Link className='back-link' to='/selector'>{thinArrow}Back</Link>
+  if(pageType === 'selector') {
+    BackLink = <span></span>
+  }
+
+  let classes = 'navbar'; 
+
+  let onAboutClick = _ => showAbout(history)
+  if(aboutVisible) {
+    classes += ' light'; 
+    onAboutClick = _ => hideAbout(history)
+  }
+
+ 
   return (
     <div className={classes}>
-      <Link className='back-link' to='/selector'>{thinArrow}Back</Link>
+      {BackLink}
       <button className='about-link' onClick={onAboutClick}>About</button>
     </div>
   )
@@ -35,12 +42,12 @@ const mapDispatchToProps = dispatch => {
   return {
     hideAbout: history => {
       dispatch({type: 'HIDE_ABOUT'});
-      history.push({search: ''});
+      history.replace({search: ''});
       window.scrollTo(0, 0);
     },
     showAbout: history => {
       dispatch({type: 'SHOW_ABOUT'});
-      history.push({search: '?about=true'});
+      history.replace({search: '?about=true'});
     }
   }
 }

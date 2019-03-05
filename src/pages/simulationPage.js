@@ -16,21 +16,19 @@ class SimulationPage extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(_ => {
-    //   this.setState({showOverlay: false})
-    // }, 4000)
+    setTimeout(_ => {
+      this.setState({showOverlay: false})
+    }, 4000)
   }
 
   render() {
     let {curSystem = {}, aboutVisible} = this.props; 
-    // let {prevSystem = {}, curSystem = {}, nextSystem = {}, aboutVisible} = this.props; 
     
     let {
       index = 0, 
       question = "question", 
       description = "description", 
       rules = ["test", "test"], 
-      // type = "birds",
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
       color = 'red', 
