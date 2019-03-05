@@ -11,7 +11,7 @@
     bottom: 0
     width: 100%
     background: $dark
-    height: 2px
+    height: 1.8px
     border-radius: 10px
     transform: translateX(-101%)
     transition: transform $fast ease 
@@ -30,13 +30,16 @@
   height: 30px
   display: flex
   justify-content: space-between
-  padding: 12px 32px
+  padding: 12px 5%
   z-index: $nav-z
   +poppins-font
 
   .about-link
     +hoverline
     cursor: pointer
+    border: none
+    outline: none
+    background: none
 
   .back-link
     +hoverline
@@ -51,6 +54,7 @@
     color: $light
     cursor: pointer
     .about-link
+      color: $light
       &:after
         background: $light
 

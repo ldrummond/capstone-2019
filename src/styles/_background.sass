@@ -48,24 +48,46 @@
     z-index: -15
     opacity: 0.4
 
+  // Transitions
+  .content
+    &.back-exit
+      opacity: 1 
+      transition: $fast opacity ease
+      display: none
+
+    &.back-exit.back-exit-active
+      opacity: 0
+      display: none
+
+    &.back-enter
+      opacity: 0
+      transition: $fast opacity 500ms ease
+      display: block
+
+    &.back-enter.back-enter-active
+      opacity: 1
+      display: block
+
+
   // Selector Page
   &.selector
     .system-image
       opacity: 0.1
-      transition: opacity $fast ease-out
+      transition: $fast opacity 111ms ease-out
 
     .system-icon
       opacity: 0
-      transition: opacity $fast ease-out
+      transition: $fast opacity ease-out
 
   // Transition Page
   &.transition
     .system-image
       opacity: 1
+      transition: opacity $fast ease-in
 
     .system-icon
       opacity: 1
-      transition: opacity $fast ease-out
+      transition: $fast opacity 111ms ease-in
 
   // Simulation Page
   &.simulation
@@ -83,4 +105,3 @@
       .system-icon
         opacity: 0
 
- 
