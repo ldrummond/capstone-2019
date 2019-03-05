@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import CanvasBase from '../components/canvasBase'
 import RafController from '../components/rafController'
-import SimulationController from './simulationController.js'
+import SimulationController from './simulationController'
 import { mergeObjects } from '../components/helperFunctions'
+import { defaultSettings, prettyDrawingSettings, trafficSettings, colonySettings, 
+  schoolSettings, crowdsSettings, slimeSettings } from './simulationSettings'
 
 //////////////////////////////////////////////////
 //
@@ -22,36 +24,36 @@ export default class SimulationWrapper extends Component {
 
     this.simulationType = props.path; 
     this.simulationRef = React.createRef();
+    this.cursorIconRef = React.createRef(); 
     this.hoistContext = _ctx => {
       this.ctx = _ctx;
     }
-    this.hoistGetCanvasMousePos = _fn => {
-      this.getCanvasMousePos = _fn; 
+    this.hoistCanvas = _canvas => {
+      this.canvas = _canvas; 
+      this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
 
-    this.currentSettings = {
-      simulationType: props.path,
-      cursorVisible: true,
-      rafSettings: {
-        fps: 60,
-      },
-      simulationSettings: {
-        cursorBoidSettings: {
-          isVisible: true,
-          clearFrames: false, 
-          color: 'black',
-        },
-        boidSettings: {
-          isVisible: true,
-          clearFrames: false, 
-          drawActiveBounds: false, 
-          count: 50, 
-          minSpeed: 2, 
-          maxSpeed: 5,
-          shape: 'line',
-          color: 'rgba(0, 0, 0, 0.05)',
-        }
-      }
+    switch(this.simulationType) {
+      case 'traffic':
+        this.currentSettings = mergeObjects(defaultSettings, trafficSettings);
+
+      case 'colony':
+        this.currentSettings = mergeObjects(defaultSettings, colonySettings);
+
+      case 'school':
+        this.currentSettings = mergeObjects(defaultSettings, schoolSettings);
+
+      case 'crowds':
+        this.currentSettings = mergeObjects(defaultSettings, crowdsSettings);
+
+      case 'slime':
+        this.currentSettings = mergeObjects(defaultSettings, slimeSettings);
+    }
+
+    // this.currentSettings = mergeObjects(defaultSettings, prettyDrawingSettings);
+
+    this.styles = {
+      cursor: this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
     }
 
     this.mousePos = {
@@ -61,11 +63,11 @@ export default class SimulationWrapper extends Component {
   }
 
   updateSimulationSettings(settings) {
-    this.currentSettings = mergeObjects(this.currentSettings, settings); 
+    this.currentSettings = mergeObjects(this.defaultSettings, settings); 
   }
 
   createRaf(settings) {
-    return new RafController({fps: settings.fps});
+    return new RafController({fps: 60});
   }
 
   createSimulation(settings) {
@@ -77,42 +79,6 @@ export default class SimulationWrapper extends Component {
       cursorBoidSettings: settings.cursorBoidSettings, 
       boidSettings: settings.boidSettings,
     });
-  }
-
-  onRafStep = ticker => {
-    let settings = this.currentSettings; 
-    let cursorSettings = settings.simulationSettings.cursorBoidSettings;
-    let boidsSettings = settings.simulationSettings.boidSettings; 
-    let canvasMousePos = this.mousePos;
-    let cursorBoidPos = this.mousePos; 
-
-    if(this.ctx) {
-      // Gets the position of the mouse on the cursor, transformed to the canvas 
-      // from the stored position of the cursor from throttled mousemove handler. 
-      if(cursorSettings.isVisible && cursorSettings.clearFrames) {
-        canvasMousePos = this.getCanvasMousePos(this.mousePos.x, this.mousePos.y);
-        cursorBoidPos = this.simulationController.cursorBoid.position; 
-        this.ctx.clearRect(cursorBoidPos.x - 20, cursorBoidPos.y - 20, 40, 40);
-      }
-
-      // Gets the active bounds of the simulation, and uses those to define 
-      // the area to clear on the canvas, to reduce cpu use. 
-      if(boidsSettings.isVisible && boidsSettings.clearFrames) {
-        let simBounds = this.simulationController.activeBounds; 
-        if(boidsSettings.drawActiveBounds) {
-          this.ctx.strokeRect(simBounds.x, simBounds.y, simBounds.width, simBounds.height);
-        }
-        this.ctx.clearRect(simBounds.x, simBounds.y, simBounds.width, simBounds.height);
-      }
-
-      if(cursorSettings.isVisible) {
-        this.simulationController.updateAndDrawCursor(this.ctx, canvasMousePos);
-      }
-
-      if(boidsSettings.isVisible) {
-        this.simulationController.updateAndDraw(this.ctx, canvasMousePos);
-      }
-    }
   }
 
   componentDidMount() {
@@ -131,56 +97,60 @@ export default class SimulationWrapper extends Component {
       this.simulationController = this.createSimulation(this.currentSettings.simulationSettings);
 
       // Uses the rafController to execute the sim at a specified frame rate. 
-      this.rafController.onStep = this.onRafStep; 
+      this.rafController.onStep = ticker => {
+        if(this.ctx) {
+          this.simulationController.step(this.ctx, this.mousePos);
+        }
+      }
 
       // Sets the state to force a rerender of the canvas. 
       this.setState({
         width: this.width,
         height: this.height,
-      })
+      });
     }
   }
 
   onMouseMove = (e) => {
-    if(this.rafController.ticker % 2 == 0) {
-      this.mousePos.x = e.clientX;
-      this.mousePos.y = e.clientY;
+    // if(this.cursorIconRef.current) {
+    //   console.log(this.cursorIconRef.current);
+    //   this.cursorIconRef.current.style.left = e.clientX;
+    //   this.cursorIconRef.current.style.top = e.clientY;      
+    // }
+    if(this.canvasRect && this.rafController && this.rafController.ticker % 4 == 0) {
+      this.mousePos.x = e.clientX - this.canvasRect.left;
+      this.mousePos.y = e.clientY - this.canvasRect.top;
     }
   }
 
   onMouseClick = (e) => {
-    this.mousePos.x = e.clientX;
-    this.mousePos.y = e.clientY;
+    this.simulationController.onClick(); 
+  }
+
+  onMouseEnter = () => {
+    this.simulationController.onMouseEnter(); 
+  }
+
+  onMouseLeave = () => {
+    this.simulationController.onMouseLeave(); 
   }
 
   render() {
     return (
-      <div className={`simulation-canvas ${this.props.path}`} ref={this.simulationRef} onMouseMove={this.onMouseMove}>
+      <div 
+        className={`simulation-canvas ${this.props.path}`} 
+        ref={this.simulationRef} 
+        onMouseMove={this.onMouseMove}
+        onClick={this.onMouseClick}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        style={this.styles}
+      >
+        {/* <div className='cursorIcon' ref={this.cursorIconRef} ></div> */}
         {this.state.width && this.state.height &&
-          <CanvasBase hoistContext={this.hoistContext} hoistGetCanvasMousePos={this.hoistGetCanvasMousePos}/>
+          <CanvasBase hoistContext={this.hoistContext} hoistCanvas={this.hoistCanvas}/>
         }
       </div>    
     );
   }
 }
-
-const prettyDrawingSettings = {
-  fps: 60,
-  simulationType: '',
-  cursor: {
-    isVisible: false,
-    clearFrames: false, 
-    color: 'black',
-    trackingBoid: false, 
-  },
-  boids: {
-    isVisible: false,
-    clearFrames: false, 
-    count: 50, 
-    minSpeed: 2, 
-    maxSpeed: 5,
-    shape: 'line',
-    color: 'rgba(0, 0, 0, 0.05)',
-  }
-}
-
