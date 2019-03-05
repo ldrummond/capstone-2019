@@ -11,14 +11,22 @@ const defaultStyle = {
 }
 
 const transitionStyles = {
-  entered:  { opacity: 1, },
-  exited: { display: 'none'}
+  entered:  { opacity: 1, zIndex: 10},
+  exited: { pointerEvents: 'none', zIndex: -5}
 };
 
 class AboutResolver extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
+  constructor(props) {
+    super(props)
+
+    // The about Resolver hooks into page changes and the state of the resolver.
+    // If the forward or back button is pressed with the 
+    props.history.listen((location, action) => {
+      if(action === 'POP' && props.aboutVisible) {
+        props.hideSelf(); 
+      }
+    });
+  }
 
   render() {
     return (
@@ -51,6 +59,9 @@ const mapDispatchToProps = dispatch => {
     },
     onPrevClick: id => {
       dispatch({type: 'PREV_SYSTEM'}); 
+    },
+    hideSelf: id => {
+      dispatch({type: 'HIDE_ABOUT'});
     }
   }
 }
