@@ -32,10 +32,17 @@ export class PentagonWheel extends Component {
       this.height = $(this.pentagon).height();
       this.center = {x: this.width / 2, y: this.height / 2};
       this.wheelIndex = 0;
+      
+      let clamp = (size, limit) => {
+        if(size > limit) {
+          return limit; 
+        }
+        return size; 
+      }
 
       this.pentagonControllerOptions = {
         center: this.center,
-        size: this.width / 2,
+        size: clamp(this.width / 2, 200),
         colors: this.colors,
       }
   
