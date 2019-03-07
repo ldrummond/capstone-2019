@@ -14,7 +14,7 @@ export const defaultSettings = {
   simulationSettings: {
     cursorBoidSettings: {
       isVisible: true,
-      cursorVisible: false,
+      cursorVisible: true,
       clearFrames: true, 
       color: 'black',
       width: 4,

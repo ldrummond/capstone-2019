@@ -5,18 +5,21 @@ import { connect } from 'react-redux'
 // import Pixi from '../components/pixi'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import SimulationWrapper from '../simulations/simulationWrapper';
-import RafController from '../components/rafController';
-
+// import RafController from '../components/rafController';
+import instructionPng from '../assets/instructionPng.png';
+import { SimpleFade } from '../components/fadeWrapper';
+import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
+import { SvgOutline } from '../components/svgOutline'
 
 class SimulationPage extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      showOverlay: false,
+      showOverlay: true,
     }
 
-    this.rafController = new RafController({fps: 60}); 
+    // this.rafController = new RafController({fps: 60}); 
   }
 
   componentDidMount() {
@@ -25,14 +28,14 @@ class SimulationPage extends Component {
     }, 4000)
   }
 
-  onMouseMove = (e) => {
-    if(this.rafController && this.rafController.ticker % 10 == 0) {
-      this.setState({mouseX: e.clientX, mouseY: e.clientY});
-    }
-  }
+  // onMouseMove = (e) => {
+  //   if(this.rafController && this.rafController.ticker % 2 == 0) {
+  //     this.setState({mouseX: e.clientX, mouseY: e.clientY});
+  //   }
+  // }
 
   render() {
-    let {curSystem = {}, aboutVisible} = this.props; 
+    let {curSystem = {}, nextSystem = {}, aboutVisible, onNextClick} = this.props; 
     
     let {
       index = 0, 
@@ -40,30 +43,34 @@ class SimulationPage extends Component {
       description = "description", 
       rules = ["test", "test"], 
       path = 'path', 
-      instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
+      instructions = 'Chase the fish to see how they follow their neighbors, and avoid predators.',
       color = 'red', 
     } = curSystem; 
+
+    let {
+      path : nextPath = 'test'
+    } = nextSystem; 
 
     const styles = {
       background: color, 
     }
 
-    const PseudoCursor = function({mouseX = 0, mouseY = 0}) {
-      const styles = {transform: `translate(${mouseX}px, ${mouseY}px)`}
-      return <div className='pseudoCursor' style={styles}></div>
-    }
+    const mouseX = this.state.mouseX,
+      mouseY = this.state.mouseY; 
 
     return (
       <div className={`page-wrapper simulation-page ${path}`} onMouseMove={this.onMouseMove}>
-        <PseudoCursor mouseX={this.state.mouseX} mouseY={this.state.mouseY}/>
-        {this.state.showOverlay &&
-          <span className='overlay'>
+        {/* <div className='pseudoCursor' style={{transform: `translate(${mouseX}px, ${mouseY}px)`}}></div> */}
+        {/* <SimpleFade in={this.state.showOverlay} duration={333}> */}
+          {this.state.showOverlay && <span className='overlay'>
             <span className='inner'>
               <h3 className='title'>{instructions}</h3>
-              <span className='instruction-graphic'></span>
+              <span className='instruction-graphic'>
+                <img src={instructionPng} />
+              </span>
             </span>
-          </span>
-        }
+          </span>}
+        {/* </SimpleFade> */}
         <span className='content' >
           <section className='description-panel'>
             <span>
@@ -77,12 +84,17 @@ class SimulationPage extends Component {
               <h2 className='title'>Rules</h2>
               <h2 className='rules'>{rules}</h2>
               <Link to={`/selector`}>
-                <Pentagon/>
+                <Pentagon style={{fill: 'none', stroke: 'black'}}/>
               </Link> 
             </span>
           </section>
           <span className='simulation-panel' style={styles}>
             <SimulationWrapper {...curSystem}/>
+            <button className='next-sim unbuttoned' onClick={onNextClick}>
+              <h4>next</h4>
+              <h3>{nextPath}</h3>
+              <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
+            </button>
           </span>
         </span>
       </div>    
@@ -92,7 +104,7 @@ class SimulationPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    // nextSystem: state.nextSystem,
+    nextSystem: state.nextSystem,
     curSystem: state.curSystem,
     // prevSystem: state.prevSystem,
     aboutVisible: state.aboutVisible, 

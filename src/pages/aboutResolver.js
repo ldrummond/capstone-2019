@@ -12,7 +12,7 @@ const defaultStyle = {
 
 const transitionStyles = {
   entered:  { opacity: 1, zIndex: 10},
-  exited: { pointerEvents: 'none', zIndex: -5,}
+  exited: { pointerEvents: 'none', zIndex: -5}
 };
 
 class AboutResolver extends Component {
@@ -33,7 +33,7 @@ class AboutResolver extends Component {
     return (
       <Transition in={Boolean(this.props.aboutVisible)} timeout={{enter: 0, exit: duration}} classNames='toggle-about'>
         {(state) => (
-          <div className='page-wrapper about-page' style={{...defaultStyle, ...transitionStyles[state]}}>
+          <div className='about-overlay' style={{...defaultStyle, ...transitionStyles[state]}}>
             <span className='content'>
               About Page
             </span>
