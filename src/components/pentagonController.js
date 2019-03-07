@@ -1,4 +1,4 @@
-import { toRad, ranRGB, Transition } from './helperFunctions'
+import { toRad, ranRGB, CanvasTransition } from './helperFunctions'
 import { Point } from './canvasShapes'
 
 //////////////////////////////////////////////////
@@ -41,7 +41,7 @@ class Polygon {
   }
 
   rotateToEase(deg, duration) {
-    const rotateTransition = new Transition({
+    const rotateTransition = new CanvasTransition({
       startValue: this.rotation, 
       endValue: deg, 
       durationMs: duration, 

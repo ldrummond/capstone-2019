@@ -1,5 +1,5 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
-import { Transition, strokeCircle } from '../components/helperFunctions'
+import { CanvasTransition, strokeCircle } from '../components/helperFunctions'
 
 //////////////////////////////////////////////////
 //
@@ -10,11 +10,11 @@ import { Transition, strokeCircle } from '../components/helperFunctions'
 
 export default class CursorController {
   constructor(options = {}) {
-    const {color, shape, width, clearFrames} = options; 
+    const {color, shape, width, clearFrames, x = -10, y = -10} = options; 
 
     this.mousePos = {
-      x: -10,
-      y: -10,
+      x: x,
+      y: y,
     }
 
     this.initialColor = color; 
@@ -48,7 +48,7 @@ export default class CursorController {
   pause() {
     this.playing = false; 
     this.color = 'rgba(0, 0, 0, 0.3)';
-    this.slowdown = new Transition({startValue: 100, endValue: 0, durationMs: 666, onStep: value => {
+    this.slowdown = new CanvasTransition({startValue: 100, endValue: 0, durationMs: 666, onStep: value => {
       this.boid.position.x += this.boid.velocity.x * (value / 100); 
       this.boid.position.y += this.boid.velocity.y * (value / 100); 
     }});
@@ -71,22 +71,22 @@ export default class CursorController {
   // }
 
   draw(ctx) {
-    // ctx.beginPath();
-    // ctx.strokeStyle = this.color;
-    // ctx.lineWidth = this.width; 
-    // ctx.moveTo(this.boid.position.x - this.boid.velocity.x * 3, this.boid.position.y - this.boid.velocity.y * 3)
-    // ctx.lineTo(this.boid.position.x + this.boid.velocity.x * 3, this.boid.position.y + this.boid.velocity.y * 3);
-    // ctx.stroke();
-    
-    let rotation = this.boid.velocity.angle + Math.PI / 2;
-
-    ctx.beginPath(); 
+    ctx.beginPath();
     ctx.strokeStyle = this.color;
     ctx.lineWidth = this.width; 
-    ctx.ellipse(this.boid.position.x, this.boid.position.y, 
-      4, 6 + 2 * Math.abs(this.boid.velocity.y), rotation, 0, 2 * Math.PI
-    );
-    ctx.fill();
+    ctx.moveTo(this.boid.position.x - this.boid.velocity.x * 3, this.boid.position.y - this.boid.velocity.y * 3)
+    ctx.lineTo(this.boid.position.x + this.boid.velocity.x * 3, this.boid.position.y + this.boid.velocity.y * 3);
+    ctx.stroke();
+    
+    // let rotation = this.boid.velocity.angle + Math.PI / 2;
+
+    // ctx.beginPath(); 
+    // ctx.strokeStyle = this.color;
+    // ctx.lineWidth = this.width; 
+    // ctx.ellipse(this.boid.position.x, this.boid.position.y, 
+    //   4, 6 + 2 * Math.abs(this.boid.velocity.y), rotation, 0, 2 * Math.PI
+    // );
+    // ctx.fill();
 
     // ctx.lineWidth = 0.5;
     // strokeCircle(ctx, this.mousePos.x, this.mousePos.y, 10, 10);

@@ -9,7 +9,7 @@
 
 /**
  * 
- * @function Transition
+ * @function CanvasTransition
  * @param {Object} Options
  * @property {number} startValue 
  * @property {number} endValue
@@ -19,7 +19,7 @@
  * @callback {function} onComplete  
  * 
  */
-export function Transition({startValue = 0, endValue = 1, durationMs = 200, fps = 60, onStep, onComplete = _ => {}}) {
+export function CanvasTransition({startValue = 0, endValue = 1, durationMs = 200, fps = 60, onStep, onComplete = _ => {}}) {
   this.isDone = false; 
   
   this.stepCount = Math.floor(durationMs / (1000 / fps));
