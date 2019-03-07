@@ -1,6 +1,7 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
 import BoidPoolController from './boidPoolController'; 
 import CursorController from './cursorController'; 
+import { mergeObjects } from '../components/helperFunctions';
 
 
 //////////////////////////////////////////////////
@@ -65,7 +66,9 @@ export default class SimulationController {
   }
 
   createCursorBoid(cursorBoidSettings) {
-    this.cursorController = new CursorController(cursorBoidSettings); 
+    this.cursorController = new CursorController(
+      mergeObjects(cursorBoidSettings, {x: this.width / 2, y: this.height / 2})
+    ); 
   }
 
   resetBounds() {
@@ -107,7 +110,7 @@ export default class SimulationController {
       // }
     }
     if(this.boidPoolController && this.clearBoidFrames) {
-      ctx.clearRect(this.activeBounds.x, this.activeBounds.y, this.activeBounds.width, this.activeBounds.height);
+      ctx.clearRect(this.activeBounds.x - 20, this.activeBounds.y - 20, this.activeBounds.width + 40, this.activeBounds.height + 40);
     }
 
     if(this.cursorController) {

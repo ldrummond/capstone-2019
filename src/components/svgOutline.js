@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-
 export function SvgOutline(props) {
   const SvgComponent = props.component; 
   const {color='red', onClick=_=>{}, style={}} = props; 

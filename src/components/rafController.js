@@ -28,6 +28,12 @@ export default class RafController {
     cancelAnimationFrame(this.rafId);  
   }
 
+  changeFps(fps) {
+    this.fps = fps;
+    this.stopLoop();
+    this.startLoop();
+  }
+
   loop = () => {
     this.rafId = requestAnimationFrame(this.loop);
     
