@@ -9,7 +9,7 @@ $mold-color: #79857E // green
 
 $light: #eee
 $dark: #111
-$sim-color: #43555F
+$sim-color: #333 // #43555F
 
 // Fonts
 $brothers-stack: brothers, Helvetica, sans-serif;
@@ -59,41 +59,72 @@ $sm-mobile: 480px
   line-height: 42px
   +after-sm-mobile
     font-size: 58px
-    line-height: 58px
+    line-height: 60px
   +after-md-desktop
-    font-size: 78px
-    line-height: 84px
+    font-size: 72px
+    line-height: 80px
   
 @mixin middle-brother-font
   font-family: $brothers-stack
   font-weight: 100
   font-size: 38px
   line-height: 48px
+  +after-sm-mobile
+    font-size: 20px
+    line-height: 26px
+  +after-md-desktop
+    font-size: 28px
+    line-height: 34px
 
 @mixin little-brother-font
   font-family: $brothers-stack
   text-transform: lowercase
   font-weight: 700
   font-size: 22px
-  letter-spacing: .07em
+  letter-spacing: .08em
   line-height: 26px
+  +after-sm-mobile
+    font-size: 16px
+    line-height: 20px
+  +after-md-desktop
+    font-size: 18px
+    line-height: 26px
 
 @mixin poppins-font
   font-family: $poppins-stack
-  font-size: 12px
+  font-weight: 300
+  font-size: 10px
   line-height: 20px
+  +after-sm-mobile
+    font-size: 12px
+    line-height: 20px
+  +after-md-desktop
+    font-size: 14px
+    line-height: 26px
 
 @mixin body
   font-family: $poppins-stack
   font-weight: 200
-  font-size: 12px
-  line-height: 18px
+  font-size: 8px
+  line-height: 12px
+  +after-sm-mobile
+    font-size: 11px
+    line-height: 18px
+  +after-md-desktop
+    font-size: 12px
+    line-height: 20px
 
 @mixin body-serif
   font-family: $calluna-stack
-  font-size: 22px
-  line-height: 30px
-  font-weight: 200
+  font-weight: 100
+  font-size: 8px
+  line-height: 12px
+  +after-sm-mobile
+    font-size: 10px
+    line-height: 14px
+  +after-md-desktop
+    font-size: 12px
+    line-height: 18px
 
 @mixin abolition-font
   font-family: $abolition-stack

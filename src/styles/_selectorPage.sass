@@ -29,7 +29,7 @@
         height: 40px
 
     .option-container
-      width: span(8 of 16)
+      width: span(6 of 16)
       height: 100%
       position: relative
       .option-inner
@@ -38,7 +38,7 @@
         bottom: 30%
         left: 0%
         .title
-          padding-right: 10%
+          transition: transform $fast ease
           +big-brother-font
           margin-bottom: 50px
           &:hover
@@ -64,6 +64,12 @@
             width: 40px
             display: inline-block
             letter-spacing: 0.1em
+
+    .option-container
+      .option-inner
+        &:hover
+          & > .title
+            transform: translateX(5px)
 
     .option-container
       .option-inner
