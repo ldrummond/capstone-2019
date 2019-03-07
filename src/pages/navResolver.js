@@ -29,7 +29,7 @@ import { connect } from 'react-redux';
   return (
     <div className={classes}>
       {BackLink}
-      <button className='about-link' onClick={onAboutClick}>About</button>
+      <button className='about-link unbuttoned' onClick={onAboutClick}>About</button>
     </div>
   )
 }
