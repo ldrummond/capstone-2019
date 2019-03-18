@@ -3,9 +3,16 @@
 
 *In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts.*
 
+
+
+***
+
 This project explores the concept of emergence through 5 interactive simulations. The 5 simulations revolve around questions – What causes traffic? How do fish avoid predators? - that connect to the underlying emergent systems. 
 
 *Emergence* was created as a senior capstone project for the Washington University in St. Louis Communication Design Program. It was designed and developed by Lucas Drummond.
+
+***
+
 
 ## Research
 
