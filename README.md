@@ -1,7 +1,9 @@
 
 # *Emergence* - Capstone App
-##### by Lucas Drummond
 =====
+[Emergence](http://lucasbuilds.site/capstone-app)
+##### Web Application by Lucas Drummond
+
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
 
@@ -77,3 +79,21 @@ This projet is built with [React](https://reactjs.org/) and bootstrapped with [C
 - [Redux](https://redux.js.org/introduction/getting-started)
 - [Create React App](https://github.com/facebook/create-react-app)
 - [React Router](https://github.com/ReactTraining/react-router)
+
+### Usage
+
+##### Development Build
+```shell
+npm run start
+``` 
+
+##### Build 
+```shell
+npm run build
+```
+
+##### Test
+```shell
+npm run test
+``` 
+
