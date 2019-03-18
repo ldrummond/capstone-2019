@@ -1,12 +1,25 @@
 
 # *Emergence* - Capstone App
-Web Application (http://lucasbuilds.site/capstone-app) by Lucas Drummond
+Web Application (http://lucasbuilds.site/capstone-2019) by Lucas Drummond
+
+-
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
 
 
 ***
 
+#### About
+
+This project explores concepts of emergence through 5 interactive simulations, each presenting an example of an emergent system. The hope is that by exploring the ways in which bottom-up organization exists throughout the word, users might begin to think of the systems in their lives from a different perspective.  
+
+*Emergence* was created as a senior capstone project for the Washington University in St. Louis Communication Design Program, and was designed and developed by Lucas Drummond. See more of my work at http://lucasbuilds.site
+
+
+***
+
+
+## Research
 
 #### Background
 
@@ -16,17 +29,6 @@ This is called bottom up organization, rather than the top-down organization tha
 
 Although humans are used to top-down order, emergence is not just a natural phenomenon. Emergent properties can be found in everything from traffic, the stock market, the layout of cities and the motions of crowds. These systems all rely on the interaction between parts, and as such are hard to predict or solve with typical top down structures. That is why traffic is still a problem on your morning commute! Because traffic is a complex pattern stemming from simple interactions, solutions to traffic rely on improved interactions between drivers rather than more stop lights or wider freeways. 
 
-#### About
-
-This project explores these concepts of emergence through 5 interactive simulations, each presenting an example of emergence. The hope is that by exploring the ways in which bottom-up organization exists throughout the word, users might begin to think of the systems in their lives from a different perspective.  
-
-*Emergence* was created as a senior capstone project for the Washington University in St. Louis Communication Design Program, and was designed and developed by Lucas Drummond. See more of my work at http://lucasbuilds.site
-
-
-***
-
-
-## Research
 
 ##### Related Terms
 
@@ -60,12 +62,12 @@ For this project, due to limited experience with openGL, implementations of **bo
 
 ## Development
 
-This projet is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). The project was ejected and modified from the Create React App defaults.
+This project is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). The project was ejected and modified from the Create React App defaults.
 
 #### Specific Coding Concepts
 
 - intelligent agents (in this case, [boids](https://www.red3d.com/cwr/boids/))
-- html canvas based rendering and animations. 
+- html canvas based rendering and animations
 - redux for app state 
 
 #### Libraries Used
@@ -80,6 +82,9 @@ This projet is built with [React](https://reactjs.org/) and bootstrapped with [C
 ## Usage
 
 To run locally: 
+```shell
+$npm install
+```
 
 #### Development
 ```shell
