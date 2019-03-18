@@ -1,3 +1,28 @@
+
+# Capstone App
+
+Emergence is a phenomenon of nature, science and 
+
+This project is a senior capstone for the Washington University in St. Louis Communication Design Program.
+It was designed and developed by Lucas Drummond.
+
+The project is a static site built in React, and hosted on Github Pages. 
+
+
+## Sources
+
+- 'Emergence: The Connected Lives of Ants, Brains, Cities, and Software' by Stephen Johnson
+
+## Libraries
+
+- Ian McGregor Boids
+[https://github.com/ianmcgregor/boid]
+
+- Create React App
+[https://github.com/facebook/create-react-app]
+
+# Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
