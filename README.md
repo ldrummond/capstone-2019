@@ -4,7 +4,7 @@ Web Application (http://lucasbuilds.site/capstone-app) by Lucas Drummond
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
 
--
+#### Background
 
 Ever seen a swarm of birds move through the sky, twisting and turning as though they were a single creature? This is a classic example of an emergent system – one where many individual parts interact to create a complex pattern. What makes these systems unique is there organization and structure. There is no leader among these birds telling them when or where to turn. Instead, each bird follows simple rules in how it interacts with its neighbors. And the result of these simple rules is a complex, intelligent system. 
 
@@ -12,7 +12,7 @@ This is called bottom up organization, rather than the top-down organization tha
 
 Although humans are used to top-down order, emergence is not just a natural phenomenon. Emergent properties can be found in everything from traffic, the stock market, the layout of cities and the motions of crowds. These systems all rely on the interaction between parts, and as such are hard to predict or solve with typical top down structures. That is why traffic is still a problem on your morning commute! Because traffic is a complex pattern stemming from simple interactions, solutions to traffic rely on improved interactions between drivers rather than more stop lights or wider freeways. 
 
-#### About
+#### About the Website
 
 This project explores these concepts of emergence through 5 interactive simulations, each presenting an example of emergence. The hope is that by exploring the ways in which bottom-up organization exists throughout the word, users might begin to think of the systems in their lives from a different perspective.  
 
@@ -77,17 +77,17 @@ This projet is built with [React](https://reactjs.org/) and bootstrapped with [C
 
 ### Usage
 
-##### Development Build
+#### Development
 ```shell
 npm run start
 ``` 
 
-##### Build 
+#### Build 
 ```shell
 npm run build
 ```
 
-##### Test
+#### Test
 ```shell
 npm run test
 ``` 
