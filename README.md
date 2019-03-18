@@ -1,19 +1,16 @@
 
-# *Emergence* - Capstone App
+# *Emergence* - Capstone Project
 Web Application (http://lucasbuilds.site/capstone-2019) by Lucas Drummond
 
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
 
--
--
--
 
 #### About
 
 This project explores concepts of emergence through 5 interactive simulations, each presenting an example of an emergent system. The hope is that by exploring the ways in which bottom-up organization exists throughout the word, users might begin to think of the systems in their lives from a different perspective.  
 
-*Emergence* was created as a senior capstone project for the Washington University in St. Louis Communication Design Program, and was designed and developed by Lucas Drummond. See more of my work at http://lucasbuilds.site
+It was created as a senior capstone project for the Washington University in St. Louis Communication Design Program, and was designed and developed by Lucas Drummond. See more of my work at http://lucasbuilds.site
 
 
 ***
