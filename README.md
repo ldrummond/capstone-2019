@@ -5,7 +5,10 @@
 
 
 
-***
+
+
+
+## About
 
 This project explores the concept of emergence through 5 interactive simulations. The 5 simulations revolve around questions – What causes traffic? How do fish avoid predators? - that connect to the underlying emergent systems. 
 
