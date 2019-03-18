@@ -1,11 +1,10 @@
 
 # *Emergence* - Capstone App
-=====
-[Emergence](http://lucasbuilds.site/capstone-app)
-##### Web Application by Lucas Drummond
+Web Application (http://lucasbuilds.site/capstone-app)
 
-
+```
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
+```
 
 -
 
