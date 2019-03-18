@@ -1,6 +1,6 @@
 
 # *Emergence* - Capstone Project
-Web Application (http://lucasbuilds.site/capstone-2019) by Lucas Drummond
+Web Application (http://lucasbuilds.site/capstone-2019)
 
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
@@ -27,13 +27,13 @@ This is called bottom up organization, rather than the top-down organization tha
 Although humans are used to top-down order, emergence is not just a natural phenomenon. Emergent properties can be found in everything from traffic, the stock market, the layout of cities and the motions of crowds. These systems all rely on the interaction between parts, and as such are hard to predict or solve with typical top down structures. That is why traffic is still a problem on your morning commute! Because traffic is a complex pattern stemming from simple interactions, solutions to traffic rely on improved interactions between drivers rather than more stop lights or wider freeways. 
 
 
-##### Related Terms
+#### Related Terms
 
 - Self Organization
 - Spontaneous Order
 - Bottom-up Organization
 
-##### Examples of Emergence
+#### Examples of Emergence
 
 - Cities
 - The World Wide Web
@@ -61,17 +61,17 @@ For this project, due to limited experience with openGL, implementations of **bo
 
 This project is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). The project was ejected and modified from the Create React App defaults.
 
-#### Specific Coding Concepts
+#### Specific Coding Concepts Explored
 
 - intelligent agents (in this case, [boids](https://www.red3d.com/cwr/boids/))
 - html canvas based rendering and animations
 - redux for app state 
 
-#### Libraries Used
+#### Tools Used
 
 - [Ian McGregor's JS Implementation](https://github.com/ianmcgregor/boid) of Craig Reynolds Boids
-- [Redux](https://redux.js.org/introduction/getting-started)
 - [Create React App](https://github.com/facebook/create-react-app)
+- [Redux](https://redux.js.org/introduction/getting-started)
 - [React Router](https://github.com/ReactTraining/react-router)
 
 ***
