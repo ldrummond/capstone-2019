@@ -23,15 +23,10 @@ This project explores these concepts of emergence through 5 interactive simulati
 *Emergence* was created as a senior capstone project for the Washington University in St. Louis Communication Design Program, and was designed and developed by Lucas Drummond. See more of my work at http://lucasbuilds.site
 
 
-
 ***
-***
-
 
 
 ## Research
-
-This project began with extensive research into emergence systems. Further reading into research and examples show the breadth of emergence in our world! 
 
 ##### Related Terms
 
@@ -84,18 +79,20 @@ This projet is built with [React](https://reactjs.org/) and bootstrapped with [C
 
 ## Usage
 
+To run locally: 
+
 #### Development
 ```shell
-npm run start
+$ npm run start
 ``` 
 
 #### Build 
 ```shell
-npm run build
+$ npm run build
 ```
 
 #### Test
 ```shell
-npm run test
+$ npm run test
 ``` 
 
