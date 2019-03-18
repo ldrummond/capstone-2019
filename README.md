@@ -17,15 +17,16 @@ https://www.red3d.com/cwr/boids/
 
 ## Development
 
-This projet is built with (React)[https://reactjs.org/]. 
+This projet is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). 
 
 This project explores specific coding concepts in development
 
 - intelligent agents (in this case, [boids](https://www.red3d.com/cwr/boids/))
+- html canvas based rendering and animations. 
 
 ### Libraries
 
-- [Ian McGregor Boids](https://github.com/ianmcgregor/boid)
+- [Ian McGregor's JS Implementation of Craig Reynolds Boids](https://github.com/ianmcgregor/boid)
 
 - [Create React App](https://github.com/facebook/create-react-app)
 
