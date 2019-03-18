@@ -2,9 +2,7 @@
 # *Emergence* - Capstone App
 Web Application (http://lucasbuilds.site/capstone-app) by Lucas Drummond
 
-*
-"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."
-*
+*"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
 
 -
 
@@ -13,8 +11,6 @@ Ever seen a swarm of birds move through the sky, twisting and turning as though 
 This is called bottom up organization, rather than the top-down organization that human society takes as standard. With bottom up organization, the whole system responds intelligently even when the individuals act according to simple rules. For example, when a hawk tries to attack the a flock of birds, the whole flock splits to avoid the predator and chase it away. Even the birds that cannot see the hawk act in unison by responding to the motion of there neighbors. 
 
 Although humans are used to top-down order, emergence is not just a natural phenomenon. Emergent properties can be found in everything from traffic, the stock market, the layout of cities and the motions of crowds. These systems all rely on the interaction between parts, and as such are hard to predict or solve with typical top down structures. That is why traffic is still a problem on your morning commute! Because traffic is a complex pattern stemming from simple interactions, solutions to traffic rely on improved interactions between drivers rather than more stop lights or wider freeways. 
-
--
 
 #### About
 
