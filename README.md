@@ -59,6 +59,8 @@ One core concept of emergent systems, bottom-up organization, interestingly rela
 
 For this project, due to limited experience with openGL, implementations of **boids** (the basis of all of the project simulations) run on the CPU. Because of that, for each update cycle in the simulations, every boid has to compare its position to that every other boid. This complexity causes the number of boids to be capped at about 50 to maintain smooth rendering. Ideally, the GPU could be leveraged to compute the position of each boid and increase the number of active members. This is a great example of a [GPU Boid Flock](https://github.com/Shinao/Unity-GPU-Boids). As seen at the bottom of the project readme, GPU flocks can efficiently support many more members than CPU flocks. 
 
+***
+
 ## Development
 
 This project is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). The project was ejected and modified from the Create React App defaults.
