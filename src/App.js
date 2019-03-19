@@ -11,9 +11,4 @@ function App() {
   );
 }
 
-
 export default App;
-
-// Root.propTypes = {
-//   store: PropTypes.object.isRequired
-// }
