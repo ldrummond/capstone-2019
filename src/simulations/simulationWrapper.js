@@ -55,11 +55,6 @@ export default class SimulationWrapper extends Component {
     this.styles = {
       cursor: this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
     }
-
-    this.mousePos = {
-      x: -10, 
-      y: -10
-    }
   }
 
   updateSimulationSettings(settings) {
@@ -67,7 +62,7 @@ export default class SimulationWrapper extends Component {
   }
 
   createRaf(settings) {
-    return new RafController({fps: 60});
+    return new RafController(settings);
   }
 
   createSimulation(settings) {
@@ -89,6 +84,7 @@ export default class SimulationWrapper extends Component {
       // Defines bounds based on the simulation size. 
       this.width = this.$simulation.width();
       this.height = this.$simulation.height();
+      this.mousePos = {x: this.width / 2, y: this.height / 2};
       this.center = {x: this.width / 2, y: this.height / 2};
       this.simRect = this.simulation.getBoundingClientRect(); 
 

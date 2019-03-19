@@ -67,7 +67,7 @@ export default class SimulationController {
 
   createCursorBoid(cursorBoidSettings) {
     this.cursorController = new CursorController(
-      mergeObjects(cursorBoidSettings, {x: this.width / 2, y: this.height / 2})
+      mergeObjects(cursorBoidSettings, {x: this.bounds.width / 2, y: this.bounds.height / 2})
     ); 
   }
 

@@ -23,8 +23,8 @@ export default class CursorController {
     this.clearFrames = clearFrames; 
 
     this.boid = new Boid();
-    this.boid.position.x = 500; 
-    this.boid.position.y = 500;
+    this.boid.position.x = this.mousePos.x; 
+    this.boid.position.y = this.mousePos.y;
     this.boid.maxSpeed = 2;
     this.boid.velocity.x = 1;
     this.boid.velocity.y = 1;
