@@ -12,12 +12,11 @@ function PageResolver({location, history}) {
     <TransitionGroup component={null}>
       <CSSTransition key={location.pathname} timeout={{enter: 300, exit: 300}} classNames='fade'>
         <Switch location={location}>
-          <Route path="/home" component={LoaderPage} />
+          <Route exact path="/" component={LoaderPage} />
           <Route path="/selector" component={SelectorPage} />
           <Route path="/transition/:type" component={TransitionPage} />
           <Route path="/simulation/:type" component={SimulationPage} />
           <Redirect from="/simulation" to='/simulation/traffic' />
-          <Redirect from="/" to="selector" />
           <Route component={NoMatchPage} />
         </Switch>
       </CSSTransition>

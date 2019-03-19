@@ -13,7 +13,6 @@ class ReduxWrapper extends Component{
   constructor(props) {
     super(props)
 
-
     // Checks if the url is a simulation, then initializes the store with that sim. 
     let simRegex = /\/(simulation|transition)\/([A-Za-z]+)/
     let matches = props.location.pathname.match(simRegex); 
