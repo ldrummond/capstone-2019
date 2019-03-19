@@ -143,11 +143,31 @@ export function toRad(angle) {
   return angle * (Math.PI / 180);
 }
 
+/**
+* Clamp
+*/
+export function clamp(size, limit) {
+  if(size > limit) {
+    return limit; 
+  }
+  return size; 
+}
+
 //////////////////////////////////////////////////
 //
 // Canvas Functions
 //
 //////////////////////////////////////////////////
+
+/* 
+* Converts mouse pos from world to canvas space 
+*/
+export function posToCanvas(pos, canvasRect) {
+  return {
+    x: pos.clientX - canvasRect.left,
+    y: pos.clientY - canvasRect.top,
+  }
+}
 
 /* 
 * Simple Circle draw method. 
@@ -159,6 +179,9 @@ export function fillCircle(ctx, x, y, r, color) {
   ctx.fill(); 
 }
 
+/* 
+* Simple Circle draw method. 
+*/
 export function strokeCircle(ctx, x, y, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -177,9 +200,6 @@ export function drawLerpLine(ctx, start, end, numPoints = 1, magnitude = 5) {
   for(let i = 1; i <= numPoints; i++) {
     let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
     let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
-    ctx.strokeStyle = 'red'; 
-    ctx.strokeRect(x, y, 1, 1);
-    ctx.strokeStyle = 'white'; 
     ctx.lineTo(x, y); 
   }
 }
@@ -227,7 +247,6 @@ export function drawSimplexLine(ctx, start, end, numPoints = 1, simplex, time, m
   for(let i = 1; i <= numPoints; i++) {
     let x = start.x + (xUnit * i) + simplex.noise2D(i, time) * magnitude; 
     let y = start.y + (yUnit * i) + simplex.noise2D(i, time) * magnitude;
-    ctx.strokeStyle = 'red'; 
     ctx.lineTo(x, y); 
   }
 }

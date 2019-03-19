@@ -45,15 +45,7 @@ export default class RafController {
 
     if(this.elapsed > this.fpsInterval) {
       this.then = this.now - (this.elapsed % this.fpsInterval);
-      this.onStep(); 
+      this.onStep(this.ticker); 
     }
-  }
-
-  /**
-   * 
-   * @callback onStep  
-   */
-  step() {
-    this.onStep(this.ticker); 
   }
 }

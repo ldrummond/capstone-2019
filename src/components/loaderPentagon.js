@@ -16,6 +16,7 @@ export default class PentagonWheel extends Component {
       mounted: false, 
     }
     
+    this.mousePos = props.mousePos; 
     this.pentagonRef = React.createRef();
     this.rafController = new RafController({fps: 60}); 
   }
@@ -26,18 +27,21 @@ export default class PentagonWheel extends Component {
       this.width = $(this.pentagon).width();
       this.height = $(this.pentagon).height();
       this.center = {x: this.width / 2, y: this.height / 2};
-      this.colors = data.systems.map(system => system.color);    
       this.wheelIndex = 0;
 
-      const defaultOptions = {
+      const pentagonOpts = {
         center: this.center,
         diameter: clamp(this.width / 2, 200),
-        colors: this.colors,
-        rotation: -(360 / 5 * this.wheelIndex) + 108,
-        sides: 5
-      }
+        rotation: 18,
+        sides: 5,
+        colors: [],
+        stroke: true,
+        fill: false,
+        strokeStyle: 'white', 
+        fillStyle: 'none', 
+        noise: true, 
+      };
 
-      const pentagonOpts = mergeObjects(defaultOptions, this.props);
       this.pentagonController = new PentagonController(pentagonOpts)
 
       // Executing the step function for the given framerate. 
@@ -60,17 +64,7 @@ export default class PentagonWheel extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if(this.state.mounted) {
-      this.wheelIndex = nextProps.wheelIndex;
-      this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 108, 666);
-    }
-  }
-
-  onMouseMove = (e) => {
-    if(this.canvasRect && this.rafController && this.rafController.ticker % 4 == 0) {
-      this.mousePos.x = e.clientX - this.canvasRect.left;
-      this.mousePos.y = e.clientY - this.canvasRect.top;
-    }
+    console.log('update')
   }
 
   render() {

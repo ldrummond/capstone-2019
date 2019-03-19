@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 
 export function SvgOutline(props) {
@@ -8,6 +6,7 @@ export function SvgOutline(props) {
   
   return (
     <span className='svg-outline-container' onClick={onClick} style={style}>
+      <div className='active-area'></div>
       <SvgComponent className='svg-outline' style={{stroke: color}} />
       <span className='fill-container'>
         <SvgComponent className='svg-fill' style={{fill: color}} />
