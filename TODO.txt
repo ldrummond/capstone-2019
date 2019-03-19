@@ -1,0 +1,11 @@
+
+
+TODOs
+
+###
+### 
+
+
+1. Remove unused fonts
+2. Add alt tags
+3. Add OG and SEO tags

@@ -61,6 +61,17 @@ For this project, due to limited experience with openGL, implementations of **bo
 
 ***
 
+## Design
+
+#### Inspiration
+
+- [Histography](https://histography.io/)
+- [17 Issues](https://art4globalgoals.com/en)
+- 
+- 
+
+***
+
 ## Development
 
 This project is built with [React](https://reactjs.org/) and bootstrapped with [Create React App](https://github.com/ianmcgregor/boid). The project was ejected and modified from the Create React App defaults.
