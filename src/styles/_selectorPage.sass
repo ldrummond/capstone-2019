@@ -37,12 +37,12 @@
         bottom: 30%
         left: 0%
         .title
+          pointer-events: none
           transition: transform $fast ease
           +big-brother-font
           margin-bottom: 50px
-          &:hover
-            // font-style: italic
         .subtitle
+          pointer-events: none
           +poppins-font
           opacity: 0.7
           h4
@@ -72,33 +72,49 @@
 
     .option-container
       .option-inner
-        // transform-origin: -200px 50%
-        &.rotate-exit
+        // // transform-origin: -200px 50%
+        &.rotateUp-exit
           .title
             opacity: 1 
-            transition: transform $med ease, opacity $fast ease
+            transform: translateY(0)
+            transition: transform $fast ease, opacity $fast ease
           .subtitle
-            display: none
-            .index
-          // transform: rotate(0)
+            opacity: 0
 
-        &.rotate-exit.rotate-exit-active
+        &.rotateUp-exit.rotateUp-exit-active
+          .title
+            transform: translateY(20px)
+            opacity: 0
+
+        &.rotateUp-enter
           .title
             opacity: 0
-          .subtitle
-            display: none
+            transition: $med transform $med ease, $fast opacity $fast ease
 
-        &.rotate-enter
-          .title
-            opacity: 0
-            transition: $slow transform $med ease, $fast opacity $fast ease
-          .subtitle
-            display: block
-
-        &.rotate-enter.rotate-enter-active
+        &.rotateUp-enter.rotateUp-enter-active
           .title
             opacity: 1
+        
+        &.rotateDown-exit
+          .title
+            opacity: 1 
+            transform: translateY(0)
+            transition: transform $fast ease, opacity $fast ease
           .subtitle
-            display: block
-            .index
-          // transform: rotate(0deg)
+            opacity: 0
+
+        &.rotateDown-exit.rotateDown-exit-active
+          .title
+            transform: translateY(-20px)
+            opacity: 0
+
+        &.rotateDown-enter
+          .title
+            opacity: 0
+            transition: $med transform $med ease, $fast opacity $fast ease
+
+        &.rotateDown-enter.rotateDown-enter-active
+          .title
+            opacity: 1
+
+  

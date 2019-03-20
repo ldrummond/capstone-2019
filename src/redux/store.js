@@ -57,10 +57,10 @@ function systemsReducer(state = [], action) {
       return {...state, aboutVisible: true}; 
 
     case 'WHEEL_UP':
-      return {...prevSystemState(state), wheelIndex: state.wheelIndex + 1};
+      return {...prevSystemState(state), wheelIndex: state.wheelIndex + 1, prevWheelIndex: state.wheelIndex};
 
     case 'WHEEL_DOWN':
-      return {...nextSystemState(state), wheelIndex: state.wheelIndex - 1};
+      return {...nextSystemState(state), wheelIndex: state.wheelIndex - 1, prevWheelIndex: state.wheelIndex};
     
     default:
       return state
@@ -75,6 +75,10 @@ function systemsReducer(state = [], action) {
 // Create a Redux store holding the state of your app.
 // Its API is { subscribe, dispatch, getState }.
 export default function createStoreFromPath(path = 'traffic', _aboutVisible = false) {
-  // console.log("path", path)
-  return createStore(systemsReducer, stateFromPath({aboutVisible: _aboutVisible, wheelIndex: 0}, path)); 
+  const initialState = {
+    aboutVisible: _aboutVisible, 
+    wheelIndex: 0,
+    prevWheelIndex: 0 
+  }
+  return createStore(systemsReducer, stateFromPath(initialState, path)); 
 } 

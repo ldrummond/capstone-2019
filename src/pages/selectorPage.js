@@ -9,7 +9,9 @@ import { SvgOutline } from '../components/svgOutline'
 class SelectorPage extends Component {
   render() {
     // let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
-    let {curSystem, onPrevClick, onNextClick, wheelIndex} = this.props
+    let {curSystem, onPrevClick, onNextClick, wheelIndex, prevWheelIndex} = this.props
+    const rotateUp = wheelIndex > prevWheelIndex
+    console.log(rotateUp);
 
     return (
       <div className='page-wrapper selector-page'>
@@ -21,7 +23,11 @@ class SelectorPage extends Component {
           </span>
             <span className='option-container'>
               <TransitionGroup component={null}>
-                <CSSTransition key={curSystem.path} timeout={{enter: 333, exit: 666}} classNames='rotate'>
+                <CSSTransition 
+                  key={curSystem.path} 
+                  timeout={{enter: 666, exit: 333}} 
+                  classNames={`rotate${rotateUp ? 'Up' : 'Down'}`}
+                >
                   <Link to={`/transition/${curSystem.path}`} className='option-inner'>
                       <h1 className='title'>{curSystem.question}</h1>
                     <span className='subtitle'>
@@ -43,7 +49,8 @@ const mapStateToProps = state => {
     nextSystem: state.nextSystem,
     curSystem: state.curSystem,
     prevSystem: state.prevSystem,
-    wheelIndex: state.wheelIndex, 
+    wheelIndex: state.wheelIndex,
+    prevWheelIndex: state.prevWheelIndex,  
   }
 }
 
