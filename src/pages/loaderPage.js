@@ -9,6 +9,8 @@ export default class LoaderPage extends Component {
 
     this.state = {
       shouldRedirect: false, 
+      mounted: false,
+      moved: false, 
     }
 
     this.mousePos = {x: 0, y: 0}; 
@@ -17,7 +19,8 @@ export default class LoaderPage extends Component {
   componentDidMount() {
     // setTimeout(() => {
     //   this.setState({shouldRedirect: true})
-    // }, (2000));
+    // }, (8000));
+    
   }
 
   onMouseMove = (e) => { 

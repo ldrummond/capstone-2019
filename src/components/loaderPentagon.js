@@ -4,7 +4,7 @@ import PentagonController from './pentagonController'
 import CanvasBase from './canvasBase'
 import RafController from '../components/rafController'
 import data from '../data/data'
-import { mergeObjects, clamp } from './helperFunctions';
+import { mergeObjects, posToCanvas } from './helperFunctions';
 
 export default class PentagonWheel extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class PentagonWheel extends Component {
 
       const pentagonOpts = {
         center: this.center,
-        diameter: clamp(this.width / 2, 200),
+        diameter: this.width / 2 - 5, // 0,
         rotation: 18,
         sides: 5,
         colors: [],
@@ -39,7 +39,9 @@ export default class PentagonWheel extends Component {
         fill: false,
         strokeStyle: 'white', 
         fillStyle: 'none', 
-        noise: true, 
+        hasNoise: false, 
+        amp: 10, 
+        freq: 1 / 40,
       };
 
       this.pentagonController = new PentagonController(pentagonOpts)
@@ -48,12 +50,23 @@ export default class PentagonWheel extends Component {
       this.rafController.onStep = ticker => {
         if(this.ctx) {
           this.pentagonController.update(); 
+          // this.pentagonController.rotateBy(0.2)
           if(this.pentagonController.shouldDraw) {
             this.ctx.clearRect(0, 0, this.width, this.height);
-            this.pentagonController.draw(this.ctx, this.mousePos, ticker);
+            this.pentagonController.draw(this.ctx, posToCanvas(this.mousePos, this.canvasRect), ticker);
           }
         }
       }
+
+      let duration = 6000;
+      // this.pentagonController.grow(0, this.width / 2 - 5, duration, _ => {console.log('done')});
+      this.pentagonController.rotateToEase(360 + 18, duration); 
+      this.pentagonController.changeSides(3, 20, duration); 
+
+      setTimeout(() => {
+        this.pentagonController.changeSides(20, 3, duration); 
+        this.pentagonController.rotateToEase(0, duration);
+      }, (duration))
 
       this.setState({
         width: this.width,
@@ -61,10 +74,6 @@ export default class PentagonWheel extends Component {
         mounted: true, 
       })
     }
-  }
-
-  componentWillUpdate(nextProps) {
-    console.log('update')
   }
 
   render() {

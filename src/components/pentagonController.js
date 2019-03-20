@@ -13,17 +13,35 @@ import { Point,  } from './canvasShapes'
 */
 class Polygon {
   constructor(opts = {}) {
+    let {
+      sides = 3,
+      center = new Point(0, 0),
+      diameter = 50,
+      rotation = 0,
+      stroke = false,
+      strokeStyle,
+      fill = true,
+      fillStyle,
+      hasNoise = false,
+      colors = [],
+      amp = 20, 
+      freq = 1 / 40,
+      smoothness = 50, 
+    } = opts;
 
     // Opts 
-    this.noise = opts.noise || false; 
-    this.sides = opts.sides || 3;
-    this.diameter = opts.diameter || 50;
-    this.center = opts.center || new Point(0, 0);
-    this.stroke = opts.stroke || false; 
-    this.fill = opts.fill || true; 
-    this.strokeStyle = opts.strokeStyle || 'white'; 
-    this.colors = opts.colors || []; 
-    this.rotation = opts.rotation || 0;
+    this.hasNoise = hasNoise;
+    this.sides = sides;
+    this.diameter = diameter;
+    this.center = center;
+    this.stroke = stroke;
+    this.fill = fill;
+    this.strokeStyle = strokeStyle;
+    this.colors = colors;
+    this.rotation = rotation;
+    this.amp = amp;
+    this.freq = freq; 
+    this.smoothness = smoothness; 
 
     if(this.fill) {
       while(this.colors.length < this.sides) {this.colors.push(ranRGB());}
@@ -41,25 +59,60 @@ class Polygon {
     this.hasChanged = true; 
   }
 
+  get shouldDraw() {
+    return this.hasChanged
+  }
+
+  generateHitBufferColors() {
+    return [...Array(this.sides)].map(_ => ranRGB()); 
+  }
+
+  rotateBy(deg) {
+    this.rotation += deg;
+    this.triangles = this.getTrianglesPoints(); 
+    this.hasChanged = true;
+  }
+
   rotateTo(deg) {
     this.rotation = deg;
     this.triangles = this.getTrianglesPoints(); 
     this.hasChanged = true;
   }
 
-  rotateToEase(deg, duration) {
+  rotateToEase(deg, duration, onComplete) {
     const rotateTransition = new CanvasTransition({
       startValue: this.rotation, 
       endValue: deg, 
       durationMs: duration, 
       fps: 60, 
-      onStep: res => {
-        this.rotation = res;
-        this.triangles = this.getTrianglesPoints(); 
-      }, 
+      onStep: res => {this.rotation = res}, 
+      onComplete: onComplete,
     })
-
     this.transitions.push(rotateTransition);
+  }
+
+  grow(startDiameter, endDiameter, duration, onComplete) {
+    const growTransition = new CanvasTransition({
+      startValue: startDiameter, 
+      endValue: endDiameter, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.diameter = res}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(growTransition);
+  }
+
+  changeSides(startSides, endSides, duration, onComplete) {
+    const growTransition = new CanvasTransition({
+      startValue: startSides, 
+      endValue: endSides, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.sides = res}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(growTransition);
   }
 
   updateTransitions = () => {
@@ -76,10 +129,7 @@ class Polygon {
       })
       this.hasChanged = true; 
     }
-  }
-
-  generateHitBufferColors() {
-    return [...Array(this.sides)].map(_ => ranRGB()); 
+    this.triangles = this.getTrianglesPoints(); 
   }
 
   getTrianglesPoints() {
@@ -106,18 +156,12 @@ class Polygon {
     return triangles;
   }
   
-  /**
-   * 
-   * @param {number} scale the scale factor to resize by
-   * @returns {function} draw - the draw function
-   */
   resize(scale) {
     this.center = new Point(this.center.x * scale.x, this.center.y * scale.y);
     this.diameter *= scale.x; 
     this.triangles = this.getTrianglesPoints();
+
     return (ctx, mousePos, time) => {
-      // Maps over the triangles that compose the shape
-      // and draws them all. 
       this.triangles.map((points, i) => {
         ctx.beginPath(); 
         ctx.moveTo(points[0].x, points[0].y);
@@ -129,79 +173,106 @@ class Polygon {
     }
   }
 
-  drawHidden(ctx, colors) {
-    if(colors) {
-      this.triangles.map((points, i) => {
-        ctx.beginPath(); 
+  // drawHidden(ctx, colors) {
+  //   if(colors) {
+  //     this.triangles.map((points, i) => {
+  //       ctx.beginPath(); 
   
-        // Draw triangle as three points
-        ctx.lineTo(points[0].x, points[0].y);
-        ctx.lineTo(points[1].x, points[1].y);
-        ctx.lineTo(points[2].x, points[2].y); 
+  //       // Draw triangle as three points
+  //       ctx.lineTo(points[0].x, points[0].y);
+  //       ctx.lineTo(points[1].x, points[1].y);
+  //       ctx.lineTo(points[2].x, points[2].y); 
   
-        // Fill points. 
-        ctx.fillStyle = colors[i]; 
-        ctx.strokeStyle = colors[i];    
-        ctx.lineWidth = 10;     
-        ctx.fill();
-        ctx.stroke();
-        ctx.closePath(); 
-      })
-    }
-  }
+  //       // Fill points. 
+  //       ctx.fillStyle = colors[i]; 
+  //       ctx.strokeStyle = colors[i];    
+  //       ctx.lineWidth = 10;     
+  //       ctx.fill();
+  //       ctx.stroke();
+  //       ctx.closePath(); 
+  //     })
+  //   }
+  // }
  
   update() {
-    // Checks the transitions to clear inactive,
-    // and update state of shape before drawing. 
     this.updateTransitions(); 
-  }
-  
-  // Returns true if something has changed since the last draw call. 
-  get shouldDraw() {
-    return this.hasChanged
   }
 
   draw(ctx, mousePos, tick) {
    
-    ctx.strokeStyle = this.strokeStyle
-    if(this.noise) {
+    if(this.strokeStyle) {
+      ctx.strokeStyle = this.strokeStyle;
+    }
+
+    if(this.hasNoise) {
       if(mousePos) {
         const distanceFromMouse = Math.hypot(mousePos.x - this.center.x, mousePos.y - this.center.y)
         this.magnitude = Math.round(distanceFromMouse / 1 * 2 / 50);
       }
     }
 
-    // Maps over the triangles that compose the shape
-    // and draws them all. 
     this.triangles.map((points, i) => {
       this.hasChanged = false; 
 
-      // Draws each triangle as an array of points with specified fill. 
       ctx.beginPath(); 
-
-      // console.log(Math.sin(tick));
-      let amp = 20;
-      let freq = 1 / 40;
 
       if(this.magnitude) {
         // console.log(this.magnitude)
       }
 
-      let t = 100; 
-      for(let i = 0; i < t; i++) {
-        // ctx.lineTo(this.center.x + i - (t / 2), this.center.y + slope(i, amp, freq + (tick / 1000)));
-        ctx.lineTo(this.center.x + i - (t / 2), this.center.y + slope(i, tick / 10, 20, freq));
-      }
+      // let t = 100; 
+      // for(let i = 0; i < t; i++) {
+      //   ctx.lineTo(this.center.x + i - (t / 2), this.center.y - 10 + slope(i, tick / 10, this.amp, this.freq));
+      // }
 
-      function slope(x, xOffset, amp, freq) {
-        return amp * Math.sin(x * freq + xOffset) 
-      }
+      // ctx.stroke();
+      // ctx.beginPath();
 
-      this.hasChanged = true; 
+      // for(let i = 0; i < t; i++) {
+      //   ctx.lineTo(this.center.x + i - (t / 2), this.center.y + 10 + slope(i, tick / 10, this.amp, this.freq));
+      // }
+      
+      
+      // function sinLine(ctx, start, end, numPoints, amp, freq, xOff) {
+      //   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+      //   // const lineEq = x => amp * Math.sin(x * freq + xOff);
 
-      if(this.noise) {
-        drawLerpLine(ctx, points[0], points[1], 5, this.magnitude); 
-        drawLerpLine(ctx, points[1], points[2], 5, this.magnitude); 
+      //   ctx.moveTo(start.x, start.y);
+      //   let xUnit = (end.x - start.x) / numPoints
+      //   let yUnit = (end.y - start.y) / numPoints
+
+      //   for(let i = 1; i <= numPoints; i++) {
+      //     let x = start.x + (xUnit * i) + (Math.sin(i) * amp / 50); 
+      //     let y = start.y + (yUnit * i) + (Math.sin(i) * amp / 50);
+      //     ctx.lineTo(x, y); 
+      //   }
+      // }
+
+      // function slope(x, xOffset, amp, freq) {
+      //   return amp * Math.sin(x * freq + xOffset) 
+      // }
+      
+
+      // export function drawLerpLine(ctx, start, end, numPoints = 1, magnitude = 5) {
+      //   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
+      //   ctx.moveTo(start.x, start.y);
+      //   let xUnit = (end.x - start.x) / numPoints
+      //   let yUnit = (end.y - start.y) / numPoints
+      //   for(let i = 1; i <= numPoints; i++) {
+      //     let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
+      //     let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
+      //     ctx.lineTo(x, y); 
+      //   }
+      // }
+
+      
+      // this.hasChanged = true; 
+
+      if(this.hasNoise) {
+        // sinLine(ctx, points[0], points[1], 20, this.magnitude * this.amp, this.freq); 
+        // sinLine(ctx, points[1], points[2], 20, this.magnitude * this.amp, this.freq); 
+        drawLerpLine(ctx, points[0], points[1], 5, this.magnitude * this.amp); 
+        drawLerpLine(ctx, points[1], points[2], 5, this.magnitude * this.amp); 
         ctx.lineTo(points[0].x, points[0].y);
         this.hasChanged = true; 
       }
@@ -223,8 +294,8 @@ class Polygon {
       if(this.fill) {
         ctx.fill(); 
       }
-      // ctx.closePath();  // Whether or not to draw the final path line. 
     })
+    // ctx.closePath();  // Whether or not to draw the final path line. 
   }
 }
 

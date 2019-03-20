@@ -164,8 +164,8 @@ export function clamp(size, limit) {
 */
 export function posToCanvas(pos, canvasRect) {
   return {
-    x: pos.clientX - canvasRect.left,
-    y: pos.clientY - canvasRect.top,
+    x: pos.x - canvasRect.left,
+    y: pos.y - canvasRect.top,
   }
 }
 
