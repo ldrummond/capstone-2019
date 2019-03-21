@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import $ from 'jquery'; 
 
-export default class Canvas extends Component {
+export default class Canvas extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -9,7 +9,6 @@ export default class Canvas extends Component {
     this.canvas = undefined;
     this.ctx = undefined; 
 
-    this.hoistContext = props.hoistContext;
     this.hoistCanvas = props.hoistCanvas || function(){}; 
   }
 
@@ -21,8 +20,7 @@ export default class Canvas extends Component {
     this.sizeCanvasRender(); 
 
     // Passes the context and canvas to the parent when the ref is defined. 
-    this.hoistContext(this.ctx); 
-    this.hoistCanvas(this.canvas); 
+    this.hoistCanvas(this.canvas, this.ctx); 
   }
 
   sizeCanvasRender = () => {
@@ -33,10 +31,6 @@ export default class Canvas extends Component {
     this.ctx = this.canvas.getContext('2d');
     // Scale all drawing operations by the dpr, so you don't have to worry about the difference.
     this.ctx.scale(this.dpr, this.dpr);
-  }
-
-  shouldComponentUpdate() {
-    return false 
   }
 
   render() {

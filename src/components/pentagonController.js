@@ -103,7 +103,7 @@ class Polygon {
     this.transitions.push(growTransition);
   }
 
-  changeSides(startSides, endSides, duration, onComplete) {
+  easeSides(startSides, endSides, duration, onComplete) {
     const growTransition = new CanvasTransition({
       startValue: startSides, 
       endValue: endSides, 
@@ -115,6 +115,18 @@ class Polygon {
     this.transitions.push(growTransition);
   }
 
+  easeStrokeBrightness(startBrightness, endBrightness, duration, onComplete) {
+    const fadeTransition = new CanvasTransition({
+      startValue: startBrightness, 
+      endValue: endBrightness, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.strokeStyle = `rgb(${res}, ${res}, ${res})`}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(fadeTransition);
+  }
+ 
   updateTransitions = () => {
     if(this.transitions.length > 0) {
       this.transitions = this.transitions.filter(transition => {

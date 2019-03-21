@@ -7,7 +7,7 @@
   .content
     width: 100%
     height: 100%
-    background: $loader
+    // background: $loader
 
     .pentagon-container
       position: absolute
@@ -19,5 +19,11 @@
   .texture
     width: 100%
     height: 100%
+    transition: transform $slow ease-out
+
+  &.state1
+    .texture
+      transform: translateY(-100%)
+    
 
   

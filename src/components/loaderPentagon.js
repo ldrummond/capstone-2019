@@ -59,13 +59,12 @@ export default class PentagonWheel extends Component {
       }
 
       let duration = 6000;
-      // this.pentagonController.grow(0, this.width / 2 - 5, duration, _ => {console.log('done')});
-      this.pentagonController.rotateToEase(360 + 18, duration); 
-      this.pentagonController.changeSides(3, 20, duration); 
+      this.pentagonController.rotateToEase(180 - 18, duration); 
+      // this.pentagonController.easeSides(3, 20, duration); 
 
       setTimeout(() => {
-        this.pentagonController.changeSides(20, 3, duration); 
-        this.pentagonController.rotateToEase(0, duration);
+        // this.pentagonController.easeSides(20, 3, duration); 
+        // this.pentagonController.rotateToEase(0, duration);
       }, (duration))
 
       this.setState({
@@ -76,9 +75,27 @@ export default class PentagonWheel extends Component {
     }
   }
 
+  componentDidUpdate() {
+    let duration = 6000;
+
+    switch(this.props.stateIndex) {
+      case 0: 
+        break; 
+
+      case 1:
+        // this.pentagonController.grow(0, this.width / 2 - 5, duration, _ => {console.log('done')});
+        break; 
+        
+      case 2:
+        this.pentagonController.easeStrokeBrightness(255, 0, 999); 
+        break;
+    }
+  }
+
   render() {
-    const hoistCanvas = _canvas => {
+    const hoistCanvas = (_canvas, _ctx) => {
       this.canvas = _canvas; 
+      this.ctx = _ctx; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
     return (
@@ -86,7 +103,6 @@ export default class PentagonWheel extends Component {
         <div className='pentagon-inner'>
           {(this.state.width && this.state.height) &&
             <CanvasBase 
-              hoistContext={_ctx => {this.ctx = _ctx}} 
               hoistCanvas={hoistCanvas}
             />
           }
