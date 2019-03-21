@@ -10,7 +10,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 function PageResolver({location, history}) {
   return(
     <TransitionGroup component={null}>
-      <CSSTransition key={location.pathname} timeout={{enter: 300, exit: 300}} classNames='fade'>
+      <CSSTransition key={location.pathname} timeout={{enter: 666, exit: 333}} classNames='fade'>
         <Switch location={location}>
           <Route exact path="/" component={LoaderPage} />
           <Route path="/selector" component={SelectorPage} />

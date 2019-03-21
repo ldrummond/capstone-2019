@@ -36,6 +36,23 @@
         position: absolute
         bottom: 30%
         left: 0%
+        .squiggle-container
+          position: absolute
+          top: 50%
+          left: 0
+          transform: translate(-125%, -50%)
+          fill: none
+          stroke: black
+          width: 140px
+          height: 100%
+          stroke-width: 3.5px
+          .squiggle
+            position: absolute
+            top: 50%
+            height: 100%
+            width: 90%
+            transform: translateY(-50%)
+
         .title
           pointer-events: none
           transition: transform $fast ease
@@ -48,7 +65,7 @@
           h4
             font-family: 'Helvetica', sans-serif
             display: inline
-            text-transform: uppercase
+            text-transform: percase
             font-weight: 200
             font-size: 14px
             letter-spacing: 0.08em
@@ -73,48 +90,33 @@
     .option-container
       .option-inner
         // // transform-origin: -200px 50%
-        &.rotateUp-exit
+        &.rotate-exit
           .title
             opacity: 1 
             transform: translateY(0)
-            transition: transform $fast ease, opacity $fast ease
+            transition: transform $fast ease, 200ms opacity 30ms ease
           .subtitle
             opacity: 0
+          .squiggle
+            display: none
 
-        &.rotateUp-exit.rotateUp-exit-active
+        &.rotate-exit.rotate-exit-active
           .title
-            transform: translateY(20px)
+            transform: translateY(-10px)
             opacity: 0
 
-        &.rotateUp-enter
+        &.rotate-enter
           .title
             opacity: 0
             transition: $med transform $med ease, $fast opacity $fast ease
 
-        &.rotateUp-enter.rotateUp-enter-active
+        &.rotate-enter.rotate-enter-active
           .title
             opacity: 1
-        
-        &.rotateDown-exit
-          .title
-            opacity: 1 
-            transform: translateY(0)
-            transition: transform $fast ease, opacity $fast ease
-          .subtitle
-            opacity: 0
-
-        &.rotateDown-exit.rotateDown-exit-active
-          .title
-            transform: translateY(-20px)
-            opacity: 0
-
-        &.rotateDown-enter
-          .title
-            opacity: 0
-            transition: $med transform $med ease, $fast opacity $fast ease
-
-        &.rotateDown-enter.rotateDown-enter-active
-          .title
-            opacity: 1
-
-  
+     
+  &.fade-exit
+    .option-container
+      transition: $fast transform ease-out
+  &.fade-exit-active
+    .option-container
+      transform: translateX(-100%)
