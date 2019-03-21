@@ -251,3 +251,18 @@ export function drawSimplexLine(ctx, start, end, numPoints = 1, simplex, time, m
   }
 }
 
+//////////////////////////////////////////////////
+//
+// Event Functions
+//
+//////////////////////////////////////////////////
+
+export function throttle(callback = _ => {}, prevTime = 0, delay = 0) {
+  return _ => {
+    if((Date.now() - prevTime) > delay) {
+      callback(); 
+      return true
+    }
+    return false
+  }
+}

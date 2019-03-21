@@ -6,7 +6,7 @@ import RafController from '../components/rafController'
 import data from '../data/data'
 import { mergeObjects, clamp } from './helperFunctions';
 
-export default class PentagonWheel extends Component {
+export default class SelectorPentagon extends Component {
   constructor(props) {
     super(props);
 
@@ -21,7 +21,8 @@ export default class PentagonWheel extends Component {
   }
 
   componentDidMount() {
-    if(this.pentagonRef) {
+    console.log('mount')
+    if(this.pentagonRef.current) {
       this.pentagon = this.pentagonRef.current; 
       this.width = $(this.pentagon).width();
       this.height = $(this.pentagon).height();
@@ -31,7 +32,7 @@ export default class PentagonWheel extends Component {
 
       const defaultOptions = {
         center: this.center,
-        diameter: clamp(this.width / 2, 200),
+        diameter: this.width / 2.5,
         colors: this.colors,
         rotation: -(360 / 5 * this.wheelIndex) + 108,
         sides: 5
@@ -59,13 +60,6 @@ export default class PentagonWheel extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    if(this.state.mounted) {
-      this.wheelIndex = nextProps.wheelIndex;
-      this.pentagonController.rotateToEase(-(360 / 5 * this.wheelIndex) + 108, 666);
-    }
-  }
-
   onMouseMove = (e) => {
     if(this.canvasRect && this.rafController && this.rafController.ticker % 4 == 0) {
       this.mousePos.x = e.clientX - this.canvasRect.left;
@@ -74,16 +68,23 @@ export default class PentagonWheel extends Component {
   }
 
   render() {
-    const hoistCanvas = _canvas => {
+    if(this.pentagonController) {
+      this.pentagonController.rotateTo(-(360 / 5 * this.wheelIndex) + 108);
+      this.pentagonController.rotateToEase(-(360 / 5 * this.props.wheelIndex) + 108, 666);
+      this.wheelIndex = this.props.wheelIndex;
+    } 
+
+    const hoistCanvas = (_canvas, _ctx) => {
       this.canvas = _canvas; 
+      this.ctx = _ctx; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
+
     return (
       <div className='pentagon-container' ref={this.pentagonRef}>
         <div className='pentagon-inner'>
           {(this.state.width && this.state.height) &&
             <CanvasBase 
-              hoistContext={_ctx => {this.ctx = _ctx}} 
               hoistCanvas={hoistCanvas}
             />
           }

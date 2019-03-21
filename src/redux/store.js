@@ -57,10 +57,20 @@ function systemsReducer(state = [], action) {
       return {...state, aboutVisible: true}; 
 
     case 'WHEEL_UP':
-      return {...prevSystemState(state), wheelIndex: state.wheelIndex + 1, prevWheelIndex: state.wheelIndex};
+      return {
+        ...prevSystemState(state), 
+        wheelIndex: state.wheelIndex + 1, 
+        prevWheelIndex: state.wheelIndex,
+        lastChange: Date.now(),
+      };
 
     case 'WHEEL_DOWN':
-      return {...nextSystemState(state), wheelIndex: state.wheelIndex - 1, prevWheelIndex: state.wheelIndex};
+      return {
+        ...nextSystemState(state), 
+        wheelIndex: state.wheelIndex - 1, 
+        prevWheelIndex: state.wheelIndex,
+        lastChange: Date.now(), 
+      };
     
     default:
       return state
@@ -78,7 +88,8 @@ export default function createStoreFromPath(path = 'traffic', _aboutVisible = fa
   const initialState = {
     aboutVisible: _aboutVisible, 
     wheelIndex: 0,
-    prevWheelIndex: 0 
+    prevWheelIndex: 0,
+    lastChange: Date.now(),
   }
   return createStore(systemsReducer, stateFromPath(initialState, path)); 
 } 
