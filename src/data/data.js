@@ -76,7 +76,7 @@ export default {
       icon: crowdIcon, 
     },
     {
-      path: "slime", 
+      path: "mold", 
       systemPart: "Cell", 
       systemWhole: "Mold", 
       coverImage: {
