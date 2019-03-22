@@ -1,4 +1,9 @@
 
+$simulation-border: 1px solid rgba(255,255,255,0.2)
+
+.navbar
+  border-bottom: $simulation-border
+
 // SCOPED through page name
 .page-wrapper.simulation-page
   position: absolute
@@ -22,6 +27,30 @@
       border-radius: 50%
       border: 1px solid rgba(255,255,255,0.8)
       pointer-events: none
+
+  .backgrounds
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
+    .color,
+    .texture
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+
+    .color
+      opacity: 0.8
+
+    .texture
+      background: url('../assets/texture-small.png')
+      background-size: 10px 10px
+      opacity: 0.2
+      z-index: -1
 
   .overlay
     position: absolute
@@ -63,6 +92,8 @@
       flex-direction: column
       justify-content: space-between
       color: $sim-color
+      margin-top: $nav-height
+      border-right: $simulation-border
 
       .index
         display: block
@@ -108,7 +139,7 @@
       margin-left: gutter(1 of 16)
       overflow: hidden
       opacity: 1
-      box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.1)
+      // box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.1)
   
       .simulation-canvas
         width: 100%

@@ -17,18 +17,10 @@
 //////////////////////////////////////////////////
 
 .svg-outline-container
+  display: block
   position: relative
   min-width: 10px
   min-height: 10px
-
-  .active-area
-    display: block
-    position: absolute
-    top: -5px
-    left: -5px
-    right: -5px
-    bottom: -5px
-    z-index: 10
 
   .svg-outline
     position: absolute
@@ -55,23 +47,37 @@
       height: 100%
       width: 100%
 
-  .active-area:hover 
+  .hovering &
     cursor: pointer
-    & ~
-      .fill-container
+    .fill-container
+      transition: transform 222ms ease-out
+      transform: translateY(0)
+      .svg-fill
         transition: transform 222ms ease-out
         transform: translateY(0)
-        .svg-fill
-          transition: transform 222ms ease-out
-          transform: translateY(0)
 
+//////////////////////////////////////////////////
+//
+// Button Wrapper
+// 
+//////////////////////////////////////////////////
+
+.button-wrapper
+  position: relative
+  .active-area
+    cursor: pointer
+    position: absolute
+    left: -10%
+    top: -10%
+    width: 120%
+    height: 120%
+    z-index: 10
 
 //////////////////////////////////////////////////
 //
 // Pentagon Wheel
 // 
 //////////////////////////////////////////////////
-
 
 // Forces porportionality 
 .pentagon-container
