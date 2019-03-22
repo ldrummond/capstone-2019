@@ -9,13 +9,23 @@ import { CanvasTransition, strokeCircle } from '../components/helperFunctions'
 //////////////////////////////////////////////////
 
 export default class CursorController {
-  constructor(options = {}) {
-    const {color, shape, width, clearFrames, x = -10, y = -10} = options; 
+  constructor(opts = {}) {
+    const {
+      color, 
+      shape, 
+      width, 
+      clearFrames, 
+      x = -10, 
+      y = -10,
+      maxSpeed = 2, 
+    } = opts; 
 
     this.mousePos = {
       x: x,
       y: y,
     }
+
+    console.log(opts)
 
     this.initialColor = color; 
     this.color = color; 
@@ -25,7 +35,7 @@ export default class CursorController {
     this.boid = new Boid();
     this.boid.position.x = this.mousePos.x; 
     this.boid.position.y = this.mousePos.y;
-    this.boid.maxSpeed = 2;
+    this.boid.maxSpeed = maxSpeed;
     this.boid.velocity.x = 1;
     this.boid.velocity.y = 1;
     this.boid.edgeBehavior = 'EDGE_NONE';

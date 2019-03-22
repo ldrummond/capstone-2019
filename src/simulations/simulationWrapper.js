@@ -5,7 +5,8 @@ import RafController from '../components/rafController'
 import SimulationController from './simulationController'
 import { mergeObjects } from '../components/helperFunctions'
 import { defaultSettings, prettyDrawingSettings, trafficSettings, colonySettings, 
-  schoolSettings, crowdsSettings, slimeSettings } from './simulationSettings'
+  schoolSettings, crowdsSettings, moldSettings } from './simulationSettings'
+import classnames from 'classnames';
 
 //////////////////////////////////////////////////
 //
@@ -22,35 +23,41 @@ export default class SimulationWrapper extends Component {
       height: false,
     }
 
-    this.simulationType = props.path; 
     this.simulationRef = React.createRef();
     this.cursorIconRef = React.createRef(); 
-    this.hoistContext = _ctx => {
+    
+    this.hoistCanvas = (_canvas, _ctx) => {
       this.ctx = _ctx;
-    }
-    this.hoistCanvas = _canvas => {
       this.canvas = _canvas; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
-
+    
+    this.simulationType = props.path; 
     switch(this.simulationType) {
       case 'traffic':
         this.currentSettings = mergeObjects(defaultSettings, trafficSettings);
+        break;
 
       case 'colony':
         this.currentSettings = mergeObjects(defaultSettings, colonySettings);
+        break;
 
       case 'school':
         this.currentSettings = mergeObjects(defaultSettings, schoolSettings);
+        break;
 
-      case 'crowds':
+      case 'crowd':
         this.currentSettings = mergeObjects(defaultSettings, crowdsSettings);
+        break;
 
-      case 'slime':
-        this.currentSettings = mergeObjects(defaultSettings, slimeSettings);
+      case 'mold':
+        this.currentSettings = mergeObjects(defaultSettings, moldSettings);
+        break;
+
+      default: 
+        console.error('Simulation type does not match setting.');
+        break;      
     }
-
-    // this.currentSettings = mergeObjects(defaultSettings, prettyDrawingSettings);
 
     this.styles = {
       cursor: this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
@@ -67,9 +74,9 @@ export default class SimulationWrapper extends Component {
 
   createSimulation(settings) {
     return new SimulationController({
-      boidCount: settings.boidCount,
       width: this.width,
       height: this.height,
+      boidCount: settings.boidCount,
       simulationType: settings.simulationType,
       cursorBoidSettings: settings.cursorBoidSettings, 
       boidSettings: settings.boidSettings,
@@ -89,7 +96,7 @@ export default class SimulationWrapper extends Component {
       this.simRect = this.simulation.getBoundingClientRect(); 
 
       // Creates the simulation and defines this.rafController. 
-      this.rafController = this.createRaf(this.currentSettings.rafSettings);
+      this.rafController = new RafController(this.currentSettings.rafSettings);
       this.simulationController = this.createSimulation(this.currentSettings.simulationSettings);
 
       // Uses the rafController to execute the sim at a specified frame rate. 
@@ -134,7 +141,7 @@ export default class SimulationWrapper extends Component {
   render() {
     return (
       <div 
-        className={`simulation-canvas ${this.props.path}`} 
+        className={classnames('simulation-canvas', this.props.path)} 
         ref={this.simulationRef} 
         onMouseMove={this.onMouseMove}
         onClick={this.onMouseClick}
@@ -144,7 +151,7 @@ export default class SimulationWrapper extends Component {
       >
         {/* <div className='cursorIcon' ref={this.cursorIconRef} ></div> */}
         {this.state.width && this.state.height &&
-          <CanvasBase hoistContext={this.hoistContext} hoistCanvas={this.hoistCanvas}/>
+          <CanvasBase hoistCanvas={this.hoistCanvas}/>
         }
       </div>    
     );

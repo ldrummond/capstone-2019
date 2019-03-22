@@ -8,18 +8,34 @@ import Boid from 'boid'; // import $ from 'jquery';
 //////////////////////////////////////////////////
 
 export default class BoidPoolController {
-  constructor(options = {}) {
-    const {boidCount = 40, width = 100, height = 100, x = 0, y = 0} = options; 
+  constructor(opts = {}) {
+    const {
+      boidCount = 40,
+      width = 100, 
+      height = 100, 
+      x = 0, 
+      y = 0,
+      maxSpeed,
+      maxDistance,
+      minDistance,
+      avoidDistance,
+    } = opts; 
 
     this.center = Boid.vec2(width / 2,height / 2);
     this.boidPool = []; 
-    this.boidCount = boidCount;
-    this.width = width;
-    this.height = height; 
     this.x = x;
     this.y = y;
 
-    this.state = "flock"; 
+    // Custom settings
+    this.boidCount = boidCount;
+    this.width = width;
+    this.height = height; 
+    this.maxSpeed = maxSpeed; 
+    this.maxDistance = maxDistance;
+    this.minDistance = minDistance; 
+    this.avoidDistance = avoidDistance; 
+
+    this.state = "school"; 
     this.target = Boid.vec2(0, 0);
     this.chaser = Boid.vec2(0, 0);
     this.avoidDistance = 80;
@@ -37,6 +53,11 @@ export default class BoidPoolController {
       boid.position.y = (this.height / 2) * Math.random() + this.height / 4;
       boid.velocity.x = 20 * Math.random() - 10;
       boid.velocity.y = 20 * Math.random() - 10;
+
+      boid.maxSpeed = this.maxSpeed;
+      boid.maxDistance = this.maxDistance;
+      boid.minDistance = this.minDistance; 
+
       this.boidPool.push(boid);
     }
   }
@@ -141,9 +162,7 @@ export default class BoidPoolController {
     this.avoidDistance = 80; 
     this.boidPool.map(boid => {
       boid.minDistance = 30;
-      boid.mass = 1;
       boid.maxSpeed = 3;
-      boid.maxForce = 1;
       boid.maxDistance = 80;
     })
   }

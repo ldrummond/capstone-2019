@@ -5,6 +5,38 @@
 //
 //////////////////////////////////////////////////
 
+// let rotation = boid.velocity.angle + Math.PI / 2
+    // console.log(rotation)
+    // ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3)
+    // ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+    // ctx.strokeRect(boid.position.x, boid.position.y, 10, 10);
+
+let trafficBoidDrawFn = (ctx, boid) => {
+  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+}
+
+let colonyBoidDrawFn = (ctx, boid) => {
+  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+}
+
+let schoolBoidDrawFn = (ctx, boid) => {
+  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+}
+
+let crowdBoidDrawFn = (ctx, boid) => {
+  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+}
+
+let moldBoidDrawFn = (ctx, boid) => {
+  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+}
+
+
 // Simulation settings
 export const defaultSettings = {
   simulationType: 'traffic',
@@ -18,6 +50,9 @@ export const defaultSettings = {
       clearFrames: true, 
       color: 'black',
       width: 4,
+      onClick: _ => {
+
+      },
     },
     boidSettings: {
       isVisible: true,
@@ -28,7 +63,10 @@ export const defaultSettings = {
       maxSpeed: 5,
       shape: 'line',
       color: 'white',
-      width: 2
+      width: 2,
+      drawFn: (ctx, boid) => {
+        ctx.strokeRect(boid.position.x, boid.position.y, 5, 5);
+      },
     }
   }
 }
@@ -67,21 +105,149 @@ export const prettyDrawingSettings = {
 }
 
 export const trafficSettings = {
-
+  // simulationType: 'traffic',
+  // rafSettings: {fps: 60},
+  // simulationSettings: {
+  //   cursorBoidSettings: {
+  //     isVisible: undefined,
+  //     cursorVisible: true,
+  //     clearFrames: undefined, 
+  //     color: undefined,
+  //     width: undefined,
+  //     maxSpeed: undefined,
+  //   },
+  //   boidSettings: {
+  //     isVisible: undefined,
+  //     clearFrames: undefined, 
+  //     drawActiveBounds: undefined, 
+  //     count: undefined, 
+  //     minDistance: undefined,
+  //     maxSpeed: undefined,
+  //     maxDistance: undefined,
+  //     avoidDistance: undefined, 
+  //     shape: undefined,
+  //     color: undefined,
+  //     width: undefined,
+  //     drawFn: colonyBoidDrawFn, 
+  //   }
+  // }
 }
 
 export const colonySettings = {
-
+  simulationType: 'colony',
+  rafSettings: {fps: 60},
+  simulationSettings: {
+    cursorBoidSettings: {
+      isVisible: undefined,
+      cursorVisible: undefined,
+      clearFrames: undefined, 
+      color: undefined,
+      width: undefined,
+      maxSpeed: undefined,
+    },
+    boidSettings: {
+      isVisible: undefined,
+      clearFrames: undefined, 
+      drawActiveBounds: undefined, 
+      count: undefined, 
+      minDistance: undefined,
+      maxSpeed: undefined,
+      maxDistance: undefined,
+      avoidDistance: undefined, 
+      shape: undefined,
+      color: undefined,
+      width: undefined,
+      drawFn: colonyBoidDrawFn, 
+    }
+  }
 }
 
 export const schoolSettings = {
-
+  simulationType: 'school',
+  rafSettings: {fps: 60},
+  simulationSettings: {
+    cursorBoidSettings: {
+      isVisible: true,
+      cursorVisible: true,
+      clearFrames: true, 
+      color: 'black',
+      width: 4,
+      maxSpeed: 3,
+    },
+    boidSettings: {
+      isVisible: true,
+      clearFrames: true, 
+      drawActiveBounds: false, 
+      count: 50, 
+      minDistance: 30,
+      maxSpeed: 3,
+      maxDistance: 80,
+      avoidDistance: 80, 
+      shape: 'line',
+      color: 'white',
+      width: 2,
+      drawFn: schoolBoidDrawFn, 
+    }
+  }
 }
+
+
 
 export const crowdsSettings = {
-
+  simulationType: 'crowd',
+  rafSettings: {fps: 60},
+  simulationSettings: {
+    cursorBoidSettings: {
+      isVisible: undefined,
+      cursorVisible: undefined,
+      clearFrames: undefined, 
+      color: undefined,
+      width: undefined,
+      maxSpeed: undefined,
+    },
+    boidSettings: {
+      isVisible: undefined,
+      clearFrames: undefined, 
+      drawActiveBounds: undefined, 
+      count: undefined, 
+      minDistance: undefined,
+      maxSpeed: undefined,
+      maxDistance: undefined,
+      avoidDistance: undefined, 
+      shape: undefined,
+      color: undefined,
+      width: undefined,
+      drawFn: colonyBoidDrawFn, 
+    }
+  }
 }
 
-export const slimeSettings = {
-
+export const moldSettings = {
+  simulationType: 'mold',
+  rafSettings: {
+    fps: 60,
+  },
+  simulationSettings: {
+    cursorBoidSettings: {
+      isVisible: true,
+      cursorVisible: true,
+      clearFrames: true, 
+      color: 'black',
+      width: 4,
+      maxSpeed: 3,
+    },
+    boidSettings: {
+      isVisible: true,
+      clearFrames: true, 
+      drawActiveBounds: false, 
+      count: 50, 
+      maxSpeed: 0.2,
+      minDistance: 300, 
+      maxDistance: 100, 
+      shape: 'line',
+      color: 'white',
+      width: 2,
+      drawFn: moldBoidDrawFn, 
+    }
+  }
 }

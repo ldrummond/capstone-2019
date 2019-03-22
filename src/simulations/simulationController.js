@@ -13,7 +13,7 @@ import { mergeObjects } from '../components/helperFunctions';
 export default class SimulationController {
   constructor(options = {}) {
     let {
-      simulationType = 'colony', 
+      simulationType, 
       width,
       height,
       padding = {width: 0, height: 0},
@@ -29,6 +29,7 @@ export default class SimulationController {
       this.createBoidPoolController(boidSettings);
       this.boidSettings = boidSettings; 
       this.clearBoidFrames = boidSettings.clearFrames; 
+      this.boidDrawFn = boidSettings.drawFn; 
     }
 
     // Creates the cursor controller. 
@@ -55,19 +56,21 @@ export default class SimulationController {
 
   createBoidPoolController(boidSettings) {
     this.boidPoolController = new BoidPoolController({
-      boidCount: boidSettings.boidCount,
-      maxSpeed: boidSettings.maxSpeed, 
       width: this.bounds.width, 
       height: this.bounds.height, 
       x: this.bounds.x,
       y: this.bounds.y,
+      boidCount: boidSettings.count,
+      maxSpeed: boidSettings.maxSpeed, 
+      maxDistance: boidSettings.maxDistance, 
+      minDistance: boidSettings.minDistance, 
     })
-    this.boidPoolController.setStateSchool();
+    // this.boidPoolController.setStateSchool();
   }
 
   createCursorBoid(cursorBoidSettings) {
     this.cursorController = new CursorController(
-      mergeObjects(cursorBoidSettings, {x: this.bounds.width / 2, y: this.bounds.height / 2})
+      {...cursorBoidSettings, ...{x: this.bounds.width / 2, y: this.bounds.height / 2}}
     ); 
   }
 
@@ -89,14 +92,6 @@ export default class SimulationController {
     } else if (position.y < this.minY) {
       this.minY = position.y; 
     }
-  }
-
-  drawBoid(ctx, boid) {
-    // let rotation = boid.velocity.angle + Math.PI / 2
-    // console.log(rotation)
-    ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3)
-    ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
-    // ctx.strokeRect(boid.position.x, boid.position.y, 10, 10);
   }
 
   step(ctx, mousePos) {
@@ -131,7 +126,7 @@ export default class SimulationController {
       this.boidPoolController.boidPool.map(boid => {
         this.updateFn(boid); 
         this.updateBounds(boid.position); 
-        this.drawBoid(ctx, boid); 
+        this.boidDrawFn(ctx, boid); 
       });
 
       ctx.stroke(); 
@@ -146,13 +141,13 @@ export default class SimulationController {
   }
 
   onClick() {
-    this.cursorController.onClick();
+    // this.cursorController.onClick();
     // this.boidPoolController.onClick(); 
   }
 
   onMouseLeave() {
     if(this.cursorController) {
-      this.cursorController.pause(); 
+      // this.cursorController.pause(); 
     }
   }
   
