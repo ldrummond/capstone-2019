@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
  
   return (
     <div className={classes}>
-      <Link className='back-link' to='/selector'>{process.env.REACT_APP_PROJECT_TITLE}</Link>
+      <Link className='back-link unbuttoned' to='/selector'>{process.env.REACT_APP_PROJECT_TITLE}</Link>
       <button className='about-link unbuttoned' onClick={onAboutClick}>About</button>
     </div>
   )

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
-// import $ from 'jquery'; 
 import { connect } from 'react-redux'
-// import Pixi from '../components/pixi'; 
-import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
+import {Link} from 'react-router-dom'
 import SimulationWrapper from '../simulations/simulationWrapper';
-// import RafController from '../components/rafController';
-import instructionPng from '../assets/instructionPng.png';
+import classnames from 'classnames'; 
+import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import { SimpleFade } from '../components/fadeWrapper';
+import SvgOutline from '../components/svgOutline';
+import ButtonWrapper from '../components/buttonWrapper'
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
-import { SvgOutline } from '../components/svgOutline'
+import instructionPng from '../assets/instructionPng.png';
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -25,7 +24,7 @@ class SimulationPage extends Component {
   componentDidMount() {
     setTimeout(_ => {
       this.setState({showOverlay: false})
-    }, 4000)
+    }, 0)
   }
 
   // onMouseMove = (e) => {
@@ -51,27 +50,36 @@ class SimulationPage extends Component {
       path : nextPath = 'test'
     } = nextSystem; 
 
+    console.log(`#80${color.split('#')[1]}`)
+
+    function alphaHex(hex, alpha) {
+      return `#${alpha}${hex.split('#')[1]}`
+    }
+
     const styles = {
       background: color, 
     }
 
-    const mouseX = this.state.mouseX,
-      mouseY = this.state.mouseY; 
+    // const mouseX = this.state.mouseX,
+    //   mouseY = this.state.mouseY; 
 
     return (
-      <div className={`page-wrapper simulation-page ${path}`} onMouseMove={this.onMouseMove}>
+      <div className={classnames('page-wrapper', 'simulation-page', path)} onMouseMove={this.onMouseMove}>
         {/* <div className='pseudoCursor' style={{transform: `translate(${mouseX}px, ${mouseY}px)`}}></div> */}
         {/* <SimpleFade in={this.state.showOverlay} duration={333}> */}
-          {this.state.showOverlay && <span className='overlay'>
-            <span className='inner'>
-              <h3 className='title'>{instructions}</h3>
-              <span className='instruction-graphic'>
-                <img src={instructionPng} />
-              </span>
+        {this.state.showOverlay && <span className='overlay'>
+          <span className='inner'>
+            <h3 className='title'>{instructions}</h3>
+            <span className='instruction-graphic'>
+              <img src={instructionPng} />
             </span>
-          </span>}
-        {/* </SimpleFade> */}
-        <span className='content' >
+          </span>
+        </span>}
+        <span className='backgrounds'>
+          <div className='color' style={styles}></div>
+          <div className='texture'></div>
+        </span>
+        <span className='content'>
           <section className='description-panel'>
             <span>
               <h3 className='index'>{index + 1}/5</h3>
@@ -88,13 +96,13 @@ class SimulationPage extends Component {
               </Link> 
             </span>
           </section>
-          <span className='simulation-panel' style={styles}>
+          <span className='simulation-panel'>
             <SimulationWrapper {...curSystem}/>
-            <button className='next-sim unbuttoned' onClick={onNextClick}>
+            <ButtonWrapper className='next-sim' onClick={onNextClick}>
               <h4>next</h4>
               <h3>{nextPath}</h3>
               <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
-            </button>
+            </ButtonWrapper>
           </span>
         </span>
       </div>    

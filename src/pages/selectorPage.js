@@ -5,7 +5,8 @@ import { ReactComponent as Squiggle } from '../assets/squiggle.svg';
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import SelectorPentagon from '../components/selectorPentagon';
-import { SvgOutline } from '../components/svgOutline';
+import SvgOutline  from '../components/svgOutline';
+import ButtonWrapper from '../components/buttonWrapper';
 import { throttle } from '../components/helperFunctions'; 
 
 class SelectorPage extends Component {
@@ -21,8 +22,12 @@ class SelectorPage extends Component {
         <span className='content'>
           <SelectorPentagon wheelIndex={wheelIndex}/>
           <span className='arrows-container'>
-            <SvgOutline component={Arrow} onClick={throttle(onPrevClick, lastChange, 666)} color='black'/>
-            <SvgOutline component={Arrow} onClick={throttle(onNextClick, lastChange, 666)} color='black' style={{transform: 'rotate(180deg)'}}/>
+            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 666)}>
+              <SvgOutline component={Arrow}  color='black'/>
+            </ButtonWrapper>
+            <ButtonWrapper onClick={throttle(onNextClick, lastChange, 666)}>
+              <SvgOutline component={Arrow}  color='black' style={{transform: 'rotate(180deg)'}}/>
+            </ButtonWrapper>
           </span>
             <span className='option-container'>
               <TransitionGroup component={null}>
