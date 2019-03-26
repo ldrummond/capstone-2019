@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
 import LoaderPentagon from '../components/loaderPentagon'
-import loaderTexture from '../assets/dark-texture.png'; 
+import loaderTexture from '../assets/backgroundTest.jpg'; 
 import classnames from 'classnames'; 
+import data from '../data/data';
 
-export default class LoaderPage extends Component {
+export default class AboutPage extends Component {
   constructor(props) {
     super(props)
 
@@ -16,17 +17,8 @@ export default class LoaderPage extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(() => {
-    //   this.setState({loaded: true})
-    //   setTimeout(() => {
-    //     this.loaderPentagon.
-    //   }, 500);
-
-    // }, (4000));
-
-
-    setInterval(
-      _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
+    this.stateInterval = setInterval(
+     _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
     4000);
   }
 
@@ -34,11 +26,18 @@ export default class LoaderPage extends Component {
     this.mousePos.x = e.clientX;
     this.mousePos.y = e.clientY; 
   }
+  
+  componentWillUnmount() {
+    clearInterval(this.stateInterval);
+  }
 
   render() {
     let states = [];
     for(let i = 0; i < this.state.stateIndex; i++) {
       states.push(`state${i}`);  
+    }
+    if(this.state.stateIndex > 5) {
+      clearInterval(this.stateInterval);
     }
 
     if(this.state.shouldRedirect) {
@@ -48,13 +47,18 @@ export default class LoaderPage extends Component {
     }
     return (
       <div 
-        className={classnames('page-wrapper', 'loader-page', states)} 
+        className={classnames('page-wrapper', 'about-page', states)} 
         onMouseMove={this.onMouseMove}
       >
         <div className='content'>
-          <img className='texture' src={loaderTexture}></img>
+          <h2 className='site-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
           <LoaderPentagon mousePos={this.mousePos} stateIndex={this.state.stateIndex}/>
-          {/* <span className='texture'></span> */}
+          <img className='texture' src={loaderTexture}></img>
+          <div className='pattern'></div>
+          <section className='text-container'>
+            <h5>01</h5>
+            <p>{data.description[0]}</p>
+          </section>
         </div>
       </div>       
     );

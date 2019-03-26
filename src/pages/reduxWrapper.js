@@ -30,15 +30,19 @@ class ReduxWrapper extends Component{
     this.store = createStoreFromPath(simulationPath, params.about); 
   }
 
+  componentWillReceiveProps() {
+   this.prevLocation = this.props.location;
+  }
+
   render() {
-    let {location, history} = this.props; 
+    let {location, history, match} = this.props; 
     return(
       <Provider store={this.store}>
           <div className='app'>
-            <Route path='/(selector|transition|simulation|about)' component={NavResolver}></Route>
-            <AboutResolver location={location} history={history}/>
-            <PageResolver location={location} history={history}/>
+            <NavResolver prevLocation={this.prevLocation} location={location} component={NavResolver}/>
+            <PageResolver location={location}/>
             <BackgroundResolver location={location}/>
+            {/* <AboutResolver location={location} history={history}/> */}
           </div>
       </Provider>
     )

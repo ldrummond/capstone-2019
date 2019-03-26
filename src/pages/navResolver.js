@@ -1,51 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
  function NavResolver(props) {
-  let { history, aboutVisible = false, showAbout, hideAbout, match = {params: ['']}} = props; 
+  let { history, aboutVisible = false, prevLocation, location} = props; 
 
-  // const thinArrow = 
-  //   (<svg className='thin-arrow' viewBox="0 0 35 13">
-  //     <line className="line" x1="25" y1="6.8" x2="0.76" y2="6.8"/>
-  //     <polyline className="point" points="8.19 0.38 0.76 6.8 8.19 13.23"/>
-  //   </svg>)
+  let routeIsAbout = (location && location.pathname === '/about'); 
+  let aboutDestination = '/about'; 
 
-  // let pageType = match.params[0]; 
- 
-  let classes = 'navbar'; 
-
-  let onAboutClick = _ => showAbout(history)
-  if(aboutVisible) {
-    classes += ' light'; 
-    onAboutClick = _ => hideAbout(history)
+  if(routeIsAbout && typeof(prevLocation) !== 'undefined') {
+    aboutDestination = prevLocation.pathname
+  } 
+  else if (routeIsAbout) {
+    aboutDestination = '/selector';
   }
 
- 
   return (
-    <div className={classes}>
+    <div 
+      className={
+        classnames(
+          'navbar', 
+          'active', 
+          `${location.pathname.split('/')[1]}-page`, 
+          {light: location.pathname === '/about'}
+      )}
+    >
       <Link className='back-link unbuttoned' to='/selector'>{process.env.REACT_APP_PROJECT_TITLE}</Link>
-      <button className='about-link unbuttoned' onClick={onAboutClick}>About</button>
+      <Link className='about-link unbuttoned' to={aboutDestination}>About</Link>
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  return {aboutVisible: state.aboutVisible}
-}
+export default NavResolver
 
-const mapDispatchToProps = dispatch => {
-  return {
-    hideAbout: history => {
-      dispatch({type: 'HIDE_ABOUT'});
-      history.push({search: ''});
-      window.scrollTo(0, 0);
-    },
-    showAbout: history => {
-      dispatch({type: 'SHOW_ABOUT'});
-      history.push({search: '?about=true'});
-    }
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavResolver)
+
+
+// const mapStateToProps = state => {
+//   return {aboutVisible: state.aboutVisible}
+// }
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     // hideAbout: history => {
+//     //   dispatch({type: 'HIDE_ABOUT'});
+//     //   history.push({search: ''});
+//     //   window.scrollTo(0, 0);
+//     // },
+//     // showAbout: history => {
+//     //   dispatch({type: 'SHOW_ABOUT'});
+//     //   history.push({search: '?about=true'});
+//     // }
+//   }
+// }
