@@ -29,14 +29,14 @@ export function CanvasTransition({startValue = 0, endValue = 1, durationMs = 200
   this.currentValue = startValue;
   this.currentSinValue = 0;
   
-  this.step = () => {
+  this.step = (...args) => {
     this.currentSinValue += this.sinValueIncrement;
     this.currentValue += this.valueIncrement * (Math.sin(this.currentSinValue) ** 2) * 2;
     
     if (this.currentSinValue < Math.PI) {
-      onStep(this.currentValue);
+      onStep(this.currentValue, ...args);
     } else {
-      onStep(endValue);
+      onStep(endValue, ...args);
       onComplete();
       this.isDone = true; 
     }
