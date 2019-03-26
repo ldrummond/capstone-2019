@@ -22,10 +22,10 @@ class SelectorPage extends Component {
         <span className='content'>
           <SelectorPentagon wheelIndex={wheelIndex}/>
           <span className='arrows-container'>
-            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 666)}>
+            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)}>
               <SvgOutline component={Arrow}  color='black'/>
             </ButtonWrapper>
-            <ButtonWrapper onClick={throttle(onNextClick, lastChange, 666)}>
+            <ButtonWrapper onClick={throttle(onNextClick, lastChange, 500)}>
               <SvgOutline component={Arrow}  color='black' style={{transform: 'rotate(180deg)'}}/>
             </ButtonWrapper>
           </span>
