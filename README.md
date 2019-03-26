@@ -95,6 +95,8 @@ This project is built with [React](https://reactjs.org/) and bootstrapped with [
 - [Create React App](https://github.com/facebook/create-react-app)
 - [Redux](https://redux.js.org/introduction/getting-started)
 - [React Router](https://github.com/ReactTraining/react-router)
+- Deepmerge
+- Classnames
 
 ***
 
