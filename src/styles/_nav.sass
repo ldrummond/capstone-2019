@@ -27,6 +27,14 @@
     &:after
       opacity: 1
       transform: translateY(-2px)
+
+@mixin slide-in
+  opacity: 0
+  transform: translateY(100%)
+  transition: $med transform $slow ease, $med opacity $slow ease
+  &.active 
+    opacity: 1
+    transform: translateY(0)
   
 .navbar
   position: absolute
@@ -39,22 +47,19 @@
   padding: 0 28px
   z-index: $nav-z
   +poppins-font
-  text-transform: uppercase
   font-weight: 400
-
-  .about-link
-    +hoverline
+  +slide-in
 
   .back-link
+    // font-family: $calluna-stack
     top: 3px
     letter-spacing: 0.05em
     cursor: pointer
+    text-transform: uppercase
     +hoverline
-    .thin-arrow 
-      width: 26px
-      .line, .point
-        stroke: black
-        fill: none
+
+  .about-link
+    +hoverline
 
   &.light
     color: $light
@@ -63,7 +68,9 @@
       color: $light
       &:after
         background: $light
+        opacity: 1
+        transform: translateY(-2px)
 
-    .back-link
-      .thin-arrow
-        stroke: white
+
+.navbar.simulation-page
+  border-bottom: $simulation-border

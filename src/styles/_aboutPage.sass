@@ -1,17 +1,88 @@
 
 
-.about-overlay
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background: $dark
-  padding-top: 100px
-  z-index: $about-page-z
-  overflow: scroll
+// SCOPED through page name
+.about-page
 
   .content
-    color: white
-    +big-brother-font
-    padding: 40px
+    width: 100%
+    height: 100%
+    // background: $loader
+    background: $about-color
+
+    .site-title
+      +middle-brother-font
+      position: absolute
+      top: 30%
+      left: 50%
+      transform: translate(-50%, -50%)
+      color: white
+      opacity: 1
+      z-index: 15
+      letter-spacing: 0.04em
+
+    .pentagon-container
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 20%
+      transform: translate(-50%, -50%)
+      transition: 1000ms left 2000ms ease
+
+    .text-container
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 60%
+      height: auto
+      transform: translate(-50%, -50%)
+      color: #fff
+      display: flex
+      opacity: 0
+      transition: $slow opacity ease
+
+      h5
+        +little-brother-font
+        font-weight: 100
+        font-size: 24px
+        display: inline-block
+        margin-right: 3em
+        padding-top: 0.5em
+
+      p
+        +middle-brother-font
+        font-weight: 100
+
+  .texture
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    // transition: transform $slow ease-out
+    opacity: 1
+    z-index: -5
+
+  .pattern
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: url('../assets/texture-small.png')
+    background-size: 18px 12px
+    opacity: 0.1
+    z-index: 0
+
+  &.state1
+    .pentagon-container
+      left: 0%
+    
+  &.state2
+    .text-container
+      opacity: 1
+      .text
+
+      
+    .texture
+
+  
