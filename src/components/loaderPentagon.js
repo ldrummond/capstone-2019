@@ -38,6 +38,7 @@ export default class PentagonWheel extends Component {
         stroke: true,
         fill: false,
         strokeStyle: 'white', 
+        strokeWidth: 1,
         fillStyle: 'none', 
         hasNoise: false, 
         amp: 10, 
@@ -58,14 +59,15 @@ export default class PentagonWheel extends Component {
         }
       }
 
-      let duration = 6000;
-      this.pentagonController.rotateToEase(180 - 18, duration); 
-      // this.pentagonController.easeSides(3, 20, duration); 
-
-      setTimeout(() => {
+      let duration = 999;
+      this.pentagonController.easeOpacity(0, 1, duration); 
+      this.pentagonController.easeDiameter(0, this.width / 2 - 5, duration); 
+      // this.pentagonController.easeSides(3, 5, duration); 
+      // 
+      // setTimeout(() => {
         // this.pentagonController.easeSides(20, 3, duration); 
-        // this.pentagonController.rotateToEase(0, duration);
-      }, (duration))
+        // this.pentagonController.easeAngle(-180, 18, duration);
+      // }, (duration))
 
       this.setState({
         width: this.width,
@@ -76,18 +78,18 @@ export default class PentagonWheel extends Component {
   }
 
   componentDidUpdate() {
-    let duration = 6000;
+    let duration = 3000;
 
     switch(this.props.stateIndex) {
       case 0: 
         break; 
 
       case 1:
-        // this.pentagonController.grow(0, this.width / 2 - 5, duration, _ => {console.log('done')});
-        break; 
-        
+      break; 
+      
       case 2:
-        this.pentagonController.easeStrokeBrightness(255, 0, 999); 
+        this.pentagonController.easeAngleTo(36, duration);
+        this.pentagonController.easeStrokeBrightness(255, 180, 999); 
         break;
     }
   }

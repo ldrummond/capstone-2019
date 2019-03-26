@@ -21,7 +21,6 @@ export default class SelectorPentagon extends Component {
   }
 
   componentDidMount() {
-    console.log('mount')
     if(this.pentagonRef.current) {
       this.pentagon = this.pentagonRef.current; 
       this.width = $(this.pentagon).width();
@@ -32,14 +31,15 @@ export default class SelectorPentagon extends Component {
 
       const defaultOptions = {
         center: this.center,
-        diameter: this.width / 2.5,
+        diameter: 0, //this.width / 2.5,
         colors: this.colors,
         rotation: -(360 / 5 * this.wheelIndex) + 108,
         sides: 5
       }
 
       const pentagonOpts = mergeObjects(defaultOptions, this.props);
-      this.pentagonController = new PentagonController(pentagonOpts)
+      this.pentagonController = new PentagonController(pentagonOpts);
+      this.pentagonController.easeDiameter(0, this.width / 2.5, 999);
 
       // Executing the step function for the given framerate. 
       this.rafController.onStep = ticker => {

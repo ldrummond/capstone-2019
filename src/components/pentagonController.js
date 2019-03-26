@@ -1,5 +1,4 @@
 import { toRad, ranRGB, CanvasTransition, mergeObjects, drawLerpLine} from './helperFunctions'
-import { Point,  } from './canvasShapes'
 
 //////////////////////////////////////////////////
 //
@@ -15,11 +14,12 @@ class Polygon {
   constructor(opts = {}) {
     let {
       sides = 3,
-      center = new Point(0, 0),
+      center = {x: 0, y: 0},
       diameter = 50,
       rotation = 0,
       stroke = false,
       strokeStyle,
+      strokeWidth = 1,
       fill = true,
       fillStyle,
       hasNoise = false,
@@ -35,6 +35,7 @@ class Polygon {
     this.diameter = diameter;
     this.center = center;
     this.stroke = stroke;
+    this.lineWidth = strokeWidth;
     this.fill = fill;
     this.strokeStyle = strokeStyle;
     this.colors = colors;
@@ -48,7 +49,7 @@ class Polygon {
     }
 
     // Defaults
-    this.cursor = new Point(0, 0);
+    this.cursor = {x: 0, y: 0};
     this.transitions = []; 
     this.magnitude = 0;   
     this.hitIndex = -1; 
@@ -91,13 +92,37 @@ class Polygon {
     this.transitions.push(rotateTransition);
   }
 
-  grow(startDiameter, endDiameter, duration, onComplete) {
+  easeDiameter(startDiameter, endDiameter, duration, onComplete) {
     const growTransition = new CanvasTransition({
       startValue: startDiameter, 
       endValue: endDiameter, 
       durationMs: duration, 
       fps: 60, 
       onStep: res => {this.diameter = res}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(growTransition);
+  }
+
+  easeAngle(startAngle, endAngle, duration, onComplete) {
+    const growTransition = new CanvasTransition({
+      startValue: startAngle, 
+      endValue: endAngle, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.rotation = res}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(growTransition);
+  }
+
+  easeAngleTo(endAngle, duration, onComplete) {
+    const growTransition = new CanvasTransition({
+      startValue: this.rotation, 
+      endValue: endAngle, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.rotation = res}, 
       onComplete: onComplete,
     })
     this.transitions.push(growTransition);
@@ -113,6 +138,18 @@ class Polygon {
       onComplete: onComplete,
     })
     this.transitions.push(growTransition);
+  }
+
+  easeOpacity(startAlpha, endAlpha, duration, onComplete) {
+    const fadeTransition = new CanvasTransition({
+      startValue: startAlpha, 
+      endValue: endAlpha, 
+      durationMs: duration, 
+      fps: 60, 
+      onStep: res => {this.globalAlpha = res}, 
+      onComplete: onComplete,
+    })
+    this.transitions.push(fadeTransition);
   }
 
   easeStrokeBrightness(startBrightness, endBrightness, duration, onComplete) {
@@ -158,8 +195,8 @@ class Polygon {
       nextX = this.center.x + this.diameter * Math.cos(nextAngle);
       nextY = this.center.y + this.diameter * Math.sin(nextAngle);
       
-      curPoint = new Point(curX, curY);
-      nextPoint = new Point(nextX, nextY);
+      curPoint = {x: curX, y: curY};
+      nextPoint = {x: nextX, y: nextY};
       
       triangle = [this.center, curPoint, nextPoint]; 
       triangles.push(triangle); 
@@ -169,7 +206,7 @@ class Polygon {
   }
   
   resize(scale) {
-    this.center = new Point(this.center.x * scale.x, this.center.y * scale.y);
+    this.center = {x: this.center.x * scale.x, y: this.center.y * scale.y};
     this.diameter *= scale.x; 
     this.triangles = this.getTrianglesPoints();
 
@@ -214,6 +251,12 @@ class Polygon {
    
     if(this.strokeStyle) {
       ctx.strokeStyle = this.strokeStyle;
+    }
+    if(this.lineWidth) {
+      ctx.lineWidth = this.lineWidth;
+    }
+    if(this.globalAlpha) {
+      ctx.globalAlpha = this.globalAlpha;
     }
 
     if(this.hasNoise) {
