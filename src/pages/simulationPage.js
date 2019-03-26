@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import SimulationWrapper from '../simulations/simulationWrapper';
 import classnames from 'classnames'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
+import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { SimpleFade } from '../components/fadeWrapper';
 import SvgOutline from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper'
@@ -84,9 +85,10 @@ class SimulationPage extends Component {
             <span>
               <h3 className='index'>{index + 1}/5</h3>
               <h2 className='question'>{question}</h2>
+              <Squiggle className='squiggle'/>
             </span>
             <span>
-              <span className='line'></span>
+              {/* <span className='line'></span> */}
               <h2 className='title'>Emergent System</h2>
               <h2 className='description'>{description}</h2>
               <h2 className='title'>Rules</h2>

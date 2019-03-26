@@ -1,8 +1,4 @@
 
-$simulation-border: 1px solid rgba(255,255,255,0.2)
-
-.navbar
-  border-bottom: $simulation-border
 
 // SCOPED through page name
 .page-wrapper.simulation-page
@@ -96,7 +92,7 @@ $simulation-border: 1px solid rgba(255,255,255,0.2)
       border-right: $simulation-border
 
       .index
-        display: block
+        display: none
         color: black
         opacity: 0.3
         +abolition-font
@@ -105,7 +101,19 @@ $simulation-border: 1px solid rgba(255,255,255,0.2)
         margin-bottom: 1em
 
       .question
+        margin-top: 1em
         +middle-brother-font 
+        font-weight: 400
+        color: $sim-color
+        margin-bottom: 0.3em
+
+      .squiggle
+        width: 30%
+        fill: none
+        stroke: $sim-color
+        opacity: 0.7
+        stroke-width: 6px
+        height: 10px
 
       .line
         display: block
@@ -142,6 +150,9 @@ $simulation-border: 1px solid rgba(255,255,255,0.2)
       // box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.1)
   
       .simulation-canvas
+        position: absolute
+        top: 0
+        left: 0
         width: 100%
         height: 100%
 

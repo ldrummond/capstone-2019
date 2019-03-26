@@ -105,32 +105,34 @@ export const prettyDrawingSettings = {
 }
 
 export const trafficSettings = {
-  // simulationType: 'traffic',
-  // rafSettings: {fps: 60},
-  // simulationSettings: {
-  //   cursorBoidSettings: {
-  //     isVisible: undefined,
-  //     cursorVisible: true,
-  //     clearFrames: undefined, 
-  //     color: undefined,
-  //     width: undefined,
-  //     maxSpeed: undefined,
-  //   },
-  //   boidSettings: {
-  //     isVisible: undefined,
-  //     clearFrames: undefined, 
-  //     drawActiveBounds: undefined, 
-  //     count: undefined, 
-  //     minDistance: undefined,
-  //     maxSpeed: undefined,
-  //     maxDistance: undefined,
-  //     avoidDistance: undefined, 
-  //     shape: undefined,
-  //     color: undefined,
-  //     width: undefined,
-  //     drawFn: colonyBoidDrawFn, 
-  //   }
-  // }
+  simulationType: 'traffic',
+  rafSettings: {fps: 60},
+  simulationSettings: {
+    cursorBoidSettings: {
+      isVisible: true,
+      cursorVisible: false,
+      clearFrames: true, 
+      color: 'rgba(0, 0, 0, 1)',
+      drawFn: (ctx, boid) => {
+        ctx.strokeRect(boid.position.x, boid.position.y, 5, 5);
+        ctx.arc(boid.position.x, boid.position.y, 10, 0, 2 * Math.PI);
+      }
+    },
+    boidSettings: {
+      // isVisible: undefined,
+      // clearFrames: undefined, 
+      // drawActiveBounds: undefined, 
+      // count: undefined, 
+      // minDistance: undefined,
+      // maxSpeed: undefined,
+      // maxDistance: undefined,
+      // avoidDistance: undefined, 
+      // shape: undefined,
+      // color: undefined,
+      // width: undefined,
+      // drawFn: colonyBoidDrawFn, 
+    }
+  }
 }
 
 export const colonySettings = {
@@ -225,7 +227,7 @@ export const crowdsSettings = {
 export const moldSettings = {
   simulationType: 'mold',
   rafSettings: {
-    fps: 60,
+    fps: 20,
   },
   simulationSettings: {
     cursorBoidSettings: {

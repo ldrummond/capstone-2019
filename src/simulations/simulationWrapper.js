@@ -3,7 +3,8 @@ import $ from 'jquery'
 import CanvasBase from '../components/canvasBase'
 import RafController from '../components/rafController'
 import SimulationController from './simulationController'
-import { mergeObjects } from '../components/helperFunctions'
+import DrawablesController from './drawablesController'
+import deepmerge from 'deepmerge'
 import { defaultSettings, prettyDrawingSettings, trafficSettings, colonySettings, 
   schoolSettings, crowdsSettings, moldSettings } from './simulationSettings'
 import classnames from 'classnames';
@@ -35,23 +36,23 @@ export default class SimulationWrapper extends Component {
     this.simulationType = props.path; 
     switch(this.simulationType) {
       case 'traffic':
-        this.currentSettings = mergeObjects(defaultSettings, trafficSettings);
+        this.currentSettings = deepmerge(defaultSettings, trafficSettings);
         break;
 
       case 'colony':
-        this.currentSettings = mergeObjects(defaultSettings, colonySettings);
+        this.currentSettings = deepmerge(defaultSettings, colonySettings);
         break;
 
       case 'school':
-        this.currentSettings = mergeObjects(defaultSettings, schoolSettings);
+        this.currentSettings = deepmerge(defaultSettings, schoolSettings);
         break;
 
       case 'crowd':
-        this.currentSettings = mergeObjects(defaultSettings, crowdsSettings);
+        this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
         break;
 
       case 'mold':
-        this.currentSettings = mergeObjects(defaultSettings, moldSettings);
+        this.currentSettings = deepmerge(defaultSettings, moldSettings);
         break;
 
       default: 
@@ -65,7 +66,7 @@ export default class SimulationWrapper extends Component {
   }
 
   updateSimulationSettings(settings) {
-    this.currentSettings = mergeObjects(this.defaultSettings, settings); 
+    this.currentSettings = deepmerge(this.defaultSettings, settings); 
   }
 
   createRaf(settings) {
@@ -81,6 +82,10 @@ export default class SimulationWrapper extends Component {
       cursorBoidSettings: settings.cursorBoidSettings, 
       boidSettings: settings.boidSettings,
     });
+  }
+
+  createDrawablesController() {
+    return 
   }
 
   componentDidMount() {
@@ -99,10 +104,18 @@ export default class SimulationWrapper extends Component {
       this.rafController = new RafController(this.currentSettings.rafSettings);
       this.simulationController = this.createSimulation(this.currentSettings.simulationSettings);
 
+   
+     
       // Uses the rafController to execute the sim at a specified frame rate. 
       this.rafController.onStep = ticker => {
+          // Creates a drawables controller, to draw things besides
+        // the cursor or the boids.
+        if(this.ctx && !this.drawablesController) {
+          this.drawablesController = new DrawablesController(this.ctx);           
+        } 
         if(this.ctx) {
           this.simulationController.step(this.ctx, this.mousePos);
+          this.drawablesController.step(); 
         }
       }
 
@@ -127,7 +140,10 @@ export default class SimulationWrapper extends Component {
   }
 
   onMouseClick = (e) => {
-    this.simulationController.onClick(); 
+    // this.simulationController.onClick(); 
+    if(this.drawablesController) {
+      this.drawablesController.addRipple(this.mousePos);
+    }
   }
 
   onMouseEnter = () => {
