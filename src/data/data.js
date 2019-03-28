@@ -15,7 +15,7 @@ const
   batColor = '#F7A558',
   fishColor = '#579CC6',
   crowdColor = '#EFB2C5',
-  moldColor = '#79857E';
+  moldColor = '#709170'; //'#79857E';
 
 export default {
   description: [
@@ -27,6 +27,7 @@ export default {
   systems: [
     {
       path: "traffic", 
+      nextButtonTitle: "Traffic",
       systemPart: "Cars", 
       systemWhole: "Traffic", 
       coverImage: {
@@ -41,6 +42,7 @@ export default {
     },
     {
       path: "colony", 
+      nextButtonTitle: "Bats",
       systemPart: "Bats", 
       systemWhole: "Colony", 
       coverImage: {
@@ -55,6 +57,7 @@ export default {
     },
     {
       path: "school", 
+      nextButtonTitle: "Fish",
       systemPart: "Fish", 
       systemWhole: "School", 
       coverImage: {
@@ -68,9 +71,10 @@ export default {
       icon: fishIcon, 
     },
     {
-      path: "crowd", 
+      path: "crowds", 
+      nextButtonTitle: "Crowds",
       systemPart: "Person", 
-      systemWhole: "Crowd", 
+      systemWhole: "Crowds", 
       coverImage: {
         src: crowdCover, 
       },
@@ -83,12 +87,13 @@ export default {
     },
     {
       path: "mold", 
+      nextButtonTitle: "Mold",
       systemPart: "Cell", 
       systemWhole: "Mold", 
       coverImage: {
         src: moldCover, 
       },
-      question: "How can mold solve a maze?", 
+      question: "How can mold build a network?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
       instructions: "Chase the fish to see how they follow their neighbors to avoid predators.",
