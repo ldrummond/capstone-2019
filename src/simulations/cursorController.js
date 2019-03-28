@@ -81,13 +81,13 @@ export default class CursorController {
   // }
 
   draw(ctx) {
+    
+    ctx.beginPath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = this.width; 
     if(this.drawFn) {
       this.drawFn(ctx, this.boid); 
     }
-
-    // ctx.beginPath();
-    // ctx.strokeStyle = this.color;
-    // ctx.lineWidth = this.width; 
     // ctx.moveTo(this.boid.position.x - this.boid.velocity.x * 3, this.boid.position.y - this.boid.velocity.y * 3)
     // ctx.lineTo(this.boid.position.x + this.boid.velocity.x * 3, this.boid.position.y + this.boid.velocity.y * 3);
     // ctx.stroke();

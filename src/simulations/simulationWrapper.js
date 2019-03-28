@@ -33,8 +33,7 @@ export default class SimulationWrapper extends Component {
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
     
-    this.simulationType = props.path; 
-    switch(this.simulationType) {
+    switch(props.path) {
       case 'traffic':
         this.currentSettings = deepmerge(defaultSettings, trafficSettings);
         break;
@@ -47,7 +46,7 @@ export default class SimulationWrapper extends Component {
         this.currentSettings = deepmerge(defaultSettings, schoolSettings);
         break;
 
-      case 'crowd':
+      case 'crowds':
         this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
         break;
 
@@ -61,78 +60,15 @@ export default class SimulationWrapper extends Component {
     }
 
     this.styles = {
-      cursor: this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
-    }
-  }
-
-  updateSimulationSettings(settings) {
-    this.currentSettings = deepmerge(this.defaultSettings, settings); 
-  }
-
-  createRaf(settings) {
-    return new RafController(settings);
-  }
-
-  createSimulation(settings) {
-    return new SimulationController({
-      width: this.width,
-      height: this.height,
-      boidCount: settings.boidCount,
-      simulationType: settings.simulationType,
-      cursorBoidSettings: settings.cursorBoidSettings, 
-      boidSettings: settings.boidSettings,
-    });
-  }
-
-  createDrawablesController() {
-    return 
-  }
-
-  componentDidMount() {
-    if(this.simulationRef) {
-      this.simulation = this.simulationRef.current; 
-      this.$simulation = $(this.simulation); 
-      
-      // Defines bounds based on the simulation size. 
-      this.width = this.$simulation.width();
-      this.height = this.$simulation.height();
-      this.mousePos = {x: this.width / 2, y: this.height / 2};
-      this.center = {x: this.width / 2, y: this.height / 2};
-      this.simRect = this.simulation.getBoundingClientRect(); 
-
-      // Creates the simulation and defines this.rafController. 
-      this.rafController = new RafController(this.currentSettings.rafSettings);
-      this.simulationController = this.createSimulation(this.currentSettings.simulationSettings);
-
-   
-     
-      // Uses the rafController to execute the sim at a specified frame rate. 
-      this.rafController.onStep = ticker => {
-          // Creates a drawables controller, to draw things besides
-        // the cursor or the boids.
-        if(this.ctx && !this.drawablesController) {
-          this.drawablesController = new DrawablesController(this.ctx);           
-        } 
-        if(this.ctx) {
-          this.simulationController.step(this.ctx, this.mousePos);
-          this.drawablesController.step(); 
-        }
-      }
-
-      // Sets the state to force a rerender of the canvas. 
-      this.setState({
-        width: this.width,
-        height: this.height,
-      });
+      cursor: 
+        this.currentSettings && 
+        this.currentSettings.simulationSettings && 
+        this.currentSettings.simulationSettings.cursorBoidSettings && 
+        this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
     }
   }
 
   onMouseMove = (e) => {
-    // if(this.cursorIconRef.current) {
-    //   console.log(this.cursorIconRef.current);
-    //   this.cursorIconRef.current.style.left = e.clientX;
-    //   this.cursorIconRef.current.style.top = e.clientY;      
-    // }
     if(this.canvasRect && this.rafController && this.rafController.ticker % 4 == 0) {
       this.mousePos.x = e.clientX - this.canvasRect.left;
       this.mousePos.y = e.clientY - this.canvasRect.top;
@@ -140,9 +76,11 @@ export default class SimulationWrapper extends Component {
   }
 
   onMouseClick = (e) => {
-    // this.simulationController.onClick(); 
-    if(this.drawablesController) {
-      this.drawablesController.addRipple(this.mousePos);
+    if(this.simulationController) {
+      this.simulationController.onClick({...this.mousePos}); 
+    }
+    if(this.drawablesController && this.currentSettings.simulationSettings.cursorBoidSettings.ripple) {
+      this.drawablesController.addRipple({...this.mousePos}, this.rafController.fps);
     }
   }
 
@@ -152,6 +90,60 @@ export default class SimulationWrapper extends Component {
 
   onMouseLeave = () => {
     this.simulationController.onMouseLeave(); 
+  }
+
+  onResize = () => {
+    let simRect = this.simulation.getBoundingClientRect(); 
+    this.width = simRect.width;
+    this.height = simRect.height;
+
+    // Sets the state to force a rerender of the canvas. 
+    this.setState({
+      width: this.width,
+      height: this.height,
+    });
+  }
+
+  componentDidMount() {
+    if(this.simulationRef) {
+      this.simulation = this.simulationRef.current; 
+      let simRect = this.simulation.getBoundingClientRect(); 
+      
+      // Defines bounds based on the simulation size. 
+      this.width = simRect.width;
+      this.height = simRect.height;
+      this.mousePos = {x: this.width / 2, y: this.height / 2};
+      this.center = {x: this.width / 2, y: this.height / 2};
+
+      // Creates the Raf Controller to controller frame rate. 
+      this.rafController = new RafController(this.currentSettings.rafSettings);
+      // Creates the simulation controller for the simulation. 
+      this.simulationController = new SimulationController({
+        width: this.width,
+        height: this.height,
+        boidCount: this.currentSettings.simulationSettings.boidCount,
+        simulationType: this.currentSettings.simulationSettings.simulationType,
+        cursorBoidSettings: this.currentSettings.simulationSettings.cursorBoidSettings, 
+        boidSettings: this.currentSettings.simulationSettings.boidSettings,
+      });
+      // Creates the drawables controller to draw other shapes. 
+      this.drawablesController = new DrawablesController();  
+
+      // Uses the rafController to execute the sim at a specified frame rate. 
+      this.rafController.onStep = ticker => {
+        if(this.ctx) {
+          this.simulationController.step(this.ctx, this.mousePos);
+          this.drawablesController.step(this.ctx); 
+          this.drawablesController.clear(this.ctx);
+        }
+      }
+
+      // Sets the state to force a rerender of the canvas. 
+      this.setState({
+        width: this.width,
+        height: this.height,
+      });
+    }
   }
 
   render() {
@@ -164,7 +156,7 @@ export default class SimulationWrapper extends Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         style={this.styles}
-      >
+      > 
         {/* <div className='cursorIcon' ref={this.cursorIconRef} ></div> */}
         {this.state.width && this.state.height &&
           <CanvasBase hoistCanvas={this.hoistCanvas}/>
