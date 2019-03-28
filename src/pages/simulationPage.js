@@ -5,11 +5,11 @@ import SimulationWrapper from '../simulations/simulationWrapper';
 import classnames from 'classnames'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
+import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { SimpleFade } from '../components/fadeWrapper';
+import instructionPng from '../assets/instructionPng.png';
 import SvgOutline from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper'
-import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
-import instructionPng from '../assets/instructionPng.png';
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -48,14 +48,9 @@ class SimulationPage extends Component {
     } = curSystem; 
 
     let {
-      path : nextPath = 'test'
+      path: nextPath,
+      nextButtonTitle = '',
     } = nextSystem; 
-
-    console.log(`#80${color.split('#')[1]}`)
-
-    function alphaHex(hex, alpha) {
-      return `#${alpha}${hex.split('#')[1]}`
-    }
 
     const styles = {
       background: color, 
@@ -99,12 +94,14 @@ class SimulationPage extends Component {
             </span>
           </section>
           <span className='simulation-panel'>
-            <SimulationWrapper {...curSystem}/>
-            <ButtonWrapper className='next-sim' onClick={onNextClick}>
-              <h4>next</h4>
-              <h3>{nextPath}</h3>
-              <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
-            </ButtonWrapper>
+              <SimulationWrapper {...curSystem}/>
+              <Link to={`/simulation/${nextPath}`} onClick={onNextClick}>
+                <ButtonWrapper className='next-sim' >
+                  <h4>next</h4>
+                  <h3>{nextButtonTitle}</h3>
+                  <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
+                </ButtonWrapper>
+              </Link>
           </span>
         </span>
       </div>    
@@ -135,7 +132,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-SimulationPage = connect(mapStateToProps, mapDispatchToProps)(SimulationPage)
-
-export default SimulationPage
+export default connect(mapStateToProps, mapDispatchToProps)(SimulationPage)
 
