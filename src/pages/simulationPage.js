@@ -113,8 +113,7 @@ const mapStateToProps = state => {
   return {
     nextSystem: state.nextSystem,
     curSystem: state.curSystem,
-    // prevSystem: state.prevSystem,
-    aboutVisible: state.aboutVisible, 
+    lastChange: state.lastChange,
   }
 }
 

@@ -4,7 +4,6 @@ import createStoreFromPath from '../redux/store';
 import { Route, withRouter } from 'react-router-dom';
 import NavResolver from './navResolver'; 
 import PageResolver from './pageResolver';
-import AboutResolver from './aboutResolver'; 
 import BackgroundResolver from './backgroundResolver'; 
 import { getQueryParamsFromLocation } from '../components/helperFunctions.js';
 
@@ -42,7 +41,6 @@ class ReduxWrapper extends Component{
             <NavResolver prevLocation={this.prevLocation} location={location} component={NavResolver}/>
             <PageResolver location={location}/>
             <BackgroundResolver location={location}/>
-            {/* <AboutResolver location={location} history={history}/> */}
           </div>
       </Provider>
     )

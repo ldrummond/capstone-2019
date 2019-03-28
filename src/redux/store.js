@@ -29,7 +29,6 @@ function nextSystemState(state) {
 function stateFromPath(state, path = "") {
   for(let i = 0; i < paths.length; i++) {
     if(paths[i] === path) {
-      // console.log('hitpath', paths[i])
       return {...state, ...stateFromIndex(i)};
     }
   }
@@ -49,12 +48,6 @@ function systemsReducer(state = [], action) {
 
     case 'SYSTEM_FROM_PATH': 
       return stateFromPath(state, action.path)
-
-    case 'HIDE_ABOUT':
-      return {...state, aboutVisible: false}; 
-
-    case 'SHOW_ABOUT':
-      return {...state, aboutVisible: true}; 
 
     case 'WHEEL_UP':
       return {
@@ -84,9 +77,8 @@ function systemsReducer(state = [], action) {
 
 // Create a Redux store holding the state of your app.
 // Its API is { subscribe, dispatch, getState }.
-export default function createStoreFromPath(path = 'traffic', _aboutVisible = false) {
+export default function createStoreFromPath(path = 'traffic') {
   const initialState = {
-    aboutVisible: _aboutVisible, 
     wheelIndex: 0,
     prevWheelIndex: 0,
     lastChange: Date.now(),
