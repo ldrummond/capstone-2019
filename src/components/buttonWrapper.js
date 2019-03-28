@@ -15,7 +15,7 @@ export default class ButtonWrapper extends Component {
             'button-wrapper', 
             'unbuttoned', 
             this.props.className, 
-            {hovering: this.state.hovering}
+            {hovering: this.props.hovering || this.state.hovering}
           )
         }
         onClick={this.props.onClick}  

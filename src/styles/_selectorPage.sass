@@ -12,6 +12,18 @@
     height: 100%
     padding: 10% 0
 
+    .pentagon-icon
+      display: inline-block
+      width: $pentagon-width
+      pointer-events: visible
+      svg
+        transform: scale(1)
+      &.pentagon-icon-enter svg
+        transform: scale(0)
+
+      &.pentagon-icon-enter-active svg
+        transform: scale(1)
+
     .pentagon-container
       display: inline-block
       width: $pentagon-width

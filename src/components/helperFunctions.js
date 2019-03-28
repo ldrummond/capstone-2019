@@ -19,7 +19,19 @@
  * @callback {function} onComplete  
  * 
  */
-export function CanvasTransition({startValue = 0, endValue = 1, durationMs = 200, fps = 60, onStep, onComplete = _ => {}}) {
+export function CanvasTransition({
+  startValue = 0, 
+  endValue = 1, 
+  durationMs = 200, 
+  fps = 60, 
+  pos = {x: 0, y: 0}, 
+  onStep, 
+  onComplete = _ => {},
+  data = {},
+}) 
+{
+  this.data = data;
+  this.pos = pos; 
   this.isDone = false; 
   
   this.stepCount = Math.floor(durationMs / (1000 / fps));

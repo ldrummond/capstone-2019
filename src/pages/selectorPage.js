@@ -2,27 +2,45 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
+import Pentagon from '../components/pentagonSvg';
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import SelectorPentagon from '../components/selectorPentagon';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { throttle } from '../components/helperFunctions'; 
+import data from '../data/data';
 
 class SelectorPage extends Component {
-  
+  constructor() {
+    super()
+    this.state = {
+      mounted: false, 
+    }
+  }
+
+  componentDidMount() {
+    this.setState({mounted: true});
+  }
 
   render() {
     // let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
     let {curSystem, onPrevClick, onNextClick, wheelIndex, prevWheelIndex, lastChange} = this.props
-    const rotateUp = wheelIndex > prevWheelIndex
+    const rotateUp = wheelIndex > prevWheelIndex;
 
     return (
       <div className='page-wrapper selector-page'>
         <span className='content'>
-          <SelectorPentagon wheelIndex={wheelIndex}/>
+          <Pentagon 
+            wheelIndex={wheelIndex} 
+            curIndex={curSystem.index}
+            colors={data.systems.map(system => system.color)} 
+            onPrevClick={throttle(onPrevClick, lastChange, 500)}
+            onNextClick={throttle(onNextClick, lastChange, 500)}  
+            in={this.state.mounted}
+          />
           <span className='arrows-container'>
-            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)}>
+            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)} >
               <SvgOutline component={Arrow}  color='black'/>
             </ButtonWrapper>
             <ButtonWrapper onClick={throttle(onNextClick, lastChange, 500)}>
@@ -34,7 +52,6 @@ class SelectorPage extends Component {
                 <CSSTransition 
                   key={curSystem.path} 
                   timeout={{enter: 450, exit: 300}} 
-                  // classNames={`rotate${rotateUp ? 'Up' : 'Down'}`}
                   classNames='rotate'
                 >
                   <Link to={`/transition/${curSystem.path}`} className='option-inner'>
