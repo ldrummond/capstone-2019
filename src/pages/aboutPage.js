@@ -17,9 +17,9 @@ export default class AboutPage extends Component {
   }
 
   componentDidMount() {
-    this.stateInterval = setInterval(
-     _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
-    4000);
+    // this.stateInterval = setInterval(
+    //  _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
+    // 4000);
   }
 
   onMouseMove = (e) => { 
@@ -28,7 +28,7 @@ export default class AboutPage extends Component {
   }
   
   componentWillUnmount() {
-    clearInterval(this.stateInterval);
+    // clearInterval(this.stateInterval);
   }
 
   render() {
