@@ -42,10 +42,3 @@ export default class Canvas extends PureComponent {
     );
   }
 }
-
-// createHiddenCanvas = () => {
-//   this.hiddenCanvas = document.createElement("canvas"); 
-//   this.hiddenCanvas.width = canvas.width;
-//   this.hiddenCanvas.height = canvas.height; 
-//   this.hiddenCtx = hiddenCanvas.getContext("2d"); 
-// }
