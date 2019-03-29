@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import SimulationWrapper from '../simulations/simulationWrapper';
 import classnames from 'classnames'; 
-import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
+import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import { SimpleFade } from '../components/fadeWrapper';
 import instructionPng from '../assets/instructionPng.png';
 import SvgOutline from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper'
+import { throttle } from '../components/helperFunctions'; 
+
 
 class SimulationPage extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      mounted: false, 
       showOverlay: true,
+      shouldRedirect: false, // allows Link throttling. 
     }
 
+    this.fadeDuration = 333;
     // this.rafController = new RafController({fps: 60}); 
   }
 
   componentDidMount() {
-    setTimeout(_ => {
-      this.setState({showOverlay: false})
-    }, 0)
+    this.setState({mounted:true});
+    // setTimeout(_ => {
+    //   this.setState({showOverlay: false})
+    // }, 0)
   }
 
   // onMouseMove = (e) => {
@@ -35,7 +41,8 @@ class SimulationPage extends Component {
   // }
 
   render() {
-    let {curSystem = {}, nextSystem = {}, aboutVisible, onNextClick} = this.props; 
+    let {curSystem = {}, nextSystem = {}, onNextClick} = this.props; 
+    // console.log('render', curSystem)
     
     let {
       index = 0, 
@@ -56,53 +63,58 @@ class SimulationPage extends Component {
       background: color, 
     }
 
-    // const mouseX = this.state.mouseX,
-    //   mouseY = this.state.mouseY; 
-
     return (
-      <div className={classnames('page-wrapper', 'simulation-page', path)} onMouseMove={this.onMouseMove}>
+      <div className={classnames('page-wrapper', 'simulation-page', path)}>
+      {/* <div className={classnames('page-wrapper', 'simulation-page', path)} onMouseMove={this.onMouseMove}> */}
         {/* <div className='pseudoCursor' style={{transform: `translate(${mouseX}px, ${mouseY}px)`}}></div> */}
         {/* <SimpleFade in={this.state.showOverlay} duration={333}> */}
-        {this.state.showOverlay && <span className='overlay'>
+        {/* {this.state.showOverlay && <span className='overlay'>
           <span className='inner'>
             <h3 className='title'>{instructions}</h3>
             <span className='instruction-graphic'>
               <img src={instructionPng} />
             </span>
           </span>
-        </span>}
-        <span className='backgrounds'>
-          <div className='color' style={styles}></div>
-          <div className='texture'></div>
-        </span>
+        </span>} */}
         <span className='content'>
+          <section className='nav-placeholder'></section>
           <section className='description-panel'>
-            <span>
-              <h3 className='index'>{index + 1}/5</h3>
-              <h2 className='question'>{question}</h2>
-              <Squiggle className='squiggle'/>
-            </span>
-            <span>
-              {/* <span className='line'></span> */}
-              <h2 className='title'>Emergent System</h2>
-              <h2 className='description'>{description}</h2>
-              <h2 className='title'>Rules</h2>
-              <h2 className='rules'>{rules}</h2>
-              <Link to={`/selector`}>
-                <Pentagon style={{fill: 'none', stroke: 'black'}}/>
-              </Link> 
-            </span>
+              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+                <h3 className='index'>{index + 1}/5</h3>
+                <h2 className='question'>{question}</h2>
+                <Squiggle className='squiggle'/>
+              </SimpleFade>
+              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+                <h2 className='title'>Emergent System</h2>
+                <h2 className='description'>{description}</h2>
+                <h2 className='title'>Rules</h2>
+                <h2 className='rules'>{rules}</h2>
+                <Link to={`/selector`}>
+                  <Pentagon style={{fill: 'none', stroke: 'black', strokeWidth: '2'}}/>
+                </Link> 
+              </SimpleFade>
           </section>
-          <span className='simulation-panel'>
-              <SimulationWrapper {...curSystem}/>
-              <Link to={`/simulation/${nextPath}`} onClick={onNextClick}>
-                <ButtonWrapper className='next-sim' >
+          <section className='simulation-panel'>
+              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+                <SimulationWrapper curSystem={curSystem}/>
+                <ButtonWrapper 
+                  className='next-sim' 
+                  onClick={throttle(onNextClick, this.props.lastChange, 333)} 
+                  // onClick={throttle(_ => this.setState({shouldRedirect: true}), this.props.lastChange, 333)} 
+                >
                   <h4>next</h4>
                   <h3>{nextButtonTitle}</h3>
                   <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
                 </ButtonWrapper>
-              </Link>
-          </span>
+              </SimpleFade>
+              {/* {this.state.shouldRedirect &&
+                <Redirect to={`/simulation/${nextPath}`} push/>
+              } */}
+          </section>
+        </span>
+        <span className='sim-backgrounds'>
+          <div className='color' style={styles}></div>
+          <div className='texture'></div>
         </span>
       </div>    
     );

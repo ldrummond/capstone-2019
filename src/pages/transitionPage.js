@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import { Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 class TransitionPage extends Component {
-  // constructor(props) {
-  //   super(props)
+  constructor(props) {
+    super(props)
 
-    
-  // }
+    this.state = {
+      mounted: false
+    }
+  }
+
+  componentDidMount() {
+    this.timeout = setTimeout(() => {
+      this.setState({mounted: true})
+    }, (666));
+  }
+  
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
 
   render() {
-    let {curSystem = {}} = this.props; 
+    let {curSystem = {}, prevLocation} = this.props; 
 
     let {
       // index = 0, 
@@ -23,12 +35,19 @@ class TransitionPage extends Component {
       // coverImage = {src: 'test'},
     } = curSystem; 
 
+    if(prevLocation) {
+      console.log(prevLocation);
+    }
+
     return (
       <div className={`page-wrapper transition-page ${path}`}>
-        <Link to={`/simulation/${path}`} className='next-button'>
+        {this.state.mounted && 
+          <Redirect to={`/simulation/${path}`} push/>
+        }
+        {/* <Link to={`/simulation/${path}`} className='next-button'>
           <span className='content'>
           </span>
-        </Link>
+        </Link> */}
       </div>    
     );
   }
@@ -38,7 +57,8 @@ const mapStateToProps = state => {
   return {
     nextSystem: state.nextSystem,
     curSystem: state.curSystem,
-    prevSystem: state.prevSystem
+    prevSystem: state.prevSystem,
+    prevLocation: state.prevLocation, 
   }
 }
 
