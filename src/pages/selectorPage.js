@@ -9,6 +9,7 @@ import SelectorPentagon from '../components/selectorPentagon';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { throttle } from '../components/helperFunctions'; 
+import { SimpleFade } from '../components/fadeWrapper';
 import data from '../data/data';
 
 class SelectorPage extends Component {
@@ -17,20 +18,23 @@ class SelectorPage extends Component {
     this.state = {
       mounted: false, 
     }
+    this.fadeDuration = 333;
   }
 
   componentDidMount() {
     this.setState({mounted: true});
+    console.log('mounted');
   }
 
   render() {
     // let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
     let {curSystem, onPrevClick, onNextClick, wheelIndex, prevWheelIndex, lastChange} = this.props
     const rotateUp = wheelIndex > prevWheelIndex;
+    console.log(wheelIndex, curSystem.index, curSystem.path)
 
     return (
       <div className='page-wrapper selector-page'>
-        <span className='content'>
+        <section className='content'>
           <Pentagon 
             wheelIndex={wheelIndex} 
             curIndex={curSystem.index}
@@ -39,35 +43,35 @@ class SelectorPage extends Component {
             onNextClick={throttle(onNextClick, lastChange, 500)}  
             in={this.state.mounted}
           />
-          <span className='arrows-container'>
-            <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)} >
-              <SvgOutline component={Arrow}  color='black'/>
-            </ButtonWrapper>
-            <ButtonWrapper onClick={throttle(onNextClick, lastChange, 500)}>
-              <SvgOutline component={Arrow}  color='black' style={{transform: 'rotate(180deg)'}}/>
-            </ButtonWrapper>
-          </span>
-            <span className='option-container'>
-              <TransitionGroup component={null}>
-                <CSSTransition 
-                  key={curSystem.path} 
-                  timeout={{enter: 450, exit: 300}} 
-                  classNames='rotate'
-                >
-                  <Link to={`/transition/${curSystem.path}`} className='option-inner'>
-                    <span className='squiggle-container'>
-                      <Squiggle />
-                    </span>
-                      <h1 className='title'>{curSystem.question}</h1>
-                    <span className='subtitle'>
-                      <h4>system</h4>
-                      <h3 className='index'>{curSystem.index + 1}/5</h3>
-                    </span>
-                  </Link>
-                </CSSTransition> 
-              </TransitionGroup>
-            </span>
-        </span>
+          <SimpleFade className='arrows-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
+              <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)} >
+                <SvgOutline component={Arrow}  color='black'/>
+              </ButtonWrapper>
+              <ButtonWrapper onClick={throttle(onNextClick, lastChange, 500)}>
+                <SvgOutline component={Arrow}  color='black' style={{transform: 'rotate(180deg)'}}/>
+              </ButtonWrapper>
+          </SimpleFade>
+          <SimpleFade className='squiggle-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
+              <Squiggle />
+          </SimpleFade>
+          <SimpleFade className='option-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
+            <TransitionGroup component={null}>
+              <CSSTransition 
+                key={curSystem.path} 
+                timeout={{enter: 450, exit: 300}} 
+                classNames='rotate'
+              >
+                <Link to={`/transition/${curSystem.path}`} className='option-inner'>
+                  <h1 className='title'>{curSystem.question}</h1>
+                  <span className='subtitle'>
+                    <h4>system</h4>
+                    <h3 className='index'>{curSystem.index + 1}/5</h3>
+                  </span>
+                </Link>
+              </CSSTransition> 
+            </TransitionGroup>
+          </SimpleFade>
+        </section>
       </div>
     );
   }
