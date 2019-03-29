@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-export default class Pentagon extends Component {
+class Pentagon extends Component {
   constructor(props) {
     super(props)
 
@@ -37,7 +37,7 @@ export default class Pentagon extends Component {
     }
 
     this.pentStyles = {
-      transform: `rotate(${(360 / 5 * props.wheelIndex) + 54 + this.state.offset}deg)`,
+      transform: `rotate(${-(360 / 5 * props.wheelIndex) + 54 + this.state.offset}deg)`,
       fill: 'transparent',
       cursor: 'pointer',
       transition: `transform ${this.duration}ms ease-in-out`,
@@ -64,3 +64,4 @@ export default class Pentagon extends Component {
   }
 }
 
+export default Pentagon

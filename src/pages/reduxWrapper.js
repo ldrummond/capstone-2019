@@ -5,7 +5,6 @@ import { Route, withRouter } from 'react-router-dom';
 import NavResolver from './navResolver'; 
 import PageResolver from './pageResolver';
 import BackgroundResolver from './backgroundResolver'; 
-import { getQueryParamsFromLocation } from '../components/helperFunctions.js';
 
 
 class ReduxWrapper extends Component{
@@ -21,15 +20,12 @@ class ReduxWrapper extends Component{
       simulationPath = matches[2]; 
     } 
 
-    // Checks if the about query param is active, and initializes the store with that param. 
-    let params = getQueryParamsFromLocation(props.location)
-
     // Creates the store.
     // This is then provided to the rest of the app. 
-    this.store = createStoreFromPath(simulationPath, params.about); 
+    this.store = createStoreFromPath(simulationPath); 
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
    this.prevLocation = this.props.location;
   }
 
@@ -37,11 +33,11 @@ class ReduxWrapper extends Component{
     let {location, history, match} = this.props; 
     return(
       <Provider store={this.store}>
-          <div className='app'>
-            <NavResolver prevLocation={this.prevLocation} location={location} component={NavResolver}/>
-            <PageResolver location={location}/>
-            <BackgroundResolver location={location}/>
-          </div>
+        <div className='app'>
+          <NavResolver prevLocation={this.prevLocation} location={location} component={NavResolver}/>
+          <PageResolver location={location}/>
+          <BackgroundResolver location={location}/>
+        </div>
       </Provider>
     )
   }

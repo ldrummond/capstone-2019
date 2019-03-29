@@ -11,6 +11,7 @@ function stateFromIndex(index) {
     prevSystem: prev(systems, index),
     curSystem: systems[index],
     nextSystem: next(systems, index),
+    wheelIndex: index, 
   }
 }
 
@@ -52,7 +53,7 @@ function systemsReducer(state = [], action) {
     case 'WHEEL_UP':
       return {
         ...prevSystemState(state), 
-        wheelIndex: state.wheelIndex + 1, 
+        wheelIndex: state.wheelIndex - 1, 
         prevWheelIndex: state.wheelIndex,
         lastChange: Date.now(),
       };
@@ -60,7 +61,7 @@ function systemsReducer(state = [], action) {
     case 'WHEEL_DOWN':
       return {
         ...nextSystemState(state), 
-        wheelIndex: state.wheelIndex - 1, 
+        wheelIndex: state.wheelIndex + 1, 
         prevWheelIndex: state.wheelIndex,
         lastChange: Date.now(), 
       };
@@ -79,7 +80,6 @@ function systemsReducer(state = [], action) {
 // Its API is { subscribe, dispatch, getState }.
 export default function createStoreFromPath(path = 'traffic') {
   const initialState = {
-    wheelIndex: 0,
     prevWheelIndex: 0,
     lastChange: Date.now(),
   }
