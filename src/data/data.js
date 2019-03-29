@@ -1,20 +1,20 @@
 import carCover from '../assets/car-cover.png';
 import batCover from '../assets/bat-cover.png';
 import fishCover from '../assets/fish-cover.png';
-import crowdCover from '../assets/crowd-cover.png';
+import crowdsCover from '../assets/crowds-cover.png';
 import moldCover from '../assets/mold-cover.png';
 
 import { ReactComponent as carIcon } from '../assets/car-icon.svg';
 import { ReactComponent as batIcon } from '../assets/bat-icon.svg';
 import { ReactComponent as fishIcon }  from '../assets/fish-icon.svg';
-import { ReactComponent as crowdIcon }  from '../assets/crowd-icon.svg';
+import { ReactComponent as crowdsIcon }  from '../assets/crowd-icon.svg';
 import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
   trafficColor = '#A38E76',
   batColor = '#F7A558',
   fishColor = '#579CC6',
-  crowdColor = '#EFB2C5',
+  crowdsColor = '#EFB2C5',
   moldColor = '#709170'; //'#79857E';
 
 export default {
@@ -76,14 +76,14 @@ export default {
       systemPart: "Person", 
       systemWhole: "Crowds", 
       coverImage: {
-        src: crowdCover, 
+        src: crowdsCover, 
       },
       question: "How do crowds navigate cities?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.      ",
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
       instructions: "Chase the fish to see how they follow their neighbors to avoid predators.", 
-      color: crowdColor,
-      icon: crowdIcon, 
+      color: crowdsColor,
+      icon: crowdsIcon, 
     },
     {
       path: "mold", 
