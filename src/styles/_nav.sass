@@ -50,6 +50,21 @@
   font-weight: 400
   +slide-in
 
+  .title-link
+    position: relative
+    // overflow: hidden
+    .color-underline
+      position: absolute
+      width: 100%
+      bottom: 0
+      left: 0
+      transform: translateY(10px)
+      transition: transform $slow ease
+      height: 2px
+    &:hover
+      > .color-underline
+        transform: translateY(0px)
+
   .back-link
     // font-family: $calluna-stack
     top: 3px
@@ -70,7 +85,3 @@
         background: $light
         opacity: 1
         transform: translateY(-2px)
-
-
-.navbar.simulation-page
-  border-bottom: $simulation-border

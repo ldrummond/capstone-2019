@@ -14,7 +14,6 @@
   height: 100%
   display: flex
   align-items: center
-  padding: 32px
   z-index: $background-z
   overflow: hidden
   .content
@@ -30,7 +29,7 @@
       width: 100%
       max-height: 90%
       z-index: -5
-      transition: opacity $fast ease-in
+      transition: opacity $fast ease-in, transform $slow ease-in
       opacity: 1
 
     .system-icon
@@ -92,18 +91,17 @@
   // Simulation Page
   &.simulation
     .content
-      position: unset
+      width: span(13 of 16)
+      margin-left: - span(5 of 16)
       .system-image
         opacity: 0.2
-        position: absolute
-        left: -50%
+        // position: absolute
+        left: span(2 of 16)
+        // transform: translateX(-50%)
         top: 0
-        height: 100%
         width: auto
-        transition: opacity $slow ease-out
+        // transition: opacity $slow ease-out
 
       .system-icon
         opacity: 0
 
-    .texture
-      // opacity: 0

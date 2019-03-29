@@ -9,76 +9,18 @@
   width: 100%
   height: 100%
   overflow: hidden
-  .pseudoCursor 
-    position: absolute
-    transition: transform .25s cubic-bezier(.82,.01,.21,1)
-    z-index: 10
-    &:after
-      transform: translate(-50%, -50%)
-      display: block
-      position: relative
-      content: ''
-      width: 50px
-      height: 50px
-      border-radius: 50%
-      border: 1px solid rgba(255,255,255,0.8)
-      pointer-events: none
-
-  .backgrounds
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    z-index: -1
-    .color,
-    .texture
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-
-    .color
-      opacity: 0.8
-
-    .texture
-      background: url('../assets/texture-small.png')
-      background-size: 10px 10px
-      opacity: 0.2
-      z-index: -1
-
-  .overlay
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    display: flex
-    justify-content: center
-    align-items: center
-    z-index: 5
-    background: rgba(0, 0, 0, 0.4)
-    color: white
-   
-    .inner
-      width: 50%
-      max-width: 350px
-      text-align: center
-      h3
-        +body
-        line-height: 30px
-
-      .instruction-graphic
-        display: block
-        margin-top: 2em
-        width: 100%
-        img
-          width: 50%
 
   .content 
     display: flex
     height: 100%
+
+    .nav-placeholder
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: $nav-height
+      border-bottom: $simulation-border
 
     .description-panel
       flex-basis: span(4 of 16)
@@ -170,6 +112,9 @@
         right: 28px
         text-align: right
         z-index: 10
+        .active-area
+          top: -55%
+          height: 155%
         .svg-outline-container
           width: 60px
           height: 60px
@@ -187,14 +132,69 @@
           letter-spacing: 0.08em
           z-index: 5
 
-  .background
-    pointer-events: none
-    img 
-      opacity: 0.12
+  .pseudoCursor 
+    position: absolute
+    transition: transform .25s cubic-bezier(.82,.01,.21,1)
+    z-index: 10
+    &:after
+      transform: translate(-50%, -50%)
+      display: block
+      position: relative
+      content: ''
+      width: 50px
+      height: 50px
+      border-radius: 50%
+      border: 1px solid rgba(255,255,255,0.8)
+      pointer-events: none
+
+  .sim-backgrounds
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
+    .color,
+    .texture
       position: absolute
       top: 0
       left: 0
       width: 100%
       height: 100%
-      transform: translate(-30%, 0)
-      z-index: -5
+
+    .color
+      opacity: 0.8
+
+    .texture
+      background: url('../assets/texture-small.png')
+      background-size: 10px 10px
+      opacity: 0.2
+      z-index: -1
+
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    z-index: 5
+    background: rgba(0, 0, 0, 0.4)
+    color: white
+   
+    .inner
+      width: 50%
+      max-width: 350px
+      text-align: center
+      h3
+        +body
+        line-height: 30px
+
+      .instruction-graphic
+        display: block
+        margin-top: 2em
+        width: 100%
+        img
+          width: 50%
