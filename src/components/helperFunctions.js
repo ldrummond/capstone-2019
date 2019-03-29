@@ -55,6 +55,55 @@ export function CanvasTransition({
   }
 }
 
+/**
+ * 
+ * Bounds Object
+ */
+export function ActiveBounds() {
+  this.minX = Number.MAX_SAFE_INTEGER;
+  this.maxX = Number.MIN_SAFE_INTEGER; 
+  this.minY = Number.MAX_SAFE_INTEGER;
+  this.maxY = Number.MIN_SAFE_INTEGER;
+  
+  this.reset = _ => {
+    this.minX = Number.MAX_SAFE_INTEGER;
+    this.maxX = Number.MIN_SAFE_INTEGER; 
+    this.minY = Number.MAX_SAFE_INTEGER;
+    this.maxY = Number.MIN_SAFE_INTEGER;
+  }
+
+  this.update = pos => {
+    if(pos.x > this.maxX) {
+      this.maxX = pos.x;
+    } else if (pos.x < this.minX) {
+      this.minX = pos.x; 
+    }
+    if(pos.y > this.maxY) {
+      this.maxY = pos.y;
+    } else if (pos.y < this.minY) {
+      this.minY = pos.y; 
+    }
+  }
+
+  this.draw = (ctx, padding = 0) => {
+    ctx.strokeRect(
+      this.minX - padding, 
+      this.minY - padding, 
+      (this.maxX - this.minX) + (padding * 2), 
+      (this.maxY - this.minY) + ( padding * 2)
+    );
+  }
+
+  this.clear = (ctx, padding = 0) => {
+    ctx.clearRect(
+      this.minX - padding, 
+      this.minY - padding, 
+      (this.maxX - this.minX) + (padding * 2), 
+      (this.maxY - this.minY) + ( padding * 2)
+    );
+  }
+}
+
 //////////////////////////////////////////////////
 //
 // Url Functions
