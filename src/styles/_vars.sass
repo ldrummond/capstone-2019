@@ -10,7 +10,7 @@ $mold-color: #79857E // green
 $about-color: rgba(0, 0, 0, 0.8)
 $light: #eee
 $dark: #111
-$sim-color: #333 // #43555F
+$sim-color: #222 // #43555F
 $loader: #333
 
 // Sizes
@@ -155,47 +155,6 @@ $slow: 999ms
 $med: 666ms
 $fast: 333ms 
 $hype: 150ms
-
-// Fade
-.fade-enter 
-  opacity: 0
-  z-index: 1
-
-.fade-enter.fade-enter-active 
-  opacity: 1
-  transition: $fast opacity $fast ease-in
-
-.fade-exit
-  opacity: 1
-
-.fade-exit.fade-exit-active
-  opacity: 0
-  transition: $fast opacity $fast ease-out
-
-// Wipe
-.wipe-enter 
-  height: 100%
-
-.wipe-enter.wipe-enter-active 
-  height: 0
-  transition: $fast height ease-in
-
-.wipe-exit
-  height: 0
-
-.wipe-exit.wipe-exit-active
-  height: 100%
-  transition: height $fast ease-out
-
-// Grid
-.row
-  display: flex
-  flex-wrap: wrap
-
-.col
-  flex-basis: 0
-  flex-grow: 1
-  max-width: 100%
 
 // Clearfix
 @mixin clearfix
