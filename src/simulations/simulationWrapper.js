@@ -8,6 +8,8 @@ import deepmerge from 'deepmerge'
 import { defaultSettings, prettyDrawingSettings, trafficSettings, colonySettings, 
   schoolSettings, crowdsSettings, moldSettings } from './simulationSettings'
 import classnames from 'classnames';
+import { CSSTransition } from "react-transition-group";
+import { SimpleFade } from '../components/fadeWrapper';
 
 //////////////////////////////////////////////////
 //
@@ -32,50 +34,18 @@ export default class SimulationWrapper extends Component {
       this.canvas = _canvas; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
-    
-    switch(props.path) {
-      case 'traffic':
-        this.currentSettings = deepmerge(defaultSettings, trafficSettings);
-        break;
-
-      case 'colony':
-        this.currentSettings = deepmerge(defaultSettings, colonySettings);
-        break;
-
-      case 'school':
-        this.currentSettings = deepmerge(defaultSettings, schoolSettings);
-        break;
-
-      case 'crowds':
-        this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
-        break;
-
-      case 'mold':
-        this.currentSettings = deepmerge(defaultSettings, moldSettings);
-        break;
-
-      default: 
-        console.error('Simulation type does not match setting.');
-        break;      
-    }
-
-    this.styles = {
-      cursor: 
-        this.currentSettings && 
-        this.currentSettings.simulationSettings && 
-        this.currentSettings.simulationSettings.cursorBoidSettings && 
-        this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
-    }
   }
 
   onMouseMove = (e) => {
-    if(this.canvasRect && this.rafController && this.rafController.ticker % 4 == 0) {
+    if(this.canvasRect && this.rafController && this.rafController.ticker % 4 === 0) {
       this.mousePos.x = e.clientX - this.canvasRect.left;
       this.mousePos.y = e.clientY - this.canvasRect.top;
     }
   }
 
   onMouseClick = (e) => {
+    this.mousePos.x = e.clientX - this.canvasRect.left;
+    this.mousePos.y = e.clientY - this.canvasRect.top;
     if(this.simulationController) {
       this.simulationController.onClick({...this.mousePos}); 
     }
@@ -115,28 +85,8 @@ export default class SimulationWrapper extends Component {
       this.mousePos = {x: this.width / 2, y: this.height / 2};
       this.center = {x: this.width / 2, y: this.height / 2};
 
-      // Creates the Raf Controller to controller frame rate. 
-      this.rafController = new RafController(this.currentSettings.rafSettings);
-      // Creates the simulation controller for the simulation. 
-      this.simulationController = new SimulationController({
-        width: this.width,
-        height: this.height,
-        boidCount: this.currentSettings.simulationSettings.boidCount,
-        simulationType: this.currentSettings.simulationSettings.simulationType,
-        cursorBoidSettings: this.currentSettings.simulationSettings.cursorBoidSettings, 
-        boidSettings: this.currentSettings.simulationSettings.boidSettings,
-      });
-      // Creates the drawables controller to draw other shapes. 
+      this.rafController = new RafController({fps: 60});
       this.drawablesController = new DrawablesController();  
-
-      // Uses the rafController to execute the sim at a specified frame rate. 
-      this.rafController.onStep = ticker => {
-        if(this.ctx) {
-          this.simulationController.step(this.ctx, this.mousePos);
-          this.drawablesController.step(this.ctx); 
-          this.drawablesController.clear(this.ctx);
-        }
-      }
 
       // Sets the state to force a rerender of the canvas. 
       this.setState({
@@ -146,7 +96,69 @@ export default class SimulationWrapper extends Component {
     }
   }
 
+  buildSimulation() {
+    if(this.state.width && this.state.height) {
+      switch(this.props.curSystem.path) {
+        case 'traffic':
+          this.currentSettings = deepmerge(defaultSettings, trafficSettings);
+          break;
+  
+        case 'colony':
+          this.currentSettings = deepmerge(defaultSettings, colonySettings);
+          break;
+  
+        case 'school':
+          this.currentSettings = deepmerge(defaultSettings, schoolSettings);
+          break;
+  
+        case 'crowds':
+          this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
+          break;
+  
+        case 'mold':
+          this.currentSettings = deepmerge(defaultSettings, moldSettings);
+          break;
+  
+        default: 
+          console.error('Simulation type does not match setting.');
+          break;      
+      }
+  
+      this.styles = {
+        cursor: 
+          this.currentSettings && 
+          this.currentSettings.simulationSettings && 
+          this.currentSettings.simulationSettings.cursorBoidSettings && 
+          this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',
+      }
+
+      this.rafController.changeFps(this.currentSettings.rafSettings.fps)
+     
+      // Creates the simulation controller for the simulation. 
+      this.simulationController = new SimulationController({
+        width: this.width,
+        height: this.height,
+        boidCount: this.currentSettings.simulationSettings.boidCount,
+        simulationType: this.currentSettings.simulationSettings.simulationType,
+        cursorBoidSettings: this.currentSettings.simulationSettings.cursorBoidSettings, 
+        boidSettings: this.currentSettings.simulationSettings.boidSettings,
+      });
+  
+      // Uses the rafController to execute the sim at a specified frame rate. 
+      this.rafController.onStep = ticker => {
+        if(this.ctx) {
+          this.drawablesController.clear(this.ctx);
+          this.simulationController.step(this.ctx, this.mousePos);
+          this.drawablesController.step(this.ctx); 
+        }
+      }
+    }
+  }
+
   render() {
+    this.buildSimulation(); 
+    let shouldRender = Boolean(typeof (this.state.width) !== 'undefined' && typeof(this.state.height !== 'undefined'))
+    
     return (
       <div 
         className={classnames('simulation-canvas', this.props.path)} 
@@ -158,10 +170,8 @@ export default class SimulationWrapper extends Component {
         style={this.styles}
       > 
         {/* <div className='cursorIcon' ref={this.cursorIconRef} ></div> */}
-        {this.state.width && this.state.height &&
-          <CanvasBase hoistCanvas={this.hoistCanvas}/>
-        }
-      </div>    
+        <CanvasBase hoistCanvas={this.hoistCanvas}/>
+      </div>
     );
   }
 }

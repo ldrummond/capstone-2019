@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { CanvasTransition, fillCircle, strokeCircle} from '../components/helperFunctions'
+import { CanvasTransition, fillCircle, strokeCircle, ActiveBounds} from '../components/helperFunctions'
 
 //////////////////////////////////////////////////
 //
@@ -9,9 +9,8 @@ import { CanvasTransition, fillCircle, strokeCircle} from '../components/helperF
 
 export default class DrawablesController {
   constructor() {
-
     this.drawBuffer = []; 
-    this.activeBounds = {}; 
+    this.activeBounds = new ActiveBounds();
   }
 
   shouldDraw() {
@@ -26,7 +25,7 @@ export default class DrawablesController {
       fps: fps || 60, 
       pos: pos,
       onStep: (per, ctx) => {
-        ctx.strokeStyle = `rgba(200, 100, 0, ${1 - per / 100})`;
+        ctx.strokeStyle = `rgba(0, 0, 0, ${1 - per / 100})`;
         ctx.lineWidth = 1.5
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, 25 * (per / 100), 0, 2 * Math.PI);
@@ -37,36 +36,13 @@ export default class DrawablesController {
   }
 
   clear(ctx) {
-    ctx.clearRect(this.activeBounds.x, this.activeBounds.y, this.activeBounds.width, this.activeBounds.height);
-  }
-
-  updateBounds = (position) => {
-    if(position.x > this.maxX) {
-      this.maxX = position.x;
-    } else if (position.x < this.minX) {
-      this.minX = position.x; 
-    }
-    if(position.y > this.maxY) {
-      this.maxY = position.y;
-    } else if (position.y < this.minY) {
-      this.minY = position.y; 
-    }
-  }
-
-  setActiveBounds() {
-    this.activeBounds = {
-      x: this.minX,
-      y: this.minY,
-      width: this.maxX - this.minX,
-      height: this.maxY - this.minY, 
-    }
+    this.activeBounds.clear(ctx, 25); 
   }
 
   step(ctx) {
     if(this.drawBuffer.length > 0) {
       this.drawBuffer = this.drawBuffer.filter(drawable => {
-        // this.updateBounds(drawable.pos.x - 10, drawable.pos.y - 10) 
-        // this.updateBounds(drawable.pos.x + 10, drawable.pos.y + 10) 
+        this.activeBounds.update(drawable.pos); 
         drawable.step(ctx); 
         
         if(!drawable.isDone) {
@@ -75,6 +51,6 @@ export default class DrawablesController {
         return false;
       })
     }
-    // this.setActiveBounds(); 
+    this.activeBounds.reset();
   }
 }

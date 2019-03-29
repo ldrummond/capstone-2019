@@ -65,7 +65,7 @@ export const defaultSettings = {
       maxSpeed: 5,
       shape: 'line',
       color: 'white',
-      width: 2,
+      strokeWidth: 2,
       drawFn: (ctx, boid) => {
         ctx.strokeRect(boid.position.x, boid.position.y, 5, 5);
       },
@@ -124,7 +124,7 @@ export const trafficSettings = {
     boidSettings: {
       isVisible: true,
       // clearFrames: false, 
-      // drawActiveBounds: true, 
+      drawActiveBounds: false, 
       count: 60, 
       minDistance: 50,
       maxSpeed: 1,
@@ -155,12 +155,13 @@ export const colonySettings = {
       // drawActiveBounds: undefined, 
       // count: undefined, 
       // minDistance: undefined,
-      // maxSpeed: undefined,
+      maxSpeed: 4,
+      strokeWidth: 1,
       // maxDistance: undefined,
       // avoidDistance: undefined, 
       // shape: undefined,
       // color: 'white',
-      // drawFn: colonyBoidDrawFn, 
+      drawFn: colonyBoidDrawFn, 
     }
   }
 }
@@ -199,8 +200,6 @@ export const schoolSettings = {
     }
   }
 }
-
-
 
 export const crowdsSettings = {
   rafSettings: {fps: 60},

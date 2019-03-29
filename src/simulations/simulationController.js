@@ -1,5 +1,6 @@
 import BoidPoolController from './boidPoolController'; 
-import CursorController from './cursorController'; 
+import CursorBoidController from './cursorBoidController'; 
+import {ActiveBounds} from '../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -28,11 +29,8 @@ export default class SimulationController {
       width: width,
       height: height,
     }
-    this.activeBounds = this.bounds; 
-    this.minX = this.bounds.x + this.bounds.width;
-    this.maxX = x; 
-    this.minY = this.bounds.y + this.bounds.height;
-    this.maxY = y;
+
+    this.activeBounds = new ActiveBounds(); 
 
     // Creates the pool controller.
     if(boidSettings.isVisible) {
@@ -58,43 +56,16 @@ export default class SimulationController {
   createBoidPoolController(boidSettings) {
     this.boidPoolController = new BoidPoolController({
       simulationType: this.simulationType,
-      width: this.bounds.width, 
-      height: this.bounds.height, 
-      x: this.bounds.x,
-      y: this.bounds.y,
-      boidCount: boidSettings.count,
-      maxSpeed: boidSettings.maxSpeed, 
-      maxDistance: boidSettings.maxDistance, 
-      minDistance: boidSettings.minDistance, 
-      edgeBehavior: boidSettings.edgeBehavior,
+      ...this.bounds,
+      ...boidSettings,
     })
   }
 
   createCursorBoid(cursorBoidSettings) {
-    this.cursorController = new CursorController({
+    this.cursorController = new CursorBoidController({
+      ...{x: this.bounds.width / 2, y: this.bounds.height / 2},
       ...cursorBoidSettings, 
-      ...{x: this.bounds.width / 2, y: this.bounds.height / 2}
     }); 
-  }
-
-  resetBounds() {
-    this.minX = this.bounds.x + this.bounds.width;
-    this.maxX = 0; 
-    this.minY = this.bounds.y + this.bounds.height;
-    this.maxY = 0;
-  }
-
-  updateBounds = (position) => {
-    if(position.x > this.maxX) {
-      this.maxX = position.x;
-    } else if (position.x < this.minX) {
-      this.minX = position.x; 
-    }
-    if(position.y > this.maxY) {
-      this.maxY = position.y;
-    } else if (position.y < this.minY) {
-      this.minY = position.y; 
-    }
   }
 
   distance(pointA, pointB) {
@@ -110,8 +81,8 @@ export default class SimulationController {
 
     // Clear boid position and reset boid bounds
     if(this.boidPoolController && this.clearBoidFrames) {
-      ctx.clearRect(this.activeBounds.x - 20, this.activeBounds.y - 20, this.activeBounds.width + 40, this.activeBounds.height + 40);
-      this.resetBounds(); 
+      this.activeBounds.clear(ctx, 20);
+      this.activeBounds.reset(); 
     }
 
     // Draw cursor if active
@@ -134,7 +105,7 @@ export default class SimulationController {
         if(this.updateFn) {
           this.boidPoolController.boidPool.map(boid => {
             this.updateFn(boid)
-            this.updateBounds(boid.position); 
+            this.activeBounds.update(boid.position, 20); 
             this.boidDrawFn(ctx, boid); 
           });
         }
@@ -145,7 +116,7 @@ export default class SimulationController {
     // Draw the clickbuffer objects 
     if(this.clickBuffer.length > 0 && this.clickbufferDrawFn) {
       this.clickBuffer.map(clickPos => {
-        this.updateBounds(clickPos); 
+        this.activeBounds.update(clickPos, 20); 
         this.clickbufferDrawFn(ctx, clickPos);
 
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
@@ -222,22 +193,15 @@ export default class SimulationController {
       });
 
       boidPool.map(boid => {
-        this.updateBounds(boid.position); 
+        this.activeBounds.update(boid.position, 20); 
         this.boidDrawFn(ctx, boid); 
       });
       ctx.stroke(); 
     }
 
-
-    // Update bounds. 
-    this.activeBounds.x = this.minX - 15;
-    this.activeBounds.y = this.minY - 15;
-    this.activeBounds.width = this.maxX - this.minX + 30;
-    this.activeBounds.height = this.maxY - this.minY + 30;
-
     // If viewing bounds, draw them. 
     if(this.drawBounds) {
-      ctx.strokeRect(this.activeBounds.x,this.activeBounds.y,this.activeBounds.width,this.activeBounds.height);
+      this.activeBounds.draw(ctx)
     }
   }
 

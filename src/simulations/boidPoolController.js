@@ -11,7 +11,7 @@ export default class BoidPoolController {
   constructor(opts = {}) {
     const {
       simulationType = 'traffic', 
-      boidCount = 40,
+      count = 40,
       width = 100, 
       height = 100, 
       x = 0, 
@@ -26,7 +26,7 @@ export default class BoidPoolController {
     
     // Custom settings
     this.state = simulationType;
-    this.boidCount = boidCount;
+    this.boidCount = count;
     this.width = width;
     this.height = height; 
     this.maxSpeed = maxSpeed; 
@@ -65,6 +65,7 @@ export default class BoidPoolController {
       this.boidPool.push(boid);
     }
 
+    // Initial Positions and Speeds
     switch(this.state) {
       case 'traffic':
         let lanes = 6;

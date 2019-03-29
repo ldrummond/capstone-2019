@@ -8,7 +8,7 @@ import { CanvasTransition, strokeCircle } from '../components/helperFunctions'
 //
 //////////////////////////////////////////////////
 
-export default class CursorController {
+export default class CursorBoidController {
   constructor(opts = {}) {
     const {
       color, 
