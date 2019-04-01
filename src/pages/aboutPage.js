@@ -5,6 +5,12 @@ import loaderTexture from '../assets/backgroundTest.jpg';
 import classnames from 'classnames'; 
 import data from '../data/data';
 
+//////////////////////////////////////////////////
+//
+// About Page
+//
+//////////////////////////////////////////////////
+
 export default class AboutPage extends Component {
   constructor(props) {
     super(props)

@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
 
+//////////////////////////////////////////////////
+//
+// Transition Page
+//
+//////////////////////////////////////////////////
+
 class TransitionPage extends Component {
   constructor(props) {
     super(props)
