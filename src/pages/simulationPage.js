@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {Link, Redirect} from 'react-router-dom'
-import SimulationWrapper from '../simulations/simulationWrapper';
-import classnames from 'classnames'; 
+import { Link, Redirect } from 'react-router-dom'
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
-import { SimpleFade } from '../components/fadeWrapper';
 import instructionPng from '../assets/instructionPng.png';
+import { SimpleFade } from '../components/fadeWrapper';
+import SimulationWrapper from '../simulations/simulationWrapper';
 import SvgOutline from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper'
 import { throttle } from '../components/helperFunctions'; 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import classnames from 'classnames'; 
 
+//////////////////////////////////////////////////
+//
+// Simulation Page
+//
+//////////////////////////////////////////////////
 
 class SimulationPage extends Component {
   constructor(props) {
@@ -51,7 +57,6 @@ class SimulationPage extends Component {
       rules = ["test", "test"], 
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors, and avoid predators.',
-      color = 'red', 
     } = curSystem; 
 
     let {
@@ -59,12 +64,9 @@ class SimulationPage extends Component {
       nextButtonTitle = '',
     } = nextSystem; 
 
-    const styles = {
-      background: color, 
-    }
-
     return (
       <div className={classnames('page-wrapper', 'simulation-page', path)}>
+      {/* <TransitionGroup component={null}> */}
       {/* <div className={classnames('page-wrapper', 'simulation-page', path)} onMouseMove={this.onMouseMove}> */}
         {/* <div className='pseudoCursor' style={{transform: `translate(${mouseX}px, ${mouseY}px)`}}></div> */}
         {/* <SimpleFade in={this.state.showOverlay} duration={333}> */}
@@ -79,12 +81,12 @@ class SimulationPage extends Component {
         <span className='content'>
           <section className='nav-placeholder'></section>
           <section className='description-panel'>
-              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+              <SimpleFade key={curSystem.question} shouldRender={this.state.mounted} duration={this.fadeDuration}>
                 <h3 className='index'>{index + 1}/5</h3>
                 <h2 className='question'>{question}</h2>
                 <Squiggle className='squiggle'/>
               </SimpleFade>
-              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+              <SimpleFade key={curSystem.description} shouldRender={this.state.mounted} duration={this.fadeDuration}>
                 <h2 className='title'>Emergent System</h2>
                 <h2 className='description'>{description}</h2>
                 <h2 className='title'>Rules</h2>
@@ -95,11 +97,15 @@ class SimulationPage extends Component {
               </SimpleFade>
           </section>
           <section className='simulation-panel'>
-              <SimpleFade shouldRender={this.state.mounted} duration={this.fadeDuration}>
+              <SimpleFade key={curSystem.path} shouldRender={this.state.mounted} duration={this.fadeDuration}>
                 <SimulationWrapper curSystem={curSystem}/>
                 <ButtonWrapper 
                   className='next-sim' 
-                  onClick={throttle(onNextClick, this.props.lastChange, 333)} 
+                  onClick={
+                    throttle(_ => {
+                      onNextClick(); 
+                      this.props.history.push(`/simulation/${nextPath}`);
+                    }, this.props.lastChange, 999)} 
                   // onClick={throttle(_ => this.setState({shouldRedirect: true}), this.props.lastChange, 333)} 
                 >
                   <h4>next</h4>
@@ -112,10 +118,13 @@ class SimulationPage extends Component {
               } */}
           </section>
         </span>
-        <span className='sim-backgrounds'>
-          <div className='color' style={styles}></div>
-          <div className='texture'></div>
-        </span>
+          <CSSTransition key={curSystem.color} timeout={{enter: 999, exit: 999}} classNames='background'>
+            <span className='sim-backgrounds'>
+              <div className='color' style={{background: curSystem.color}}></div>
+              <div className='texture'></div>
+            </span>
+          </CSSTransition>
+      {/* </TransitionGroup> */}
       </div>    
     );
   }

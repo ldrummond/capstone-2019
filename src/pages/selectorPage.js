@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { throttle } from '../components/helperFunctions'; 
+import data from '../data/data';
+// Asset and components
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import Pentagon from '../components/pentagonSvg';
-import { connect } from 'react-redux'
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import SelectorPentagon from '../components/selectorPentagon';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
-import { throttle } from '../components/helperFunctions'; 
 import { SimpleFade } from '../components/fadeWrapper';
-import data from '../data/data';
+
+//////////////////////////////////////////////////
+//
+// Selector Page
+//
+//////////////////////////////////////////////////
 
 class SelectorPage extends Component {
   constructor() {
@@ -23,14 +30,11 @@ class SelectorPage extends Component {
 
   componentDidMount() {
     this.setState({mounted: true});
-    console.log('mounted');
   }
 
   render() {
-    // let {prevSystem, curSystem, nextSystem, onPrevClick, onNextClick, wheelIndex} = this.props
     let {curSystem, onPrevClick, onNextClick, wheelIndex, prevWheelIndex, lastChange} = this.props
     const rotateUp = wheelIndex > prevWheelIndex;
-    console.log(wheelIndex, curSystem.index, curSystem.path)
 
     return (
       <div className='page-wrapper selector-page'>
