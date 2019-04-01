@@ -106,6 +106,29 @@
         bottom: 0
         cursor: pointer
 
+      .cave-graphics
+        position: absolute
+        overflow: hidden
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        div
+          position: absolute
+          top: -10px
+          bottom: 10px
+          right: 10px
+          left: -10px
+          display: flex
+          flex-direction: column
+          justify-content: space-between
+          align-items: center
+        svg
+          width: 100%
+          fill: none
+          stroke: rgba(255, 255, 255, 0.5)
+          z-index: 0
+
       .next-sim
         position: absolute
         bottom: 28px
@@ -113,8 +136,10 @@
         text-align: right
         z-index: 10
         .active-area
+          left: -70%
           top: -55%
           height: 155%
+          width: 200%
         .svg-outline-container
           width: 60px
           height: 60px
@@ -170,6 +195,23 @@
       background-size: 10px 10px
       opacity: 0.2
       z-index: -1
+
+  .sim-backgrounds
+    transition: transform $med ease
+    &.background-enter 
+      transition:  transform $slow ease
+      transform: translateY(100%)
+
+    &.background-enter.background-enter-active 
+      transform: translateY(0)
+
+    &.background-exit
+      transform: translateY(0)
+      transition: transform $slow ease
+
+    &.background-exit.background-exit-active
+      transform: translateY(-100%)
+
 
   .overlay
     position: absolute

@@ -1,32 +1,55 @@
 // Hover Styles
 @mixin hoverline 
   position: relative
-  height: 24px
+  // height: 24px
+  // border-radius: 2px
+  padding: 2px 8px
   // height: 22px
   overflow: hidden
   &:after
     content: ''
     display: block
     position: absolute
-    left: 0
-    bottom: 0
+    background: white
+    left: 50%
+    top: 50%
     width: 100%
-    background: $dark
-    height: 1.2px
-    // border-radius: 10px
-    // transform: translateX(-101%)
-    // transition: transform $fast ease 
-    opacity: 1
-    transform: translateY(2px)
-    transition: transform $fast ease, opacity $fast ease 
-
-  .light &:after
-    background: $light
-    
+    height: 0
+    padding-bottom: 100%
+    // border-radius: 50%
+    transition: $med transform ease-out
+    margin-top: -50%
+    margin-left: -50%
+    transform: scaleX(0)
+    // transform-origin: -25% -25%
+    z-index: -5
   &:hover
+    transition: $med transform ease-in
     &:after
-      opacity: 1
-      transform: translateY(-2px)
+      transform: scaleX(2)
+  // &:after
+  //   content: ''
+  //   display: block
+  //   position: absolute
+  //   left: 0
+  //   bottom: 0
+  //   width: 100%
+  //   background: $dark
+  //   height: 1.2px
+  //   // border-radius: 10px
+  //   // transform: translateX(-101%)
+  //   // transition: transform $fast ease 
+  //   opacity: 1
+  //   transform: translateY(2px)
+  //   transition: transform $fast ease, opacity $fast ease 
+
+  // .light &:after
+  //   background: $light
+    
+  // &:hover
+  //   &:after
+  //     opacity: 1
+  //     transform: translateY(-2px)
 
 @mixin slide-in
   opacity: 0
@@ -35,9 +58,12 @@
   &.active 
     opacity: 1
     transform: translateY(0)
-  
+
+// 
+// MOBILE
+// 
 .navbar
-  position: absolute
+  position: fixed
   top: 0
   width: 100%
   height: $nav-height
@@ -67,7 +93,6 @@
 
   .back-link
     // font-family: $calluna-stack
-    top: 3px
     letter-spacing: 0.05em
     cursor: pointer
     text-transform: uppercase
@@ -85,3 +110,10 @@
         background: $light
         opacity: 1
         transform: translateY(-2px)
+
+// 
+// DESKTOP
+// 
++after-bg-mobile
+  .navbar
+    border: none
