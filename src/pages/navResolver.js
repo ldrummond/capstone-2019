@@ -4,18 +4,39 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import data from '../data/data'
 
- function NavResolver(props) {
-  let { history, prevLocation, location} = props; 
-  let colors = data.systems.map(system => system.color);    
-     
-  let routeIsAbout = (location && location.pathname === '/about'); 
-  let aboutDestination = '/about'; 
+//////////////////////////////////////////////////
+//
+// Nav Resolver
+//
+//////////////////////////////////////////////////
 
-  if(routeIsAbout && typeof(prevLocation) !== 'undefined') {
-    aboutDestination = prevLocation.pathname
-  } 
-  else if (routeIsAbout) {
-    aboutDestination = '/selector';
+function NavResolver(props) {
+  let { history, location, prevLocation} = props; 
+  let pageIsAbout = (location && location.pathname === '/about'); 
+  let pageIsSelector = (location && location.pathname === '/selector'); 
+  let pageIsMobile = (location && location.pathname === '/mobile'); 
+
+  let aboutLinkDestination = '/about';
+  let backLinkDestination = '/selector'; 
+
+  if(pageIsAbout && prevLocation) {
+    aboutLinkDestination = prevLocation; 
+  }
+  else if (pageIsAbout) {
+    aboutLinkDestination = '/selector';
+  }
+
+  if(pageIsSelector) {
+    backLinkDestination = '/selector';
+  }
+  else if(pageIsMobile) {
+    backLinkDestination = '/mobile'; 
+  }
+
+  // console.log('transition from:' + prevLocation + ', about link to : ' + aboutLinkDestination);
+  // let colors = data.systems.map(system => system.color);    
+  const scrollTop = function() {
+    window.scrollTo(0, 0);
   }
 
   return (
@@ -29,8 +50,10 @@ import data from '../data/data'
       )}
     >
       {/* <TitleLink colors={colors}>{process.env.REACT_APP_PROJECT_TITLE}</TitleLink> */}
-      <NavLink className='back-link unbuttoned' to='/selector'>{process.env.REACT_APP_PROJECT_TITLE}</NavLink>
-      <NavLink className='about-link unbuttoned' to={aboutDestination}>About</NavLink>
+      <NavLink className='back-link unbuttoned' to={backLinkDestination}>
+        {process.env.REACT_APP_PROJECT_TITLE}
+      </NavLink>
+      <NavLink className='about-link unbuttoned' to={aboutLinkDestination}>About</NavLink>
     </nav>
   )
 }
@@ -52,4 +75,10 @@ function TitleLink(props) {
   )
 }
 
-export default NavResolver
+const mapStateToProps = state => {
+  return {
+    prevLocation: state.prevLocation,  
+  }
+}
+
+export default connect(mapStateToProps)(NavResolver)
