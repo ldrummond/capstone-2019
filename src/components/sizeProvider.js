@@ -5,6 +5,7 @@ export default class SizeWrapper extends Component {
     super();
     this.state = {
       width: window.innerWidth,
+      height: window.innerHeight, 
     };
   }
   
@@ -12,24 +13,23 @@ export default class SizeWrapper extends Component {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
   
-  // make sure to remove the listener
-  // when the component is not mounted anymore
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
   }
   
   handleWindowSizeChange = () => {
-    this.setState({ width: window.innerWidth });
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
   
   render() {
-    const { width } = this.state;
-    const isMobile = width <= 500;
+    const { width, height } = this.state;
+    // const isMobile = width <= 500;
     // the rest is the same...
-  
-    if (isMobile) {
-      return {...props.children}
-    }
+    console.log(width)
+    return this.props.children(width, height);
+    // if (isMobile) {
+    //   return {...props.children}
+    // }
   }
 }
 
