@@ -11,3 +11,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+
+window.cout = (oneInNumber, ...messages) => {
+  if(Math.round(Math.random() * oneInNumber) === oneInNumber) {
+    console.log(...messages);
+  }
+}

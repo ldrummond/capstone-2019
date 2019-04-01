@@ -65,6 +65,12 @@ function systemsReducer(state = [], action) {
         prevWheelIndex: state.wheelIndex,
         lastChange: Date.now(), 
       };
+
+    case 'SET_PREV_LOCATION':
+      return {
+        ...state,
+        prevLocation: action.prevLocation
+      };
     
     default:
       return state
@@ -78,10 +84,20 @@ function systemsReducer(state = [], action) {
 
 // Create a Redux store holding the state of your app.
 // Its API is { subscribe, dispatch, getState }.
-export default function createStoreFromPath(path = 'traffic') {
-  const initialState = {
-    prevWheelIndex: 0,
-    lastChange: Date.now(),
-  }
-  return createStore(systemsReducer, stateFromPath(initialState, path)); 
-} 
+// export default function createStoreFromPath(path = 'traffic') {
+//   const initialState = {
+//     prevLocation: 'about',
+//     prevWheelIndex: 0,
+//     lastChange: Date.now(),
+//   }
+//   return createStore(systemsReducer, stateFromPath(initialState, path)); 
+// } 
+
+const initialState = {
+  prevLocation: '/about',
+  prevWheelIndex: -1,
+  wheelIndex: 0,
+  lastChange: Date.now(),
+}
+
+export default createStore(systemsReducer, stateFromPath(initialState, 'traffic')); 

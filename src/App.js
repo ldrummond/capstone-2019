@@ -1,12 +1,17 @@
 import React from 'react';
 import {HashRouter} from 'react-router-dom';
-import ReduxWrapper from './pages/reduxWrapper.js';
+import {Provider} from 'react-redux';
+import store from './redux/store';
+import ContentWrapper from './pages/contentWrapper';
+// import ContentWrapper from './pages/contentWrapper';
 import './styles/index.sass';
 
 function App() {
   return (
     <HashRouter>
-      <ReduxWrapper/>
+      <Provider store={store}>
+        <ContentWrapper/>
+      </Provider>
     </HashRouter>
   );
 }
