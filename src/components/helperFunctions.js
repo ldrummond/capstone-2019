@@ -24,14 +24,14 @@ export function CanvasTransition({
   endValue = 1, 
   durationMs = 200, 
   fps = 60, 
-  pos = {x: 0, y: 0}, 
+  position = {x: 0, y: 0}, 
   onStep, 
   onComplete = _ => {},
   data = {},
 }) 
 {
   this.data = data;
-  this.pos = pos; 
+  this.position = position; 
   this.isDone = false; 
   
   this.stepCount = Math.floor(durationMs / (1000 / fps));
@@ -52,55 +52,6 @@ export function CanvasTransition({
       onComplete();
       this.isDone = true; 
     }
-  }
-}
-
-/**
- * 
- * Bounds Object
- */
-export function ActiveBounds() {
-  this.minX = Number.MAX_SAFE_INTEGER;
-  this.maxX = Number.MIN_SAFE_INTEGER; 
-  this.minY = Number.MAX_SAFE_INTEGER;
-  this.maxY = Number.MIN_SAFE_INTEGER;
-  
-  this.reset = _ => {
-    this.minX = Number.MAX_SAFE_INTEGER;
-    this.maxX = Number.MIN_SAFE_INTEGER; 
-    this.minY = Number.MAX_SAFE_INTEGER;
-    this.maxY = Number.MIN_SAFE_INTEGER;
-  }
-
-  this.update = pos => {
-    if(pos.x > this.maxX) {
-      this.maxX = pos.x;
-    } else if (pos.x < this.minX) {
-      this.minX = pos.x; 
-    }
-    if(pos.y > this.maxY) {
-      this.maxY = pos.y;
-    } else if (pos.y < this.minY) {
-      this.minY = pos.y; 
-    }
-  }
-
-  this.draw = (ctx, padding = 0) => {
-    ctx.strokeRect(
-      this.minX - padding, 
-      this.minY - padding, 
-      (this.maxX - this.minX) + (padding * 2), 
-      (this.maxY - this.minY) + ( padding * 2)
-    );
-  }
-
-  this.clear = (ctx, padding = 0) => {
-    ctx.clearRect(
-      this.minX - padding, 
-      this.minY - padding, 
-      (this.maxX - this.minX) + (padding * 2), 
-      (this.maxY - this.minY) + ( padding * 2)
-    );
   }
 }
 
@@ -183,12 +134,18 @@ export function ranRGB() {
   return `rgb(${255 * Math.random()|0}, ${255 * Math.random()|0}, ${255 * Math.random()|0})`;
 }
 
-
 //////////////////////////////////////////////////
 //
 // Math Functions
 //
 //////////////////////////////////////////////////
+
+/**
+ * Distance 
+ */
+export function distance(pointA, pointB) {
+  return Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
+}
 
 /*
 * To Deg 
@@ -214,11 +171,69 @@ export function clamp(size, limit) {
   return size; 
 }
 
+/**
+ * Square
+ * @param {number} val 
+ */
+export function squared(val) {
+  return Math.pow(val, 2)
+}
+
 //////////////////////////////////////////////////
 //
 // Canvas Functions
 //
 //////////////////////////////////////////////////
+
+
+/**
+ * 
+ * Active Bounds object for canvas
+ */
+export function ActiveBounds() {
+  this.minX = Number.MAX_SAFE_INTEGER;
+  this.maxX = Number.MIN_SAFE_INTEGER; 
+  this.minY = Number.MAX_SAFE_INTEGER;
+  this.maxY = Number.MIN_SAFE_INTEGER;
+  
+  this.reset = _ => {
+    this.minX = Number.MAX_SAFE_INTEGER;
+    this.maxX = Number.MIN_SAFE_INTEGER; 
+    this.minY = Number.MAX_SAFE_INTEGER;
+    this.maxY = Number.MIN_SAFE_INTEGER;
+  }
+
+  this.update = pos => {
+    if(pos.x > this.maxX) {
+      this.maxX = pos.x;
+    } else if (pos.x < this.minX) {
+      this.minX = pos.x; 
+    }
+    if(pos.y > this.maxY) {
+      this.maxY = pos.y;
+    } else if (pos.y < this.minY) {
+      this.minY = pos.y; 
+    }
+  }
+
+  this.draw = (ctx, padding = 0) => {
+    ctx.strokeRect(
+      this.minX - padding, 
+      this.minY - padding, 
+      (this.maxX - this.minX) + (padding * 2), 
+      (this.maxY - this.minY) + ( padding * 2)
+    );
+  }
+
+  this.clear = (ctx, padding = 0) => {
+    ctx.clearRect(
+      this.minX - padding, 
+      this.minY - padding, 
+      (this.maxX - this.minX) + (padding * 2), 
+      (this.maxY - this.minY) + ( padding * 2)
+    );
+  }
+}
 
 /* 
 * Converts mouse pos from world to canvas space 
@@ -249,6 +264,30 @@ export function strokeCircle(ctx, x, y, r, color) {
   if(color) {ctx.strokeColor = color}
   ctx.stroke();
 }
+
+/* 
+* Draw Triangle
+*/
+export function strokeTriangle(ctx, pos, velocity) {
+  ctx.beginPath();
+  // let adj = velocity.x * 6; 
+  // let angle = 15; 
+  // let opposite = Math.tan(angle) * adj; 
+  // let aX = pos.x + -velocity.x * 6; 
+  // let aY = pos.y + -velocity.y * 6; 
+  // let bX = pos.x + velocity.x * 6;
+  // let bY = pos.y + velocity.y * 6;
+  // // let cX = pos.x + velocity.x * 3; 
+  // // let cY = pos.y + velocity.y * 3; 
+  ctx.moveTo(pos.x - velocity.x * 2, pos.y - velocity.y * 2);
+  ctx.lineTo(pos.x + velocity.x * 2, pos.y + velocity.y * 2);
+
+  // ctx.moveTo(aX, aY);
+  // ctx.lineTo(bX, bY);
+  // // ctx.lineTo(cX, cY);
+  ctx.stroke();
+}
+
 
 /*
 * Lerp Line

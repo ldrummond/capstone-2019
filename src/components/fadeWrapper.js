@@ -27,11 +27,11 @@ export class FadeWrapper extends Component {
 	onLoad() { this.setState({ loaded: true }); };
 
 	render() {
-		const { height, children, duration } = this.props,
+		const { height, children, duration, key } = this.props,
 			{ loaded } = this.state;
 
 		return (
-			<Transition in={loaded} timeout={duration}>
+			<Transition key={key} in={loaded} timeout={duration}>
 				{state => children(this.onLoad, { ...this.defaultStyle, ...this.transitionStyles[state] })}
 			</Transition>
 		);
@@ -50,6 +50,8 @@ export class SimpleFade extends Component {
 		this.transitionStyles = {
 			entering: { opacity: 0, pointerEvents: "none" },
 			entered: { opacity: 1, pointerEvents: "all" },
+			exiting: { opacity: 1, pointerEvents: "all" },
+			exited: { opacity: 0, pointerEvents: "none" },
 		};
 	}
 
