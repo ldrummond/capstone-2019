@@ -1,0 +1,8 @@
+<svg class='cave-top' viewBox="0 0 590.46 267.25">
+  <defs>
+      <pattern id="cave-pattern" viewBox="0,0,20,20" width="1%" height="1%">
+        <polygon points="0,0 5,10 0,1"/>
+      </pattern>
+    </defs>
+  <polygon fill="url(#cave-pattern)" points="589.21 0.54 560.03 1.54 31.19 1.54 30.21 0.54 1.21 0.54 93.21 92.54 107.21 78.54 295.21 266.54 417.71 144.04 431.71 158.04 589.21 0.54"/>
+</svg>
