@@ -1,5 +1,5 @@
-import Boid from 'boid'; // import $ from 'jquery'; 
-
+import Boid from 'boid';
+import { distance } from '../components/helperFunctions';
 //////////////////////////////////////////////////
 //
 // Boid Pool Controller
@@ -12,181 +12,93 @@ export default class BoidPoolController {
     const {
       simulationType = 'traffic', 
       count = 40,
-      width = 100, 
-      height = 100, 
-      x = 0, 
-      y = 0,
+      bounds, 
       maxSpeed,
       maxDistance,
       minDistance,
-      avoidDistance,
+      avoidDistance = 80,
+      arriveThreshold = 20,
+      initFn,
+      updateFn,
+      clickFn, 
       edgeBehavior = 'bounce', 
     } = opts; 
     
-    
     // Custom settings
     this.state = simulationType;
-    this.boidCount = count;
-    this.width = width;
-    this.height = height; 
-    this.maxSpeed = maxSpeed; 
-    this.maxDistance = maxDistance;
-    this.minDistance = minDistance; 
+    this.bounds = bounds; 
+    this.initFn = initFn;
+    this.updateFn = updateFn; 
+    this.clickFn = clickFn; 
     this.avoidDistance = avoidDistance; 
-    this.edgeBehavior = edgeBehavior; 
     
     // Default Settings
     this.target = Boid.vec2(0, 0);
     this.chaser = Boid.vec2(0, 0);
-    this.avoidDistance = 80; 
-    this.center = Boid.vec2(width / 2,height / 2);
+    this.center = Boid.vec2(bounds.width / 2, bounds.height / 2);
     this.boidPool = []; 
-    this.x = x;
-    this.y = y;
+    this.otherBoidPool = []; 
     
-    this.initializeBoids(); 
-  }
-
-  initializeBoids() {
+    // Initialize boids to custom settings
     let boid; 
-    for(let i = 0; i < this.boidCount; i++) {
+    for(let i = 0; i < count; i++) {
       boid = new Boid();
-      boid.edgeBehavior = this.edgeBehavior;
-      boid.position.x = this.width * Math.random();
-      boid.position.y = this.height * Math.random(); 
-      // boid.position.x = (this.width / 2) * Math.random() + this.width / 4;
-      // boid.position.y = (this.height / 2) * Math.random() + this.height / 4;
+      boid.edgeBehavior = edgeBehavior;
+      boid.position.x = bounds.width * Math.random();
+      boid.position.y = bounds.height * Math.random(); 
       boid.velocity.x = Math.random() - 0.5;
       boid.velocity.y = Math.random() - 0.5;
-      boid.maxSpeed = this.maxSpeed;
-      boid.maxDistance = this.maxDistance;
-      boid.minDistance = this.minDistance; 
-      boid.setBounds(this.width, this.height, this.x, this.y);
+      boid.maxSpeed = maxSpeed;
+      boid.arriveThreshold = arriveThreshold; 
+      boid.maxDistance = maxDistance;
+      boid.minDistance = minDistance; 
+      boid.setBounds(bounds.width, bounds.height, bounds.x, bounds.y);
       this.boidPool.push(boid);
     }
 
-    // Initial Positions and Speeds
-    switch(this.state) {
-      case 'traffic':
-        let lanes = 6;
-        let laneWidth = 60; 
-        let lanesTotal = lanes * laneWidth; 
-        let heightUnit = this.height / this.boidPool.length;
-        let center = this.width / 2; 
-
-        this.boidPool.map((boid, i) => {
-          let x = (i % lanes + 1); 
-          let y = (Math.floor(i / lanes)); 
-          boid.position.x = center - (lanesTotal / 2) + x * laneWidth;
-          boid.position.y = i * heightUnit; // (y + 1) * (this.height / (lanes + 2)); 
-          // boid.maxSpeed = 0.5;
-          boid.velocity.x = 0; 
-          boid.velocity.y = 2; //Math.random() * 2 + 0.1; 
-          boid.mass = 1;
-          boid.arriveThreshold = 50;
-          boid.maxForce = 0.1;
-        })
-        break;
-
-      case 'colony':
-        break;
-
-      case 'school':
-        this.boidPool.map(boid => {
-          boid.position.x = (this.width / 2) * Math.random() + this.width / 4;
-          boid.position.y = (this.height / 2) * Math.random() + this.height / 4;
-        })
-        break;
-
-      case 'crowds':
-        break;
-
-      case 'mold':
-        break;
+    // If the simulation has a specific init style, use that. 
+    if(this.initFn) {
+      this.initFn(this.boidPool, this.bounds, this.otherBoidPool); 
     }
   }
 
-  distance(pointA, pointB) {
-    return Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
+  onClick(mousePos) {
+    if(this.clickFn) {
+      this.clickFn(mousePos, this.boidPool, this.otherBoidPool, this.bounds); 
+    }
   }
 
   getUpdateFn() {
-    switch(this.state) {
-      case 'traffic':
-        return boid => {
-          let pos = boid.position, 
-            otherPos,
-            xDiff,
-            yDiff,
-            target,
-            minYDiff = 10000;
-
-          this.boidPool.map(otherBoid => {
-            if(otherBoid !== boid) {
-              otherPos = otherBoid.position; 
-              xDiff = otherPos.x - pos.x;
-              yDiff = otherPos.y - pos.y; 
-              if(Math.abs(xDiff) < 10) {
-                if(pos.y < otherPos.y) {
-                  if(yDiff < minYDiff) {
-                    minYDiff = yDiff;
-                    if(yDiff < boid.arriveThreshold) {
-                      boid.velocity.y = 0; 
-                    } else if(yDiff < boid.arriveThreshold * 2) {
-                      target = otherBoid;
-                    } else {
-                      boid.velocity.y += 0.2;
-                    }
-                  }
-                }
-              }
-            }
-          })
-          
-          if(target) {
-            boid.arrive(Boid.vec2(target.position.x, target.position.y));
-          }
-          boid.velocity.x = 0; 
-          boid.update(); 
-        }
-        break;
-
-      case 'colony':
-        return boid => boid.wander().update();
-        break;
-
-      case 'school':
-        return boid => {
-          if(this.distance(boid.position, this.chaser) < 50) {
-            boid.flee(this.chaser).update();
-          } else if(this.distance(boid.position, this.center) > (this.width * 0.3)) {
-            boid.seek(this.center).update();
-          } else {
-            boid.flock(this.boidPool).update();
-          }
-        }
-        break;
-
-      case 'crowds':
-        return boid => boid.wander().update();
-        break;
-
-      case 'mold':
-        let pos, dist, shouldWander, 
-          senseDist = 50, 
-          maxDist = 100;
-
-        return boid => {
-
-          boid.wander().update();
-        }
-        break;
-        
-
-      default: 
-        return boid => boid.wander().update();
-        break;      
+    if(this.updateFn) {
+      return boid => {
+        this.updateFn({
+          boid: boid,
+          boidPool: this.boidPool,
+          otherBoidPool: this.otherBoidPool,
+          bounds: this.bounds,
+          center: this.center,
+          chaser: this.chaser, 
+        })
+      }
+    } 
+    else {
+      return boid => boid.wander().update();
     }
+  }
+
+  updateOtherBoids(ctx) {
+    this.otherBoidPool = this.otherBoidPool.filter(boid => {
+      if(boid.step) {
+        boid.step(ctx); 
+      } else {
+        boid.userData.step(ctx); 
+      }
+        
+      if(!boid.isDone) {
+        return boid; 
+      }
+      return false;
+    })
   }
 
   // Updates target or chaser for the flee and seek states. 

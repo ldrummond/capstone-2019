@@ -1,10 +1,9 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
-import { CanvasTransition, strokeCircle } from '../components/helperFunctions'
+import { CanvasTransition, strokeCircle, ActiveBounds } from '../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
 // Cursor Controller
-// https://github.com/ianmcgregor/boid
 //
 //////////////////////////////////////////////////
 
@@ -13,45 +12,52 @@ export default class CursorBoidController {
     const {
       color, 
       shape, 
-      width, 
+      strokeWidth, 
+      bounds, 
       clearFrames, 
-      x = -10, 
-      y = -10,
-      maxSpeed = 2, 
+      clickFn,
+      updateFn, 
       drawFn,
     } = opts; 
 
     this.mousePos = {
-      x: x,
-      y: y,
+      x: bounds.width / 2,
+      y: bounds.height / 2,
     }
 
+    this.initBoid(opts);
+
+    // Default Settings
     this.initialColor = color; 
     this.color = color; 
-    this.width = width;
+    this.strokeWidth = strokeWidth;
+    this.bounds = bounds;
     this.clearFrames = clearFrames; 
-    this.drawFn = drawFn; 
+    
+    // Custom Settings
+    this.clickFn = clickFn;
+    this.updateFn = updateFn;
+    this.drawFn = drawFn;
 
+    this.clickBuffer = [];
+    this.drawBuffer = []; 
+    this.activeBounds = new ActiveBounds();
+    this.playing = true;
+  }
+
+  initBoid({maxSpeed = 2, bounds, edgeBehavior, initFn}) {
+    // Boid Settings
     this.boid = new Boid();
-    this.boid.position.x = this.mousePos.x; 
-    this.boid.position.y = this.mousePos.y;
+    this.boid.position.x = bounds.width / 2; 
+    this.boid.position.y = bounds.height / 2;
     this.boid.maxSpeed = maxSpeed;
     this.boid.velocity.x = 1;
     this.boid.velocity.y = 1;
-    this.boid.edgeBehavior = 'EDGE_NONE';
-    this.playing = true; 
-  }
+    this.boid.edgeBehavior = edgeBehavior || 'EDGE_NONE';
 
-  distance(pointA, pointB) {
-    return Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y)
-  }
-
-  update() {
-    if(this.playing) {
-      this.boid.arrive(Boid.vec2(this.mousePos.x, this.mousePos.y)).update();   
-    } 
-    else if(this.slowdown) {
-      this.slowdown.step(); 
+    // Apply custom boid settings
+    if(initFn) {
+      initFn(this.boid); 
     }
   }
 
@@ -69,25 +75,64 @@ export default class CursorBoidController {
     this.playing = true; 
   }
 
-  onClick() {
-    // this.tempMaxSpeed = this.boid.maxSpeed * 2; 
-    // this.boid.maxSpeed = this.tempMaxSpeed
+  onClick(mousePos) {
+    this.clickBuffer.push(mousePos);
+    if(this.clickBuffer.length > 5) {
+      this.clickBuffer.shift();
+    }
+    if(this.clickFn) {
+      this.clickFn({
+        mousePos: mousePos,
+        clickBuffer: this.clickBuffer, 
+        drawBuffer: this.drawBuffer,
+        bounds: this.bounds,
+        boid: this.boid, 
+      })
+    }
   }
 
-  // clear(ctx) {
-  //   if(this.clearFrames){
-  //     ctx.clearRect(this.boid.position.x - 20, this.boid.position.y - 20, 40, 40);
-  //   }
-  // }
+  clear(ctx) {
+    this.activeBounds.clear(ctx, 25); 
+  }
+
+  update(ctx) {
+    // Update cursor
+    if(this.updateFn) {
+      this.updateFn({mousePos: this.mousePos, boid: this.boid, bounds: this.bounds});
+      this.activeBounds.update(this.boid.position, 20); 
+    }
+    // Update drawbuffer
+    // console.log(this.drawBuffer)
+    if(this.drawBuffer.length > 0) {
+      this.drawBuffer = this.drawBuffer.filter(drawable => {
+        drawable.step(ctx); 
+        this.activeBounds.update(drawable.position, 20); 
+        if(!drawable.isDone) {
+          return drawable; 
+        }
+        return false;
+      })
+    }
+    // Reset bounds
+    this.activeBounds.reset();
+  }
 
   draw(ctx) {
-    
     ctx.beginPath();
     ctx.strokeStyle = this.color;
-    ctx.lineWidth = this.width; 
+    ctx.lineWidth = this.strokeWidth; 
+
     if(this.drawFn) {
-      this.drawFn(ctx, this.boid); 
+      this.drawFn(ctx, this.boid, this.bounds); 
     }
+  }
+}
+
+// else if (this.slowdown) {
+//   this.slowdown.step(); 
+// }
+
+
     // ctx.moveTo(this.boid.position.x - this.boid.velocity.x * 3, this.boid.position.y - this.boid.velocity.y * 3)
     // ctx.lineTo(this.boid.position.x + this.boid.velocity.x * 3, this.boid.position.y + this.boid.velocity.y * 3);
     // ctx.stroke();
@@ -104,5 +149,3 @@ export default class CursorBoidController {
 
     // ctx.lineWidth = 0.5;
     // strokeCircle(ctx, this.mousePos.x, this.mousePos.y, 10, 10);
-  }
-}

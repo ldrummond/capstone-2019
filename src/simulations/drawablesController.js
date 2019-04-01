@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import { CanvasTransition, fillCircle, strokeCircle, ActiveBounds} from '../components/helperFunctions'
 
 //////////////////////////////////////////////////
