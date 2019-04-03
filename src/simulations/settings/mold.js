@@ -31,8 +31,8 @@ export default {
       drawActiveBounds: true, 
       count: 100, 
       maxSpeed: 1,
-      minDistance: 20, 
-      maxDistance: 22, 
+      minDistance: 30, 
+      maxDistance: 10, 
       strokeColor: 'white',
       strokeWidth: 1,
       // initFn: boidInitFn,
@@ -117,59 +117,60 @@ function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
 // }
 
 function boidUpdateFn({boid, otherBoidPool, boidPool, chaser, bounds, center}) {
-  let pos, 
-    dist, 
-    shouldWander, 
-    senseDist = 50, 
-    maxDist = 100;
+  boid.flock(boidPool).update();
+  // let pos, 
+  //   dist, 
+  //   shouldWander, 
+  //   senseDist = 50, 
+  //   maxDist = 100;
 
-  boid.userData.pheremoneDist = 0;
-  // window.cout(1000, otherBoidPool)
-  if(otherBoidPool.length > 0) {
-    let i = Math.floor(Math.random() * otherBoidPool.length * 5); 
-    if(i < otherBoidPool.length) {
-      boid.arrive(Boid.vec2(otherBoidPool[i].position.x, otherBoidPool[i].position.y));
-    }
-    // otherBoidPool.map(foodBoid => {
-      // boid.arrive(Boid.vec2(foodBoid.position.x, foodBoid.position.y));
-      // boid.update();
-    // })
-    // boid.flock(boidPool);
-  } else {
-    boid.wander();
-  }
+  // boid.userData.pheremoneDist = 0;
+  // // window.cout(1000, otherBoidPool)
+  // if(otherBoidPool.length > 0) {
+  //   let i = Math.floor(Math.random() * otherBoidPool.length * 5); 
+  //   if(i < otherBoidPool.length) {
+  //     boid.arrive(Boid.vec2(otherBoidPool[i].position.x, otherBoidPool[i].position.y));
+  //   }
+  //   // otherBoidPool.map(foodBoid => {
+  //     // boid.arrive(Boid.vec2(foodBoid.position.x, foodBoid.position.y));
+  //     // boid.update();
+  //   // })
+  //   // boid.flock(boidPool);
+  // } else {
+  //   boid.wander();
+  // }
 
-  let allPool = [...otherBoidPool, ...boidPool]; 
-  let near = false; 
-  allPool.map(otherBoid => {
-    // If the other has pheremones
-    if(otherBoid.userData.pheremoneDist) {
-      // If this is within range of the other pheremones
-      if(boid.position.distanceSq(otherBoid.position) < squared(otherBoid.userData.pheremoneDist)) {
-        near = true; 
-        // If this already is within range of another pheremone
-        if(boid.userData.nearestPherDist) {
-          // If this pheremone is stronger, set it as nearest. 
-          if(otherBoid.userData.pheremoneDist > boid.userData.nearestPherDist) {
-            boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
-            boid.userData.nearestPherPos = otherBoid.position; 
-          }
-        }
-        else {
-          boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
-          boid.userData.nearestPherPos = otherBoid.position; 
-        }
-        boid.userData.pheremoneDist = boid.userData.nearestPherDist * 1; 
-      }
-    }
-    if(!near) {
-      boid.userData.pheremoneDist = undefined; 
-      boid.userData.nearestPherDist = undefined;
-      boid.userData.nearestPherPos = undefined; 
-    }
-  })
+  // let allPool = [...otherBoidPool, ...boidPool]; 
+  // let near = false; 
+  // allPool.map(otherBoid => {
+  //   // If the other has pheremones
+  //   if(otherBoid.userData.pheremoneDist) {
+  //     // If this is within range of the other pheremones
+  //     if(boid.position.distanceSq(otherBoid.position) < squared(otherBoid.userData.pheremoneDist)) {
+  //       near = true; 
+  //       // If this already is within range of another pheremone
+  //       if(boid.userData.nearestPherDist) {
+  //         // If this pheremone is stronger, set it as nearest. 
+  //         if(otherBoid.userData.pheremoneDist > boid.userData.nearestPherDist) {
+  //           boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
+  //           boid.userData.nearestPherPos = otherBoid.position; 
+  //         }
+  //       }
+  //       else {
+  //         boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
+  //         boid.userData.nearestPherPos = otherBoid.position; 
+  //       }
+  //       boid.userData.pheremoneDist = boid.userData.nearestPherDist * 1; 
+  //     }
+  //   }
+  //   if(!near) {
+  //     boid.userData.pheremoneDist = undefined; 
+  //     boid.userData.nearestPherDist = undefined;
+  //     boid.userData.nearestPherPos = undefined; 
+  //   }
+  // })
 
-  boid.update(); 
+  // boid.update(); 
 
   //     let pos, 
   //       dist,

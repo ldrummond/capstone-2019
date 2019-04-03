@@ -18,9 +18,11 @@ export default class SimulationController {
       boidSettings,
       cursorBoidSettings, 
       simulationType, 
+      caveContainer,
     } = options; 
 
     this.simulationType = simulationType;
+    this.caveContainer = caveContainer; // For the colony simulation
 
     // Creates the simulation bounds, with active bounds for drawing. 
     this.bounds = {x: x, y: y, width: width, height: height}
@@ -128,7 +130,7 @@ export default class SimulationController {
 
   onClick(mousePos) {
     if(this.cursorController) {
-      this.cursorController.onClick(mousePos);
+      this.cursorController.onClick(mousePos, {caveContainer: this.caveContainer});
     }
     if(this.boidPoolController) {
       this.boidPoolController.onClick(mousePos);

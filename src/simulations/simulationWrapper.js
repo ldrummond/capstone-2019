@@ -33,6 +33,7 @@ export default class SimulationWrapper extends Component {
 
     this.simulationRef = React.createRef();
     this.cursorIconRef = React.createRef(); 
+    this.caveRef = React.createRef(); 
     
     this.hoistCanvas = (_canvas, _ctx) => {
       this.ctx = _ctx;
@@ -79,6 +80,9 @@ export default class SimulationWrapper extends Component {
   }
 
   componentDidMount() {
+    if(this.caveRef) {
+      this.caveContainer = this.caveRef.current; 
+    }
     if(this.simulationRef) {
       this.simulation = this.simulationRef.current; 
       let simRect = this.simulation.getBoundingClientRect(); 
@@ -129,6 +133,7 @@ export default class SimulationWrapper extends Component {
       this.simulationController = new SimulationController({
         width: this.width,
         height: this.height,
+        caveContainer: this.caveContainer,
         ...this.currentSettings.simulationSettings
       });
   
@@ -159,11 +164,13 @@ export default class SimulationWrapper extends Component {
         <CanvasBase hoistCanvas={this.hoistCanvas}/>
         {this.props.curSystem.path === 'colony' && 
           (
-            <div className='cave-graphics'>
-              <div>
-                <CaveTop/>
-                <CaveBottom/>
-              </div>
+            <div className='cave-graphics' ref={this.caveRef}>
+              {/* <div className='cave-outer'> */}
+                {/* <div className='cave-inner'> */}
+              <CaveTop/>
+              <CaveBottom/>
+                {/* </div> */}
+              {/* </div> */}
             </div>
           )
         }

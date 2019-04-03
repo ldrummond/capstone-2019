@@ -75,7 +75,7 @@ export default class CursorBoidController {
     this.playing = true; 
   }
 
-  onClick(mousePos) {
+  onClick(mousePos, options) {
     this.clickBuffer.push(mousePos);
     if(this.clickBuffer.length > 5) {
       this.clickBuffer.shift();
@@ -87,6 +87,7 @@ export default class CursorBoidController {
         drawBuffer: this.drawBuffer,
         bounds: this.bounds,
         boid: this.boid, 
+        ...options
       })
     }
   }
