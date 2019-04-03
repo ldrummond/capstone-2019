@@ -1,13 +1,10 @@
 
 // SCOPED through page name
 .page-wrapper.mobile-page
-  position: absolute
+  position: unset
   display: block
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  overflow: hidden
+  overflow: visible
+  overflow-x: hidden
 
   &.scrolled 
     .content:after
@@ -18,8 +15,6 @@
     height: 100%
     width: 100%
     align-items: center
-    overflow-x: hidden
-    overflow-y: scroll
     margin-top: $nav-height
     &:after
       content: ''
@@ -42,7 +37,11 @@
       height: 100%
       align-items: center
       justify-content: center
-      padding: 30px
+      padding: $nav-padding
+
+      .project-title
+        
+
       p
         +body
 
@@ -55,15 +54,107 @@
         display: block
         height: 500px
         width: 100%
+        position: relative
         overflow: hidden
-        padding: 25px
+        padding: $nav-padding
         padding-top: 30px
 
-        h3 
-          +middle-brother-font
+        // About
+        .active-button
+          position: absolute
+          bottom: 40px
+          z-index: 5
+          color: black
+          transition: color $med cubic-bezier(.333,0,.666,1)
+          text-align: center
+          font-family: $freight-stack
+          letter-spacing: 0.08em
+          &:selected
+            outline: none
+            background: none
+          .active-area
+            top: -40%
+            left: -20%
+            width: 140%
+            height: 180%
+          div:last-of-type
+            padding: 10px 12px
+            transition: border $fast cubic-bezier(.333,0,.666,1)
+            border: 1px solid rgba(255,255,255, 0.4)
+            overflow: hidden
+            width: 65px
+            position: relative
+            .slider
+              display: block
+              transform: translateX(0)
+              transition: transform $fast cubic-bezier(.666,0,.333,1) 
+              span:first-of-type
+                margin-right: 16px
+              span
+                width: 120px
+        &.open .active-button
+          transition: $fast color $fast ease-in
+          color: white
+          div:last-of-type
+            transition: $fast border $fast ease-in
+            border: 1px solid rgba(0,0,0, 0.9)
+            .slider
+              transition: $fast transform 222ms ease-in
+              transform: translateX(-60px)
 
-        p
-        // flex-basis: 1
+        // How does...
+        .question 
+          +middle-brother-font
+          font-weight: 600
+          transition: opacity $med ease-out $fast
+          opacity: 1
+        &.open .question
+          transition: opacity $fast ease-in
+          opacity: 0
+
+        // Overlay
+        .answer-block
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+          background: rgba(0, 0, 0, 0.6)
+          transition: transform $med cubic-bezier(.333,0,.666,1)
+          transform: translateX(100%)
+          padding: $nav-padding
+          padding-top: 38px
+          color: white
+          .answer
+            +subtitle-serif
+            display: inline-block
+            height: 19px
+            margin-bottom: 32px
+            position: relative
+            &:after
+              content: ''
+              display: block
+              position: absolute
+              left: 0
+              bottom: 0
+              width: 100%
+              height: 1px
+              background: rgba(255,255,255,0.4)
+          h4
+            color: white
+            +body
+            margin-bottom: 30px
+          .answer, h4
+            opacity: 0
+            transition: opacity $fast ease-out, transform $slow cubic-bezier(.111,0,.999,1) $slow
+            transform: translateY(10px)
+        &.open .answer-block
+          transition: transform $med cubic-bezier(.666,0,.333,1)
+          transform: translateX(0)
+          .answer, h4
+            transition: opacity $fast ease-in $fast, transform $fast ease-in
+            opacity: 1
+            transform: translateY(0)
 
     .outro-block
       display: flex
@@ -72,6 +163,7 @@
       justify-content: center
       align-items: center
       background: #333
+      padding: $nav-padding
       h4
         color: white
         +body
