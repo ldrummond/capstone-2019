@@ -17,63 +17,65 @@ function NavResolver(props) {
   let pageIsMobile = (location && location.pathname === '/mobile'); 
 
   let aboutLinkDestination = '/about';
-  let backLinkDestination = '/selector'; 
-
-  if(pageIsAbout && prevLocation) {
+  let titleLinkDestination = '/selector'; 
+  
+ 
+  if(pageIsAbout && prevLocation && prevLocation !== '/about') {
     aboutLinkDestination = prevLocation; 
   }
-  else if (pageIsAbout) {
+  else if(pageIsAbout) {
     aboutLinkDestination = '/selector';
   }
 
   if(pageIsSelector) {
-    backLinkDestination = '/selector';
+    titleLinkDestination = '/selector';
   }
   else if(pageIsMobile) {
-    backLinkDestination = '/mobile'; 
+    titleLinkDestination = '/mobile'; 
   }
 
-  // console.log('transition from:' + prevLocation + ', about link to : ' + aboutLinkDestination);
-  // let colors = data.systems.map(system => system.color);    
-  const scrollTop = function() {
-    window.scrollTo(0, 0);
+  let titleLink = (
+    <NavLink className='title-link unbuttoned' to={titleLinkDestination}>
+      {process.env.REACT_APP_PROJECT_TITLE}
+    </NavLink>
+  )
+
+  if(pageIsMobile || pageIsSelector) {
+    titleLink = (
+      <a className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
+        {process.env.REACT_APP_PROJECT_TITLE}
+      </a>
+    )
   }
 
   return (
-    <nav 
-      className={
-        classnames(
-          'navbar', 
-          'active', 
-          `${location.pathname.split('/')[1]}-page`, 
-          {light: location.pathname === '/about'}
-      )}
-    >
-      {/* <TitleLink colors={colors}>{process.env.REACT_APP_PROJECT_TITLE}</TitleLink> */}
-      <NavLink className='back-link unbuttoned' to={backLinkDestination}>
-        {process.env.REACT_APP_PROJECT_TITLE}
+    <nav className={classnames('navbar', 'active', `${location.pathname.split('/')[1]}-page`)}>
+      {titleLink}
+      <NavLink className='about-link unbuttoned' to={aboutLinkDestination}>
+        <span className='slider' style={{transform: `translateY(${pageIsAbout ? 0 : -50}%)`}}>
+          <span>Go Back</span><span>About</span>
+        </span> 
       </NavLink>
-      <NavLink className='about-link unbuttoned' to={aboutLinkDestination}>About</NavLink>
     </nav>
   )
 }
 
-function TitleLink(props) {
-  let {colors = []} = props;
-  while(colors.length < 5) {
-    colors.push(`rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`);
-  }
-  return (
-    <Link className='title-link unbuttoned' to='/selector'>
-      {props.children}
-      <span className='color-underline' style={{display: 'flex'}}>
-        {colors.map(color => 
-          <div style={{background: color, width: `${1/colors.length*100}%`, height: '100%'}} key={color}></div>
-        )}
-      </span>
-    </Link>
-  )
-}
+// function TitleLink(props) {
+//   let {colors = []} = props;
+//   while(colors.length < 5) {
+//     colors.push(`rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`);
+//   }
+//   return (
+//     <Link className='title-link unbuttoned' to='/selector'>
+//       {props.children}
+//       <span className='color-underline' style={{display: 'flex'}}>
+//         {colors.map(color => 
+//           <div style={{background: color, width: `${1/colors.length*100}%`, height: '100%'}} key={color}></div>
+//         )}
+//       </span>
+//     </Link>
+//   )
+// }
 
 const mapStateToProps = state => {
   return {
@@ -82,3 +84,11 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(NavResolver)
+
+
+{/* <nav  */}
+      //   className={classnames('navbar', 'active',
+      //     `${location.pathname.split('/')[1]}-page`, 
+      //     // {light: location.pathname === '/about'}
+      //   )}
+      // >

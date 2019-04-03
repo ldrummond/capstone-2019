@@ -1,55 +1,26 @@
 // Hover Styles
 @mixin hoverline 
   position: relative
-  // height: 24px
-  // border-radius: 2px
-  padding: 2px 8px
-  // height: 22px
+  height: 24px
   overflow: hidden
   &:after
     content: ''
     display: block
     position: absolute
-    background: white
-    left: 50%
-    top: 50%
+    left: 0
+    bottom: 0
     width: 100%
-    height: 0
-    padding-bottom: 100%
-    // border-radius: 50%
-    transition: $med transform ease-out
-    margin-top: -50%
-    margin-left: -50%
-    transform: scaleX(0)
-    // transform-origin: -25% -25%
-    z-index: -5
+    background: $dark
+    height: 1.2px
+    opacity: 1
+    transform: translateY(2px)
+    transition: transform $fast ease, opacity $fast ease 
+  .light &:after
+    background: $light
   &:hover
-    transition: $med transform ease-in
     &:after
-      transform: scaleX(2)
-  // &:after
-  //   content: ''
-  //   display: block
-  //   position: absolute
-  //   left: 0
-  //   bottom: 0
-  //   width: 100%
-  //   background: $dark
-  //   height: 1.2px
-  //   // border-radius: 10px
-  //   // transform: translateX(-101%)
-  //   // transition: transform $fast ease 
-  //   opacity: 1
-  //   transform: translateY(2px)
-  //   transition: transform $fast ease, opacity $fast ease 
-
-  // .light &:after
-  //   background: $light
-    
-  // &:hover
-  //   &:after
-  //     opacity: 1
-  //     transform: translateY(-2px)
+      opacity: 1
+      transform: translateY(-2px)
 
 @mixin slide-in
   opacity: 0
@@ -70,36 +41,32 @@
   display: flex
   justify-content: space-between
   align-items: center
-  padding: 0 28px
+  padding: $nav-padding
   z-index: $nav-z
   +poppins-font
   font-weight: 400
   +slide-in
 
   .title-link
-    position: relative
-    // overflow: hidden
-    .color-underline
-      position: absolute
-      width: 100%
-      bottom: 0
-      left: 0
-      transform: translateY(10px)
-      transition: transform $slow ease
-      height: 2px
-    &:hover
-      > .color-underline
-        transform: translateY(0px)
-
-  .back-link
-    // font-family: $calluna-stack
     letter-spacing: 0.05em
     cursor: pointer
     text-transform: uppercase
     +hoverline
 
   .about-link
-    +hoverline
+    height: 22px
+    overflow: hidden
+    .slider
+      display: flex
+      flex-direction: column
+      align-items: flex-end
+      text-align: right
+      transition: transform $slow cubic-bezier(.666,0,.333,1)
+      span
+        +hoverline
+        display: block
+      span:last-of-type
+        width: 3.1em
 
   &.light
     color: $light
