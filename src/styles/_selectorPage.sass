@@ -2,6 +2,37 @@
 
 // SCOPED through page name
 .page-wrapper.selector-page
+  // Transition in
+  &.page-transition-enter
+    // transition: transform 1s cubic-bezier(.666,0,.333,1)
+    // transform: translateY(-100%)
+    // .content
+    //   // transition: opacity $fast ease-out $med
+    //   // opacity: 0
+    //   .copy-block
+    //     opacity: 0
+    //     transition: opacity $fast ease-out $slow
+
+  &.page-transition-enter-active
+    // transform: translateY(0)
+    // .content
+    //   // opacity: 1
+    //   .copy-block
+    //     opacity: 1
+
+  // Transition out
+  &.page-transition-exit
+    // transition: transform 1s cubic-bezier(.666,0,.333,1)
+    // transform: translateY(0)
+    .content
+      transition: opacity $med ease-out
+      opacity: 1
+
+  &.page-transition-exit-active
+    // transform: translateY(-100%)
+    .content
+      // opacity: 0
+
   .content 
     $pentagon-width: span(6 of 16)
 

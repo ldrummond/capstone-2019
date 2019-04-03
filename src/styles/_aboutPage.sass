@@ -1,86 +1,79 @@
 
 
 // SCOPED through page name
-.about-page
+.page-wrapper.about-page
+  position: absolute
+  z-index: $about-z
+
+  // Transition in
+  &.page-transition-enter
+    transition: transform 1s cubic-bezier(.666,0,.333,1)
+    transform: translateY(-100%)
+    .content
+      // transition: opacity $fast ease-out $med
+      // opacity: 0
+      .copy-block
+        opacity: 0
+        transition: opacity $fast ease-out $slow
+
+  &.page-transition-enter-active
+    transform: translateY(0)
+    .content
+      // opacity: 1
+      .copy-block
+        opacity: 1
+
+  // Transition out
+  &.page-transition-exit
+    transition: transform 1s cubic-bezier(.666,0,.333,1)
+    transform: translateY(0)
+    .content
+      transition: opacity $med ease-out
+      opacity: 1
+  &.page-transition-exit-active
+    transform: translateY(-100%)
+    .content
+      opacity: 0
+
   .content
     width: 100%
     height: 100%
-    background: $about-color
+    padding-top: 140px
 
     .site-title
-      +middle-brother-font
-      position: absolute
-      top: 30%
-      left: 50%
-      transform: translate(-50%, -50%)
+      +big-brother-font
+      display: block
+      text-align: center
       color: white
-      opacity: 1
-      z-index: 15
-      letter-spacing: 0.04em
+      margin-bottom: 2em
 
-    .pentagon-container
-      position: absolute
-      top: 50%
-      left: 50%
-      width: 20%
-      transform: translate(-50%, -50%)
-      transition: 1000ms left 2000ms ease
+  .copy-block
+    display: block
+    width: span(6 of 16)
+    margin-bottom: 3em
+    &.left
+      margin-left: span(5 of 16)
+    &.right
+      margin-left: span(10 of 16)
 
-    .text-container
-      position: absolute
-      top: 50%
-      left: 50%
-      width: 60%
-      height: auto
-      transform: translate(-50%, -50%)
-      color: #fff
-      display: flex
-      opacity: 0
-      transition: $slow opacity ease
+    .header
+      +middle-brother-font
+      margin-bottom: 0.5em
 
-      h5
-        +little-brother-font
-        font-weight: 100
-        font-size: 24px
-        display: inline-block
-        margin-right: 3em
-        padding-top: 0.5em
+    .subheader
+      +little-brother-font
+      margin-bottom: 1em
 
-      p
-        +middle-brother-font
-        font-weight: 100
-
-  .texture
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    // transition: transform $slow ease-out
-    opacity: 1
-    z-index: -5
-
-  .pattern
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background: url('../assets/texture-small.png')
-    background-size: 18px 12px
-    opacity: 0.1
-    z-index: 0
-
-  &.state1
-    .pentagon-container
-      left: 0%
+    .copy
+      +body
     
-  &.state2
-    .text-container
-      opacity: 1
-      .text
-
-      
-    .texture
-
-  
+  .bg-color, .bg-texture, .bg-solid
+    +absolute-fill
+    z-index: -15
+  .bg-color
+    background: $about-color
+  .bg-texture
+    opacity: 0.4
+  .bg-solid
+    background: white
+    z-index: -20
