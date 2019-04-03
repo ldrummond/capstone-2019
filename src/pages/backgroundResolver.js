@@ -28,7 +28,7 @@ class BackgroundResolver extends Component{
     return(
       <TransitionGroup className={`background ${location.pathname.split('/')[1]}`}>
         <CSSTransition key={curSystem.coverImage.src} timeout={{enter: 666, exit: 333}} classNames='back'>
-          <Route path="/(selector|transition|simulation|mobile)" render={_ => {
+          <Route path="/(selector|transition|simulation|mobile|about)" render={_ => {
             let {coverImage = '', icon, color} = curSystem;
             let Icon = icon; 
             return(
