@@ -1,7 +1,7 @@
 
 @import "~susy/sass/susy"
 @import 'vars'
-@import 'loaderPage'
+@import 'introPage'
 @import 'background'
 @import 'selectorPage'
 @import 'simulationPage'
@@ -51,10 +51,11 @@ a
 .page-enter 
   opacity: 0
   z-index: 5
-  transition: $fast opacity $fast ease-in
+  transition: opacity $fast ease-in 
 
 .page-enter.page-enter-active 
   opacity: 1
+  transition: opacity $fast ease-in
 
 .page-exit
   opacity: 1
@@ -63,4 +64,6 @@ a
 
 .page-exit.page-exit-active
   opacity: 0
+  transition: opacity $fast ease-out
+
 
