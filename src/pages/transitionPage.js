@@ -48,7 +48,7 @@ class TransitionPage extends Component {
     return (
       <div className={`page-wrapper transition-page ${path}`}>
         {this.state.mounted && 
-          <Redirect to={`/simulation/${path}`} push/>
+          <Redirect to={`/simulation/${path}`}/>
         }
         {/* <Link to={`/simulation/${path}`} className='next-button'>
           <span className='content'>

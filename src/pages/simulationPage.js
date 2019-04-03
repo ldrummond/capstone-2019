@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
@@ -87,10 +87,19 @@ class SimulationPage extends Component {
                 <Squiggle className='squiggle'/>
               </SimpleFade>
               <SimpleFade key={curSystem.description} shouldRender={this.state.mounted} duration={this.fadeDuration}>
-                <h2 className='title'>Emergent System</h2>
+                <h3 className='answer'>Answer</h3>
+                {curSystem.interactions.map((interaction, v) => 
+                  <h4 
+                    key={`${curSystem.path}-interaction-${v}`} 
+                    style={{transitionDelay: `${v * 333 + 999}ms`}}
+                  >
+                    {interaction}
+                  </h4>
+                )}
+                {/* <h2 className='title'>Emergent System</h2>
                 <h2 className='description'>{description}</h2>
                 <h2 className='title'>Rules</h2>
-                <h2 className='rules'>{rules}</h2>
+                <h2 className='rules'>{rules}</h2> */}
                 <Link to={`/selector`}>
                   <Pentagon style={{fill: 'none', stroke: 'black', strokeWidth: '2'}}/>
                 </Link> 
@@ -152,5 +161,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SimulationPage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SimulationPage))
 
