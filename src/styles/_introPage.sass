@@ -1,0 +1,76 @@
+
+
+// SCOPED through page name
+.page-wrapper.intro-page
+
+  .content
+    width: 100%
+    height: 100%
+    // background: $loader
+    background: #111
+
+    .pentagon-container
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 20%
+      transform: translate(-50%, -50%)
+      transition: 1000ms left 2000ms ease
+
+    .text-container
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 60%
+      height: auto
+      transform: translate(-50%, -50%)
+      color: white
+      display: flex
+      opacity: 0
+      transition: $slow opacity ease
+
+      h5
+        +little-brother-font
+        font-weight: 100
+        font-size: 24px
+        display: inline-block
+        margin-right: 3em
+        padding-top: 0.5em
+
+      p
+        +loader-font
+        font-weight: 100
+
+  .texture
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    // transition: transform $slow ease-out
+    opacity: 0.2
+
+  .pattern
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: url('../assets/texture-small.png')
+    background-size: 12px 12px
+    opacity: 0.1
+
+  &.state1
+    .pentagon-container
+      left: 0%
+    
+  &.state2
+    .text-container
+      opacity: 1
+      .text
+
+      
+    .texture
+      // transform: translateY(-100%)
+
+  
