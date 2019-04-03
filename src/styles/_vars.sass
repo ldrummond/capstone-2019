@@ -7,14 +7,15 @@ $fish-color: #579CC6 // blue
 $crowd-color: #EFB2C5 // pink
 $mold-color: #79857E // green
 
-$about-color: rgba(0, 0, 0, 0.8)
+$about-color: rgba(0,0,0, 0.1)
 $light: #eee
-$dark: #111
-$sim-color: #222 // #43555F
+$dark: #000
+$sim-color: #000 // #43555F
 $loader: #333
 
 // Sizes
 $nav-height: 60px
+$nav-padding: 0 34px
 $simulation-border: 1px solid rgba(255,255,255,0.2)
 
 // Fonts
@@ -22,10 +23,11 @@ $brothers-stack: brothers, Helvetica, sans-serif
 $calluna-stack: calluna, serif
 $poppins-stack: poppins, sans-serif
 $abolition-stack: abolition, sans-serif 
+$freight-stack: 'Freight Sans', sans-serif 
 
 // Z-stack
 $nav-z: 15
-$about-page-z: 10
+$about-z: 10
 $base-page-z: 5
 $background-z: -10
 
@@ -109,22 +111,38 @@ $sm-mobile: 480px
     line-height: 26px
 
 @mixin body
-  font-family: $poppins-stack
-  font-weight: 200
-  font-size: 8px
-  line-height: 12px
+  font-family: $freight-stack
+  font-weight: 100
+  letter-spacing: 0.01em
+  font-size: 16px
+  line-height: 23px
   +after-sm-mobile
-    font-size: 11px
-    line-height: 18px
-  +after-md-desktop
     font-size: 12px
-    line-height: 20px
+    line-height: 16px
+  +after-md-desktop
+    font-size: 14px
+    line-height: 18px
 
 @mixin body-serif
   font-family: $calluna-stack
   font-weight: 100
   font-size: 8px
   line-height: 12px
+  +after-sm-mobile
+    font-size: 10px
+    line-height: 14px
+  +after-md-desktop
+    font-size: 12px
+    line-height: 18px
+
+@mixin subtitle-serif
+  font-family: $calluna-stack
+  font-style: italic
+  text-transform: uppercase
+  font-weight: 300
+  letter-spacing: 0.25em
+  font-size: 11px
+  line-height: 15px
   +after-sm-mobile
     font-size: 10px
     line-height: 14px
@@ -180,7 +198,7 @@ $hype: 150ms
     bottom: 0
 
 // Absolute Fill Mixin
-@mixin abs-fill
+@mixin absolute-fill
   position: absolute
   top: 0
   left: 0
