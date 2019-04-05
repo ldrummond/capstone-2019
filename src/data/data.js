@@ -11,7 +11,7 @@ import { ReactComponent as crowdsIcon }  from '../assets/crowd-icon.svg';
 import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
-  trafficColor = '#9e9e9e',
+  trafficColor = '#AAA', //'#9e9e9e',
   batColor = '#F7A558',
   fishColor = '#579CC6',
   crowdsColor = '#EFB2C5',
@@ -37,7 +37,7 @@ export default {
       question: "What causes traffic?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Navigate the lanes to get work.",
+      instructions: `Click your cursor to slow down a single car.`,
       interactions: [
         "Each car is in a rush, staying as close to the next car as possible.",
         "Because of this, if one car slows down, there is a chain reaction.",
@@ -58,7 +58,7 @@ export default {
       question: "Why do bats coordinate their flight?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Chase the fish to see how they follow their neighbors to avoid predators.",
+      instructions: "Click on the cave to adjust the height of the opening.",
       interactions: [
         "Each bat maintains the optimum distance from its neighbors, so that they never collide.",
         "When the sun sets, the bats fly through the cave entrance in a tighly coordinate mass.",
@@ -79,7 +79,7 @@ export default {
       question: "How do fish avoid predators?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Chase the fish to see how they follow their neighbors, and avoid predators.",
+      instructions: "Move your cursor to guide a predator towards the school of fish.",
       interactions: [
         "Each fish is only aware of its close neighbors. It turns and slows to match their speed and angle.",
         "When a predator attacks, only the closest fish can actually see and respond to the predator.",
@@ -100,7 +100,7 @@ export default {
       question: "How do crowds navigate cities?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.      ",
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Chase the fish to see how they follow their neighbors to avoid predators.", 
+      instructions: "Move your cursor to guide the motion of the crowd.", 
       interactions: [
         "Each fish is only aware of its close neighbors. It turns and slows to match their speed and angle.",
         "When a predator attacks, only the closest fish can actually see and respond to the predator.",
@@ -121,7 +121,7 @@ export default {
       question: "How can mold build a network?", 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
       rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Chase the fish to see how they follow their neighbors to avoid predators.",
+      instructions: "Click your cursor to place food sources, guiding the mold network",
       interactions: [
         "Each mold cell is brainless, but in the presence of food, they release pheremones.",
         "Other mold cells are attracted to those pheremones - when they get close, they strengthen the pheremone trail.",
