@@ -21,20 +21,23 @@ export default class IntroPage extends Component {
 
     this.mousePos = {x: 0, y: 0}; 
   }
+  
+  onMouseMove = (e) => { 
+    this.mousePos.x = e.clientX;
+    this.mousePos.y = e.clientY; 
+  }
 
   componentDidMount() {
     // this.stateInterval = setInterval(
     //  _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
     // 4000);
-  }
-
-  onMouseMove = (e) => { 
-    this.mousePos.x = e.clientX;
-    this.mousePos.y = e.clientY; 
+    this.stateInterval = setTimeout(() => {
+      this.setState({shouldRedirect: true});
+    }, (5000));
   }
   
   componentWillUnmount() {
-    // clearInterval(this.stateInterval);
+    clearInterval(this.stateInterval);
   }
 
   render() {
@@ -48,7 +51,7 @@ export default class IntroPage extends Component {
 
     if(this.state.shouldRedirect) {
       return (
-        <Redirect to='/selector'/>
+        <Redirect to='/selector' push/>
       )
     }
     return (
