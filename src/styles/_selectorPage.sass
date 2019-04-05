@@ -1,47 +1,17 @@
 
+$pentagon-width: span(6 of 16)
+
++after-md-desktop
+  $pentagon-width: span(5 of 16)
 
 // SCOPED through page name
 .page-wrapper.selector-page
-  // Transition in
-  &.page-transition-enter
-    // transition: transform 1s cubic-bezier(.666,0,.333,1)
-    // transform: translateY(-100%)
-    // .content
-    //   // transition: opacity $fast ease-out $med
-    //   // opacity: 0
-    //   .copy-block
-    //     opacity: 0
-    //     transition: opacity $fast ease-out $slow
-
-  &.page-transition-enter-active
-    // transform: translateY(0)
-    // .content
-    //   // opacity: 1
-    //   .copy-block
-    //     opacity: 1
-
-  // Transition out
-  &.page-transition-exit
-    // transition: transform 1s cubic-bezier(.666,0,.333,1)
-    // transform: translateY(0)
-    .content
-      transition: opacity $med ease-out
-      opacity: 1
-
-  &.page-transition-exit-active
-    // transform: translateY(-100%)
-    .content
-      // opacity: 0
-
   .content 
-    $pentagon-width: span(6 of 16)
-
     display: flex
     align-items: center
     justify-content: flex-start
-    margin-left: -$pentagon-width / 1.6
+    margin-left: -$pentagon-width / 1.65
     height: 100%
-    padding: 10% 0
 
     .pentagon-icon
       display: inline-block
@@ -51,41 +21,45 @@
         transform: scale(1)
       &.pentagon-icon-enter svg
         transform: scale(0)
-
       &.pentagon-icon-enter-active svg
         transform: scale(1)
-
-    .pentagon-container
-      display: inline-block
-      width: $pentagon-width
 
     .arrows-container
       display: inline-flex
       width: span(1 of 16)
+      margin-right: span(1 of 16)
       float: left
-      height: 80%
+      height: 100%
       flex-direction: column
-      justify-content: space-between
+      justify-content: center
+      align-items: center
       .button-wrapper
-        width: 30px
-        height: 40px
+        width: 70%
+        +aspect-ratio(1, 1)
         .svg-outline-container
+          position: absolute
+          top: 0
+          left: 0
           width: 100%
           height: 100%
+        &:first-of-type
+          margin-bottom: $pentagon-width * 5
+        &:last-of-type
+          margin-top: $pentagon-width * 5
 
     .squiggle-container
       position: absolute
       display: flex
       align-items: center
       justify-content: center
-      width: span(2 of 16)
+      width: span(3 of 16)
       left: span(2 of 16)
       fill: none
       stroke: black
-      height: 100%
       stroke-width: 3.5px
       transition: transform $fast ease
       .squiggle
+        width: 70%
         height: 20px
       &:hover
         // transform: translateX(3px)
@@ -94,49 +68,49 @@
 
     .option-container
       width: span(6 of 16)
-      height: 100%
+      height: 0
       position: relative
       transition: transform $fast ease
       .option-inner
         display: block
         position: absolute
-        bottom: 30%
+        top: 0
         left: 0%
+        transform: translateY(-100%)
 
         .title
           pointer-events: none
           transition: transform $fast ease
           +big-brother-font
-          margin-bottom: 50px
+          margin: 0
+          margin-bottom: -0.3em
+
         .subtitle
+          position: absolute
+          bottom: -6em
           pointer-events: none
-          +poppins-font
-          opacity: 0.7
+          +subtitle-serif
+          font-style: normal
+          opacity: 1
           h4
-            font-family: 'Helvetica', sans-serif
             display: inline
             text-transform: percase
             font-weight: 200
             font-size: 14px
             letter-spacing: 0.08em
           .index
-            // +abolition-font
-            font-family: 'Helvetica', sans-serif
-            // font-style: italic
+            font-family: serif
             font-size: 15px
             display: inline
             font-weight: 100
+            color: #444
             text-align: right
-            width: 40px
+            width: 38px
             display: inline-block
             letter-spacing: 0.1em
 
-    .option-container
-      &:hover
-        // & ~ .squiggle-container 
-        //   transform: translateX(3px)
-        & .option-inner .title
-          transform: translateX(5px)
+    .option-container:hover .option-inner .title
+      transform: translateX(5px)
 
     .option-container
       .option-inner
@@ -148,8 +122,6 @@
             transition: transform $fast ease, 200ms opacity 30ms ease
           .subtitle
             opacity: 0
-          .squiggle
-            display: none
 
         &.rotate-exit.rotate-exit-active
           .title
@@ -164,3 +136,21 @@
         &.rotate-enter.rotate-enter-active
           .title
             opacity: 1
+
+
++after-sm-mobile
+  .page-wrapper.selector-page
+    .content 
+      .pentagon-icon
+        width: span(6 of 16)
+      .squiggle-container
+        stroke-width: 3px
+
++after-md-desktop
+  .page-wrapper.selector-page
+    .content 
+      .pentagon-icon
+        margin-left: span(1 of 16)
+        width: span(5 of 16)
+      .squiggle-container
+        stroke-width: 3px

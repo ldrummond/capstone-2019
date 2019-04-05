@@ -15,7 +15,7 @@ $loader: #333
 
 // Sizes
 $nav-height: 60px
-$nav-padding: 0 34px
+$nav-padding: 0 40px
 $simulation-border: 1px solid rgba(255,255,255,0.2)
 
 // Fonts
@@ -23,7 +23,7 @@ $brothers-stack: brothers, Helvetica, sans-serif
 $calluna-stack: calluna, serif
 $poppins-stack: poppins, sans-serif
 $abolition-stack: abolition, sans-serif 
-$freight-stack: 'Freight Sans', sans-serif 
+$freight-stack: freight-sans-pro, sans-serif 
 
 // Z-stack
 $nav-z: 15
@@ -67,10 +67,10 @@ $sm-mobile: 480px
   line-height: 42px
   +after-sm-mobile
     font-size: 58px
-    line-height: 60px
+    line-height: 58px
   +after-md-desktop
-    font-size: 72px
-    line-height: 80px
+    font-size: 66px
+    line-height: 72px
   
 @mixin middle-brother-font
   font-family: $calluna-stack
@@ -78,14 +78,14 @@ $sm-mobile: 480px
   font-size: 38px
   line-height: 48px
   +after-sm-mobile
-    font-size: 30px
-    line-height: 36px
+    font-size: 34px
+    line-height: 38px
   +after-md-desktop
-    font-size: 36px
-    line-height: 44px
+    font-size: 38px
+    line-height: 41px
 
 @mixin little-brother-font
-  font-family: $brothers-stack
+  font-family: $calluna-stack
   text-transform: lowercase
   font-weight: 700
   font-size: 22px
@@ -98,18 +98,6 @@ $sm-mobile: 480px
     font-size: 18px
     line-height: 26px
 
-@mixin poppins-font
-  font-family: $poppins-stack
-  font-weight: 300
-  font-size: 10px
-  line-height: 20px
-  +after-sm-mobile
-    font-size: 12px
-    line-height: 20px
-  +after-md-desktop
-    font-size: 14px
-    line-height: 26px
-
 @mixin body
   font-family: $freight-stack
   font-weight: 100
@@ -117,23 +105,23 @@ $sm-mobile: 480px
   font-size: 16px
   line-height: 23px
   +after-sm-mobile
-    font-size: 12px
-    line-height: 16px
+    font-size: 13px
+    line-height: 17px
   +after-md-desktop
     font-size: 14px
-    line-height: 18px
+    line-height: 19px
 
 @mixin body-serif
   font-family: $calluna-stack
   font-weight: 100
-  font-size: 8px
-  line-height: 12px
+  font-size: 16px
+  line-height: 22px
   +after-sm-mobile
-    font-size: 10px
-    line-height: 14px
+    font-size: 15px
+    line-height: 21px
   +after-md-desktop
-    font-size: 12px
-    line-height: 18px
+    font-size: 16px
+    line-height: 22px
 
 @mixin subtitle-serif
   font-family: $calluna-stack
@@ -155,6 +143,41 @@ $sm-mobile: 480px
   font-weight: 400
   font-size: 30
   letter-spacing: 0.15em
+
+@mixin about-subheader-font
+  font-family: $calluna-stack
+  font-weight: 700
+  font-size: 22px
+  letter-spacing: 0.02em
+  line-height: 26px
+  +after-sm-mobile
+    font-size: 16px
+    line-height: 22px
+  +after-md-desktop
+    font-size: 18px
+    line-height: 26px
+
+@mixin about-copy-font
+  font-family: $freight-stack 
+  font-weight: 100
+  letter-spacing: 0.005em
+  font-size: 16px
+  line-height: 23px
+  +after-sm-mobile
+    font-size: 15px
+    line-height: 21px
+  +after-md-desktop
+    font-size: 16px
+    line-height: 23px
+
+@mixin nav-font
+  font-family: $freight-stack
+  font-size: 12px
+  font-weight: 100
+  +after-sm-mobile
+    font-size: 14px
+  +after-md-desktop
+    font-size: 15px
 
 @mixin loader-font
   font-family: $calluna-stack
