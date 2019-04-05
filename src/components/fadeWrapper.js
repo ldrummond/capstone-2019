@@ -43,7 +43,7 @@ export class SimpleFade extends Component {
 		super(props);
 
 		this.defaultStyle = {
-			transition: `opacity ${this.props.duration}ms ease-in-out`,
+			transition: `opacity ${this.props.duration}ms ease-in-out ${this.props.delay || 0}ms`,
 			opacity: 0,
 		}
 
