@@ -40,7 +40,7 @@ function PageResolver({location}) {
           {({match}) => (
             <CSSTransition 
               in={match != null} 
-              timeout={{enter: 999, exit: 999}} 
+              timeout={{enter: 1800, exit: 999}} 
               classNames={`page-transition`} 
               unmountOnExit
             >
