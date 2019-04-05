@@ -52,6 +52,7 @@ Although humans are used to top-down order, emergence is not just a natural phen
 - *Self-organization*, Sidney W Fox
 - *[The Chemical Basis of Morphogenesis](http://www.dna.caltech.edu/courses/cs191/paperscs191/turing.pdf)*, Alan Turing
 - *[Bird flocks](https://www.audubon.org/magazine/march-april-2009/how-flock-birds-can-fly-and-move-together)*, Audobon Magazine
+- *[Emergent Crowd Behaviour](http://www.cog.brown.edu/research/ven_lab/Publications/RioWarren_FollowCrowd_PED12.pdf)*
 
 #### Emergence in the CPU and GPU
 
