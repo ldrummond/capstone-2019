@@ -49,7 +49,11 @@ function NavResolver(props) {
   }
 
   return (
-    <nav className={classnames('navbar', 'active', `${location.pathname.split('/')[1]}-page`)}>
+    <nav className={
+      classnames('navbar', 
+      {active: location.pathname.split('/')[1]}, 
+      `${location.pathname.split('/')[1]}-page`)}
+    >
       {titleLink}
       <NavLink className='about-link unbuttoned' to={aboutLinkDestination}>
         <span className='slider' style={{transform: `translateY(${pageIsAbout ? 0 : -50}%)`}}>
@@ -84,11 +88,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(NavResolver)
-
-
-{/* <nav  */}
-      //   className={classnames('navbar', 'active',
-      //     `${location.pathname.split('/')[1]}-page`, 
-      //     // {light: location.pathname === '/about'}
-      //   )}
-      // >
