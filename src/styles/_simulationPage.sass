@@ -57,21 +57,6 @@
         stroke-width: 6px
         height: 10px
 
-      // .line
-      //   display: block
-      //   height: 1px
-      //   width: 30px
-      //   border-bottom: 1px solid $sim-color
-      //   margin-bottom: 1em
-
-      // .description
-      //   +body-serif
-      //   font-size: 12px
-      //   line-height: 18px
-      
-      // .rules
-      //   +body-serif
-
       .answer
         +subtitle-serif
         letter-spacing: 0.2em
@@ -97,7 +82,6 @@
         // letter-spacing: 0.02em
         margin-bottom: 1.3em
 
-
       .pentagon-icon
         width: 50px
         margin-top: 1.2em
@@ -113,11 +97,66 @@
       position: relative
       // box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.1)
 
-      .canvas-sizer
-        display: block
-        width: 100%
-        height: 100%
-  
+      .show-instructions-button
+        position: absolute
+        top: $nav-height
+        margin-top: 20px
+        font-family: $freight-stack
+        font-weight: 300
+        font-size: 22px
+        right: 0
+        padding: $nav-padding
+        color: white
+        transition: color $fast ease
+        &.hovering
+          color: black
+
+      .instructions-overlay
+        position: absolute
+        top: $nav-height
+        bottom: 0
+        left: 0
+        right: 0
+        display: flex
+        justify-content: center
+        align-items: center
+        z-index: 5
+        overflow: hidden
+        .overlay-inner
+          // border-radius: 50%
+          // border: 1px solid rgba(255, 255, 255, 1)
+          background: rgba(255, 255, 255, 0.9)
+          color: black
+          width: 45%
+          min-width: 300px
+          text-align: center
+          transition: opacity $fast ease-out
+          +body-serif
+          +aspect-ratio(1, 1)
+          .content
+            display: flex
+            justify-content: center
+            align-items: center
+            flex-direction: column
+            padding: 20%
+            padding-top: 30%
+
+          .instruction-graphic
+            display: block
+            margin-top: 2em
+            width: 100%
+            filter: brightness()
+            img
+              width: 50%
+          .close-button
+            margin-top: 20px
+            padding: 20px
+
+        &.hidden
+          pointer-events: none
+          .overlay-inner
+            opacity: 0
+
       .simulation-canvas
         position: absolute
         top: $nav-height
@@ -151,21 +190,6 @@
           left: 0
           width: 100%
         
-        // .cave-outer
-        //   position: absolute
-        //   top: -2px
-        //   bottom: -2px
-        //   right: 0
-        //   left: 0
-        //   .cave-inner
-        //     height: 100%
-        //     display: flex
-        //     flex-direction: column
-        //     justify-content: space-between
-        //     align-items: center
-
-           
-
       .next-sim
         position: absolute
         bottom: 28px
@@ -208,30 +232,31 @@
       border-radius: 50%
       border: 1px solid rgba(255,255,255,0.8)
       pointer-events: none
-
-  .sim-backgrounds
+    
+  // Sim backgrounds
+  .color-front,
+  .color-back,
+  .texture
     position: absolute
     top: 0
     left: 0
     width: 100%
     height: 100%
-    z-index: -1
-    .color,
-    .texture
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
 
-    .color
-      opacity: 0.8
+  .color-front
+    z-index: 10
+    opacity: 0.6
+    z-index: -5
 
-    .texture
-      background: url('../assets/texture-small.png')
-      background-size: 10px 10px
-      opacity: 0.2
-      z-index: -1
+  .texture
+    background: url('../assets/texture-small.png')
+    background-size: 10px 10px
+    opacity: 0.2
+    z-index: -10
+
+  .color-back
+    z-index: -15
+    opacity: 1
 
   .sim-backgrounds
     transition: transform $med ease
@@ -249,31 +274,3 @@
     &.background-exit.background-exit-active
       transform: translateY(-100%)
 
-
-  .overlay
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    display: flex
-    justify-content: center
-    align-items: center
-    z-index: 5
-    background: rgba(0, 0, 0, 0.4)
-    color: white
-   
-    .inner
-      width: 50%
-      max-width: 350px
-      text-align: center
-      h3
-        +body
-        line-height: 30px
-
-      .instruction-graphic
-        display: block
-        margin-top: 2em
-        width: 100%
-        img
-          width: 50%

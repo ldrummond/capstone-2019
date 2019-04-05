@@ -116,6 +116,8 @@ export default class BoidPoolController {
 
   // Updates for individual boids. 
   setBounds(width, height) {
+    this.bounds.width = width;
+    this.bounds.height = height; 
     this.boidPool.map(boid => boid.setBounds(width, height))
   }
 }

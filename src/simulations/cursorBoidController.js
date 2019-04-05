@@ -127,6 +127,11 @@ export default class CursorBoidController {
       this.drawFn(ctx, this.boid, this.bounds); 
     }
   }
+
+  updateBounds = (bounds) => {
+    this.bounds.width = bounds.width;
+    this.bounds.height = bounds.height;
+  }
 }
 
 // else if (this.slowdown) {

@@ -14,6 +14,7 @@ import crowdsSettings from './settings/crowds';
 import moldSettings from './settings/mold'; 
 import { ReactComponent as CaveTop }  from '../assets/cave-top.svg';
 import { ReactComponent as CaveBottom }  from '../assets/cave-bottom.svg';
+import throttle from 'lodash/throttle';
 
 
 //////////////////////////////////////////////////
@@ -40,6 +41,8 @@ export default class SimulationWrapper extends Component {
       this.canvas = _canvas; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
+
+    this.throttleResize = throttle(this.handleWindowSizeChange, 333);
   }
 
   onMouseMove = (e) => {
@@ -67,12 +70,19 @@ export default class SimulationWrapper extends Component {
     this.simulationController.onMouseLeave(); 
   }
 
-  onResize = () => {
+  handleWindowSizeChange = () => {
     let simRect = this.simulation.getBoundingClientRect(); 
+    let prevWidth = this.width; 
+    let prevHeight = this.height; 
     this.width = simRect.width;
     this.height = simRect.height;
+    console.log('resize');
+    let newBounds = {x: this.width, y: this.height}; 
 
-    // Sets the state to force a rerender of the canvas. 
+    // Simulation controller update
+    this.simulationController.resize(newBounds);
+
+    // // Sets the state to force a rerender of the canvas. 
     this.setState({
       width: this.width,
       height: this.height,
@@ -80,6 +90,9 @@ export default class SimulationWrapper extends Component {
   }
 
   componentDidMount() {
+    // Resize listener
+    window.addEventListener('resize', this.throttleResize);
+
     if(this.caveRef) {
       this.caveContainer = this.caveRef.current; 
     }
@@ -94,6 +107,7 @@ export default class SimulationWrapper extends Component {
       this.center = {x: this.width / 2, y: this.height / 2};
 
       this.rafController = new RafController({fps: 60});
+      this.buildSimulation(); 
 
       // Sets the state to force a rerender of the canvas. 
       this.setState({
@@ -103,51 +117,62 @@ export default class SimulationWrapper extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.throttleResize);
+  }
+
   buildSimulation() {
-    if(this.state.width && this.state.height) {
-      switch(this.props.curSystem.path) {
-        case 'traffic':
-          this.currentSettings = deepmerge(defaultSettings, trafficSettings);
-          break;
-        case 'colony':
-          this.currentSettings = deepmerge(defaultSettings, colonySettings);
-          break;
-        case 'school':
-          this.currentSettings = deepmerge(defaultSettings, schoolSettings);
-          break;
-        case 'crowds':
-          this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
-          break;
-        case 'mold':
-          this.currentSettings = deepmerge(defaultSettings, moldSettings);
-          break;
-        default: 
-          console.error('Simulation type does not match setting.');
-          break;      
+    // if(this.state.width && this.state.height) {
+    switch(this.props.curSystem.path) {
+      case 'traffic':
+        this.currentSettings = deepmerge(defaultSettings, trafficSettings);
+        break;
+      case 'colony':
+        this.currentSettings = deepmerge(defaultSettings, colonySettings);
+        break;
+      case 'school':
+        this.currentSettings = deepmerge(defaultSettings, schoolSettings);
+        break;
+      case 'crowds':
+        this.currentSettings = deepmerge(defaultSettings, crowdsSettings);
+        break;
+      case 'mold':
+        this.currentSettings = deepmerge(defaultSettings, moldSettings);
+        break;
+      default: 
+        console.error('Simulation type does not match setting.');
+        break;      
+    }
+
+    this.styles = { cursor: this.currentSettings && this.currentSettings.simulationSettings && this.currentSettings.simulationSettings.cursorBoidSettings && this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',}
+    this.rafController.changeFps(this.currentSettings.rafSettings.fps)
+    
+    // Creates the simulation controller for the simulation. 
+    this.simulationController = new SimulationController({
+      width: this.width,
+      height: this.height,
+      caveContainer: this.caveContainer,
+      ...this.currentSettings.simulationSettings
+    });
+
+    // Uses the rafController to execute the sim at a specified frame rate. 
+    this.rafController.onStep = ticker => {
+      if(this.ctx) {
+        this.simulationController.step(this.ctx, this.mousePos);
       }
-  
-      this.styles = { cursor: this.currentSettings && this.currentSettings.simulationSettings && this.currentSettings.simulationSettings.cursorBoidSettings && this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',}
-      this.rafController.changeFps(this.currentSettings.rafSettings.fps)
-     
-      // Creates the simulation controller for the simulation. 
-      this.simulationController = new SimulationController({
-        width: this.width,
-        height: this.height,
-        caveContainer: this.caveContainer,
-        ...this.currentSettings.simulationSettings
-      });
-  
-      // Uses the rafController to execute the sim at a specified frame rate. 
-      this.rafController.onStep = ticker => {
-        if(this.ctx) {
-          this.simulationController.step(this.ctx, this.mousePos);
-        }
-      }
+    }
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    // If the simulation path changed, update hte simulation controller.
+    if(prevProps.curSystem.path !== this.props.curSystem.path) {
+      console.log('update')
+      this.buildSimulation();
     }
   }
 
   render() {
-    this.buildSimulation(); 
     let shouldRender = Boolean(typeof (this.state.width) !== 'undefined' && typeof(this.state.height !== 'undefined'))
     
     return (
@@ -165,12 +190,8 @@ export default class SimulationWrapper extends Component {
         {this.props.curSystem.path === 'colony' && 
           (
             <div className='cave-graphics' ref={this.caveRef}>
-              {/* <div className='cave-outer'> */}
-                {/* <div className='cave-inner'> */}
               <CaveTop/>
               <CaveBottom/>
-                {/* </div> */}
-              {/* </div> */}
             </div>
           )
         }

@@ -148,16 +148,22 @@ export default class SimulationController {
       // this.cursorController.play(); 
     }
   }
+
+  resize(newBounds) {
+    this.center = {x: newBounds.width / 2, y: newBounds.height / 2};
+    this.bounds.width = newBounds.width; 
+    this.bounds.height = newBounds.height; 
+    if(this.cursorBoidController) {
+      this.cursorBoidController.updateBounds(newBounds);
+    }
+    if(this.boidPoolController) {
+      this.boidPoolController.setBounds(
+        this.bounds.width, 
+        this.bounds.height,
+        this.bounds.x,
+        this.bounds.y,
+      ) 
+    }
+  }
 }
 
-  // resize(scale) {
-  //   this.center = {x: this.center.x * scale.x, y: this.center.y * scale.y};
-  //   this.width *= scale.x; 
-  //   this.height *= scale.y; 
-  //   // this.boidPoolController.setBounds(
-  //   //   this.bounds.width, 
-  //   //   this.bounds.height,
-  //   //   this.bounds.x,
-  //   //   this.bounds.y,
-  //   // ) 
-  // }
