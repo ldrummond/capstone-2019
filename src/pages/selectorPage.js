@@ -8,7 +8,6 @@ import data from '../data/data';
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import Pentagon from '../components/pentagonSvg';
-import SelectorPentagon from '../components/selectorPentagon';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { SimpleFade } from '../components/fadeWrapper';
