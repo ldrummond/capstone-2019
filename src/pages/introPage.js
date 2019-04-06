@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
-import LoaderPentagon from '../components/loaderPentagon'
+// import LoaderPentagon from '../components/loaderPentagon'
 import loaderTexture from '../assets/backgroundTest.jpg'; 
 import classnames from 'classnames'; 
 import data from '../data/data';
@@ -61,8 +61,8 @@ export default class IntroPage extends Component {
       >
         <div className='content'>
           <h2 className='site-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
-          <LoaderPentagon mousePos={this.mousePos} stateIndex={this.state.stateIndex}/> */}
-          <img className='texture' src={loaderTexture}></img>
+          {/* <LoaderPentagon mousePos={this.mousePos} stateIndex={this.state.stateIndex}/> */} */}
+          <img className='texture' src={loaderTexture} alt='background_texture'></img>
           <div className='pattern'></div>
           <section className='text-container'>
             <h5>01</h5>

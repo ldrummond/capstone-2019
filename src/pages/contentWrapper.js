@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Route, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import NavResolver from './navResolver'; 
 import PageResolver from './pageResolver';
 import BackgroundResolver from './backgroundResolver'; 
@@ -34,7 +34,7 @@ class ContentWrapper extends Component{
   }
 
   render() {
-    let {location, history, match} = this.props;
+    let {location} = this.props;
 
     return(
       <div className='app'>

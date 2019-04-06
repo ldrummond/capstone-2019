@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { clamp, squared } from '../../components/helperFunctions';
+import { squared } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -42,6 +42,11 @@ export default {
   }
 }
 
+/**
+ * 
+ * Boid Initialization Function
+ * 
+ */
 function boidInitFn(boidPool, bounds) {
   boidPool.map(boid => {
     boid.position.x = (bounds.width / 2) * Math.random() + bounds.width / 4;
@@ -49,6 +54,11 @@ function boidInitFn(boidPool, bounds) {
   })
 }
 
+/**
+ * 
+ * Boid Update Function
+ * 
+ */
 function boidUpdateFn({boid, boidPool, chaser, bounds, center}) {
   if(boid.position.distanceSq(chaser) < squared(50)) {
     boid.flee(chaser).update();
@@ -59,15 +69,30 @@ function boidUpdateFn({boid, boidPool, chaser, bounds, center}) {
   }
 }
 
+/**
+ * 
+ * Boid Draw Function
+ * 
+ */
 function boidDrawFn(ctx, boid) {
   ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
   ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
 }
 
+/**
+ * 
+ * Cursor Boid Initialization Function
+ * 
+ */
 function cursorBoidInitFn(boid) {
   boid.arriveThreshold = 200; 
 }
 
+/**
+ * 
+ * Cursor Boid Update Function
+ * 
+ */
 function cursorUpdateFn({mousePos, boid}) {
   if(boid.position.distanceSq(mousePos) < squared(20)) {
     boid.velocity.x *= 0.9;
@@ -78,6 +103,12 @@ function cursorUpdateFn({mousePos, boid}) {
   }
 }
 
+
+/**
+ * 
+ * Cursor Boid Draw Function
+ * 
+ */
 function cursorDrawFn(ctx, boid) {
   ctx.beginPath();
   ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3)

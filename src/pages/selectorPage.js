@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { throttle } from '../components/helperFunctions'; 
 import data from '../data/data';
 // Asset and components
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
@@ -11,6 +10,7 @@ import Pentagon from '../components/pentagonSvg';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { SimpleFade } from '../components/fadeWrapper';
+import throttle from 'lodash/throttle';
 
 //////////////////////////////////////////////////
 //
@@ -19,12 +19,14 @@ import { SimpleFade } from '../components/fadeWrapper';
 //////////////////////////////////////////////////
 
 class SelectorPage extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       mounted: false, 
     }
     this.fadeDuration = 333;
+    this.throttledPrevClick = throttle(props.onPrevClick, 500);
+    this.throttledNextClick = throttle(props.onNextClick, 500);
   }
 
   componentDidMount() {
@@ -32,8 +34,7 @@ class SelectorPage extends Component {
   }
 
   render() {
-    let {curSystem, onPrevClick, onNextClick, wheelIndex, prevWheelIndex, lastChange} = this.props
-    const rotateUp = wheelIndex > prevWheelIndex;
+    let {curSystem, wheelIndex} = this.props
 
     return (
       <div className='page-wrapper selector-page'>
@@ -42,15 +43,15 @@ class SelectorPage extends Component {
             wheelIndex={wheelIndex} 
             curIndex={curSystem.index}
             colors={data.systems.map(system => system.color)} 
-            onPrevClick={throttle(onPrevClick, lastChange, 500)}
-            onNextClick={throttle(onNextClick, lastChange, 500)}  
+            onPrevClick={this.throttledPrevClick}
+            onNextClick={this.throttledNextClick}  
             in={this.state.mounted}
           />
           <SimpleFade className='arrows-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
-              <ButtonWrapper onClick={throttle(onPrevClick, lastChange, 500)} >
+              <ButtonWrapper onClick={this.throttledPrevClick} >
                 <SvgOutline component={Arrow}  color='black'/>
               </ButtonWrapper>
-              <ButtonWrapper onClick={throttle(onNextClick, lastChange, 500)}>
+              <ButtonWrapper onClick={this.throttledNextClick}>
                 <SvgOutline component={Arrow}  color='black' style={{transform: 'rotate(180deg)'}}/>
               </ButtonWrapper>
           </SimpleFade>

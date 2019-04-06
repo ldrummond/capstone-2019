@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { CanvasTransition, strokeCircle, ActiveBounds, distance, squared } from '../../components/helperFunctions';
+import { CanvasTransition, squared } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //

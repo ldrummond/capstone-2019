@@ -1,9 +1,8 @@
-import React, { Component, Children } from 'react';
+import React, { Component } from 'react';
 import Transition from 'react-transition-group/Transition'
-import { mergeObjects } from '../components/helperFunctions';
 
-// // https://swizec.com/blog/fade-in-lazy-loaded-images-react-css-quick-guide/swizec/8163
-// // Great FadeIn Component
+// https://swizec.com/blog/fade-in-lazy-loaded-images-react-css-quick-guide/swizec/8163
+// Great FadeIn Component
 export class FadeWrapper extends Component {
 	constructor(props) {
 		super(props);
@@ -27,7 +26,7 @@ export class FadeWrapper extends Component {
 	onLoad() { this.setState({ loaded: true }); };
 
 	render() {
-		const { height, children, duration, key } = this.props,
+		const { children, duration, key } = this.props,
 			{ loaded } = this.state;
 
 		return (
@@ -61,7 +60,7 @@ export class SimpleFade extends Component {
 			<Transition in={shouldRender} timeout={duration}>
 				{state =>
 					<span className={this.props.className} style={{ ...this.defaultStyle, ...this.transitionStyles[state] }}>
-						{this.props.children}
+						{children}
 					</span>
 				}
 			</Transition>

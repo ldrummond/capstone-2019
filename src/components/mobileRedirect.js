@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Switch, Redirect, withRouter } from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
 //////////////////////////////////////////////////
@@ -14,7 +13,6 @@ class MobileRedirect extends Component {
     super();
     this.state = {
       width: window.innerWidth,
-      height: window.innerHeight,
     };
 
     this.throttleResize = throttle(this.handleWindowSizeChange, 333);
@@ -29,15 +27,20 @@ class MobileRedirect extends Component {
   }
   
   handleWindowSizeChange = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight, resize: true });
+    this.setState({ width: window.innerWidth, resize: true });
   };
   
   render() {
-    const { location: curLocation, prevLocation } = this.props;
-    const { width, height } = this.state;
+    const { location: curLocation } = this.props;
+    const { width } = this.state;
 
     let locationIsMobile = curLocation.pathname === '/mobile'; 
-    let locationShouldBeMobile = width < 500;
+    let locationIsAbout = curLocation.pathname === '/about';
+    let locationShouldBeMobile = width < 480;
+
+    if(locationIsAbout) {
+      return null
+    }
 
     // If not already mobile, but should be, redirect to mobile. 
     if(!locationIsMobile && locationShouldBeMobile) {
@@ -69,10 +72,5 @@ class MobileRedirect extends Component {
   } 
 }
 
-const mapStateToProps = state => {
-  return {
-    prevLocation: state.prevLocation,  
-  }
-}
 
-export default withRouter(connect(mapStateToProps)(MobileRedirect))
+export default withRouter(MobileRedirect)

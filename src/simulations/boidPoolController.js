@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { distance } from '../components/helperFunctions';
+
 //////////////////////////////////////////////////
 //
 // Boid Pool Controller

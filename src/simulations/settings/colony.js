@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { clamp, strokeTriangle, CanvasTransition, squared } from '../../components/helperFunctions';
+import { clamp, CanvasTransition, squared } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -186,7 +186,7 @@ function boidDrawFn(ctx, boid) {
 //   ctx.stroke();
 // }
 
-let obstacleRadius = bounds => bounds.height / 2.1;
+// let obstacleRadius = bounds => bounds.height / 2.1;
 
 function otherDrawFn(ctx, bounds) {
   // let radius = 0.1; 
@@ -213,7 +213,7 @@ function boidUpdateFn({boid, otherBoidPool, boidPool, chaser, bounds, center}) {
   let aDist = boid.position.distanceSq(obstacleA);
   let bDist = boid.position.distanceSq(obstacleB);
 
-  let notInMiddle = Boolean(boid.position.x < (bounds.width / 8 * 3) || boid.position.x > (bounds.width / 8 * 5));
+  // let notInMiddle = Boolean(boid.position.x < (bounds.width / 8 * 3) || boid.position.x > (bounds.width / 8 * 5));
   // let closestPoint = center;
   // if(boid.position.x - bounds.width / 8 * 3 < boid.position.x - center.x) {
   //   closestPoint = {x: (bounds.width / 8 * 3), y: bounds.height / 2}; 
@@ -232,7 +232,7 @@ function boidUpdateFn({boid, otherBoidPool, boidPool, chaser, bounds, center}) {
   } else if(bDist < squared(radius)) {
     boid.flee(Boid.vec2(obstacleB.x, obstacleB.y));
   }
-  else if(Math.round(Math.random() * 3) == 3) {
+  else if(Math.round(Math.random() * 3) === 3) {
     boid.followPath(otherBoidPool.map(point => Boid.vec2(point.position.x, point.position.y)), false);
   } else {
   // } else if(notInMiddle || Math.round(Math.random() * 2) == 2) {

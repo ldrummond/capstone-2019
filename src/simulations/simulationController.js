@@ -110,7 +110,7 @@ export default class SimulationController {
       this.clearCursor(ctx); 
     }
     // Clear boid position and reset boid bounds
-    if(this.boidPoolController && (this.clearBoidFrames == true)) {
+    if(this.boidPoolController && (this.clearBoidFrames === true)) {
       this.clearBounds(ctx, 20); 
     }
     // Draw cursor if active

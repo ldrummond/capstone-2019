@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom'
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import MobileRedirect from '../components/mobileRedirect';
 // const IntroPage = lazy(() => import('../pages/introPage'));
 // const AboutPage = lazy(() => import('../pages/aboutPage'));
@@ -30,7 +30,6 @@ function PageResolver({location}) {
     { path: '/simulation/:type', name: 'Simulation', Component: SimulationPage },
     { path: '/mobile', name: 'Mobile', Component: MobilePage },
   ]
-  const mobileWidth = 500; 
 
   return(
     <React.Fragment>

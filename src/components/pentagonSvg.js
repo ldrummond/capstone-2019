@@ -26,8 +26,8 @@ class Pentagon extends Component {
       let onEnter = _ => {}; 
       let plusI = (props.curIndex + 1 < 5) ? props.curIndex + 1 : 0;
       let minusI = (props.curIndex - 1 >= 0) ? props.curIndex - 1 : 4;
-      if(i == minusI) {onClick = props.onPrevClick; onEnter = this.onHoverDown}
-      if(i == plusI) {onClick = props.onNextClick; onEnter = this.onHoverUp}
+      if(i === minusI) {onClick = props.onPrevClick; onEnter = this.onHoverDown}
+      if(i === plusI) {onClick = props.onNextClick; onEnter = this.onHoverUp}
       return {
         style: style,
         onClick: onClick,

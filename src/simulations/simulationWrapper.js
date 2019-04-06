@@ -3,8 +3,8 @@ import CanvasBase from '../components/canvasBase';
 import RafController from '../components/rafController';
 import SimulationController from './simulationController';
 import deepmerge from 'deepmerge'
-import { CSSTransition } from "react-transition-group";
-import { SimpleFade } from '../components/fadeWrapper';
+// import { CSSTransition } from "react-transition-group";
+// import { SimpleFade } from '../components/fadeWrapper';
 import classnames from 'classnames';
 import defaultSettings from './settings/default';
 import trafficSettings from './settings/traffic';
@@ -72,11 +72,10 @@ export default class SimulationWrapper extends Component {
 
   handleWindowSizeChange = () => {
     let simRect = this.simulation.getBoundingClientRect(); 
-    let prevWidth = this.width; 
-    let prevHeight = this.height; 
+    // let prevWidth = this.width; 
+    // let prevHeight = this.height; 
     this.width = simRect.width;
     this.height = simRect.height;
-    console.log('resize');
     let newBounds = {x: this.width, y: this.height}; 
 
     // Simulation controller update
@@ -167,13 +166,13 @@ export default class SimulationWrapper extends Component {
   componentDidUpdate(prevProps) {
     // If the simulation path changed, update hte simulation controller.
     if(prevProps.curSystem.path !== this.props.curSystem.path) {
-      console.log('update')
+      // console.log('update')
       this.buildSimulation();
     }
   }
 
   render() {
-    let shouldRender = Boolean(typeof (this.state.width) !== 'undefined' && typeof(this.state.height !== 'undefined'))
+    // let shouldRender = Boolean(typeof (this.state.width) !== 'undefined' && typeof(this.state.height !== 'undefined'))
     
     return (
       <div 

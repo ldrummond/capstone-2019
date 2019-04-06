@@ -1,5 +1,5 @@
 import Boid from 'boid'; // import $ from 'jquery'; 
-import { CanvasTransition, strokeCircle, ActiveBounds } from '../components/helperFunctions';
+import { CanvasTransition, ActiveBounds } from '../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -11,7 +11,6 @@ export default class CursorBoidController {
   constructor(opts = {}) {
     const {
       color, 
-      shape, 
       strokeWidth, 
       bounds, 
       clearFrames, 

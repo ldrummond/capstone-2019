@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Link, Redirect, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
@@ -9,7 +9,7 @@ import { SimpleFade } from '../components/fadeWrapper';
 import SimulationWrapper from '../simulations/simulationWrapper';
 import SvgOutline from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper'
-import { throttle } from '../components/helperFunctions'; 
+import throttle from 'lodash/throttle';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classnames from 'classnames'; 
 
@@ -29,6 +29,10 @@ class SimulationPage extends Component {
     }
 
     this.fadeDuration = 333;
+    this.throttledNextClick = throttle(_ => {
+      props.onNextClick(); 
+      props.history.push(`/simulation/${props.nextSystem.path}`);
+    }, 999); 
     // this.rafController = new RafController({fps: 60}); 
   }
 
@@ -55,7 +59,6 @@ class SimulationPage extends Component {
   //   }
   // }
   
-
   render() {
     let {curSystem = {}, nextSystem = {}, onNextClick} = this.props; 
     // console.log('render', curSystem)
@@ -63,14 +66,11 @@ class SimulationPage extends Component {
     let {
       index = 0, 
       question = "question", 
-      description = "description", 
-      rules = ["test", "test"], 
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors, and avoid predators.',
     } = curSystem; 
 
-    let {
-      path: nextPath,
+    let {// path: nextPath,
       nextButtonTitle = '',
     } = nextSystem; 
 
@@ -112,7 +112,7 @@ class SimulationPage extends Component {
                     <span className='content'>
                       {instructions}
                       <span className='instruction-graphic'>
-                        <img src={instructionPng} />
+                        <img src={instructionPng} alt='simulation_instruction_graphic'/>
                       </span>
                       <button className='close-button unbuttoned' onClick={this.handleOverlayClick}>X</button>
                     </span>
@@ -124,7 +124,6 @@ class SimulationPage extends Component {
                   onClick={
                     throttle(_ => {
                       onNextClick(); 
-                      this.props.history.push(`/simulation/${nextPath}`);
                     }, this.props.lastChange, 999)} 
                   >
                   <h4>next</h4>

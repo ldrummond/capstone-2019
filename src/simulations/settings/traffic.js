@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { distance, CanvasTransition, clamp } from '../../components/helperFunctions';
+import { CanvasTransition, clamp } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -103,7 +103,7 @@ function cursorBoidInitFn(boid) {
  * Cursor Boid Update Function
  */
 function cursorBoidUpdateFn({mousePos, boid, bounds}) {
-  let center = bounds.width / 2; 
+  // let center = bounds.width / 2; 
   let closestLaneX = getClosestLane(mousePos, lanes, laneWidth, bounds.width);
 
   if(Math.abs(mousePos.x - closestLaneX) > (bounds.width / 5)) {
@@ -136,7 +136,7 @@ function boidInitFn(boidPool, bounds) {
 
   boidPool.map((boid, i) => {
     let x = (i % lanes + 1); 
-    let y = (Math.floor(i / lanes)); 
+    // let y = (Math.floor(i / lanes)); 
     boid.position.x = center - (lanesTotal / 2) + x * laneWidth;
     // boid.position.y = (y) * heightUnit; 
     boid.position.y = i * heightUnit; // (y + 1) * (this.height / (lanes + 2)); 
@@ -157,9 +157,9 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
     allBoids = [...boidPool, ...otherBoidPool];
   } 
   let pos = boid.position, 
-    otherPos,
-    xDiff,
-    yDiff;
+    // otherPos,
+    xDiff;
+    // yDiff;
 
   let laneBoids = allBoids.filter(otherBoid => {
     if(otherBoid !== boid) {
@@ -179,7 +179,7 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
   let closestBoid,
     closestDist = Number.MAX_SAFE_INTEGER;
 
-  if(aheadBoids.length == 0) {
+  if(aheadBoids.length === 0) {
     laneBoids.map(otherBoid => {
       if(otherBoid.position.y < closestDist) {
         closestDist = otherBoid.position.y;
@@ -215,11 +215,11 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
  * All Boids Click Function
  */
 function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
-  let pos, 
-    xDiff,
-    yDiff,
-    closestBoid, 
-    minYDiff = 10000;
+  // let pos, 
+  // let xDiff,
+    // yDiff,
+    // closestBoid, 
+    // minYDiff = 10000;
 
   let closestLaneX = getClosestLane(mousePos, lanes, laneWidth, bounds.width);
   
