@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import throttle from 'lodash/throttle';
 import classnames from 'classnames';
-import data from '../data/data'
 
 //////////////////////////////////////////////////
 //
@@ -10,76 +10,96 @@ import data from '../data/data'
 //
 //////////////////////////////////////////////////
 
-function NavResolver(props) {
-  let { history, location, prevLocation} = props; 
-  let pageIsAbout = (location && location.pathname === '/about'); 
-  let pageIsSelector = (location && location.pathname === '/selector'); 
-  let pageIsMobile = (location && location.pathname === '/mobile'); 
+export class NavResolver extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      hasScrolled: false
+    }
+    this.throttledHandleScroll = throttle(this.handleScroll, 100); 
+  }
 
-  let aboutLinkDestination = '/about';
-  let titleLinkDestination = '/selector'; 
+  componentDidMount() {
+    window.addEventListener('scroll', this.throttledHandleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.throttledHandleScroll);
+  }
+
+  handleScroll = (e) => {
+    console.log('scroll', window.scrollY);
+    if(window.scrollY <= 1) {
+      this.setState((prevState, props) => {
+        if(prevState.hasScrolled) {
+          return {hasScrolled: false}
+      }})
+    } else {
+      this.setState((prevState, props) => {
+        if(!prevState.hasScrolled) {
+          return {hasScrolled: true}
+      }})
+    }
+  }
+
+  defineRoutes = () => {
+    let { location, prevLocation} = this.props; 
+    let pageIsAbout = (location && location.pathname === '/about'); 
+    let pageIsSelector = (location && location.pathname === '/selector'); 
+    let pageIsMobile = (location && location.pathname === '/mobile'); 
+    let titleLinkDestination = '/selector'; 
+    this.aboutLinkDestination = '/about';
+    
+    if(pageIsAbout && prevLocation && prevLocation !== '/about') {
+      this.aboutLinkDestination = prevLocation; 
+    }
+    else if(pageIsAbout) {
+      this.aboutLinkDestination = '/selector';
+    }
+    if(pageIsSelector) {
+      titleLinkDestination = '/selector';
+    }
+    else if(pageIsMobile) {
+      titleLinkDestination = '/mobile'; 
+    }
   
- 
-  if(pageIsAbout && prevLocation && prevLocation !== '/about') {
-    aboutLinkDestination = prevLocation; 
-  }
-  else if(pageIsAbout) {
-    aboutLinkDestination = '/selector';
-  }
-
-  if(pageIsSelector) {
-    titleLinkDestination = '/selector';
-  }
-  else if(pageIsMobile) {
-    titleLinkDestination = '/mobile'; 
-  }
-
-  let titleLink = (
-    <NavLink className='title-link unbuttoned' to={titleLinkDestination}>
-      {process.env.REACT_APP_PROJECT_TITLE}
-    </NavLink>
-  )
-
-  if(pageIsMobile || pageIsSelector) {
-    titleLink = (
-      <a className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
+    this.titleLink = (
+      <NavLink className='title-link unbuttoned' to={titleLinkDestination}>
         {process.env.REACT_APP_PROJECT_TITLE}
-      </a>
+      </NavLink>
+    )
+  
+    if(pageIsMobile || pageIsSelector) {
+      this.titleLink = (
+        <button className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
+          {process.env.REACT_APP_PROJECT_TITLE}
+        </button>
+      )
+    }
+  }
+
+  render() {
+    this.defineRoutes(); 
+
+    return (
+      <nav className={
+        classnames(
+          'navbar', 
+          `${this.props.location.pathname.split('/')[1]}-page`,
+          { scrolled: this.state.hasScrolled },
+        )}
+      >
+        {this.titleLink}
+        <NavLink className='about-link unbuttoned' to={this.aboutLinkDestination}>
+          _ {/* Underscore is white, acts as sizer */}
+          <span className='slider'>
+            <span>Go Back</span><span>About</span>
+          </span> 
+        </NavLink>
+      </nav>
     )
   }
-
-  return (
-    <nav className={
-      classnames('navbar', 
-      {active: location.pathname.split('/')[1]}, 
-      `${location.pathname.split('/')[1]}-page`)}
-    >
-      {titleLink}
-      <NavLink className='about-link unbuttoned' to={aboutLinkDestination}>
-        <span className='slider' style={{transform: `translateY(${pageIsAbout ? 0 : -50}%)`}}>
-          <span>Go Back</span><span>About</span>
-        </span> 
-      </NavLink>
-    </nav>
-  )
 }
-
-// function TitleLink(props) {
-//   let {colors = []} = props;
-//   while(colors.length < 5) {
-//     colors.push(`rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`);
-//   }
-//   return (
-//     <Link className='title-link unbuttoned' to='/selector'>
-//       {props.children}
-//       <span className='color-underline' style={{display: 'flex'}}>
-//         {colors.map(color => 
-//           <div style={{background: color, width: `${1/colors.length*100}%`, height: '100%'}} key={color}></div>
-//         )}
-//       </span>
-//     </Link>
-//   )
-// }
 
 const mapStateToProps = state => {
   return {
