@@ -18,12 +18,12 @@ const
   moldColor = '#709170'; //'#79857E';
 
 export default {
-  description: [
-    `Ever wonder what causes traffic, why fish swim in schools, or how crowds move through cities? 
-
-     These are all systems of emergence – where a complex pattern occurs through simple interactions 
-     between parts.`,
-  ],
+  description:
+    `Ever wonder what causes a traffic jam? Or why fish swim in schools or how crowds move through cities? 
+     <div class='break'></div>
+     Surprisingly, these systems are all connected – they are all examples of <em>emergence</em>, where a complex pattern occurs through simple interactions 
+     between parts. This project explores the way emergent systems exist all around us, through 5 interactive simulations.`
+  ,
   systems: [
     {
       path: "traffic", 
