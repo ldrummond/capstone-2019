@@ -50,6 +50,12 @@ function systemsReducer(state = [], action) {
     case 'SYSTEM_FROM_PATH': 
       return stateFromPath(state, action.path)
 
+    case 'SCROLL_CHANGE':  
+      return {
+        ...state,
+        hasScrolled: action.scrollState, 
+      }
+
     case 'WHEEL_UP':
       return {
         ...prevSystemState(state), 
@@ -77,22 +83,6 @@ function systemsReducer(state = [], action) {
   }
 }
 
-// Create a Redux store holding the state of your app.
-// Its API is { subscribe, dispatch, getState }.
-// let store = createStore(systemsReducer, stateFromPath({}, 'traffic'));
-// export default store; 
-
-// Create a Redux store holding the state of your app.
-// Its API is { subscribe, dispatch, getState }.
-// export default function createStoreFromPath(path = 'traffic') {
-//   const initialState = {
-//     prevLocation: 'about',
-//     prevWheelIndex: 0,
-//     lastChange: Date.now(),
-//   }
-//   return createStore(systemsReducer, stateFromPath(initialState, path)); 
-// } 
-
 const initialState = {
   prevLocation: '/about',
   prevWheelIndex: -1,
@@ -100,4 +90,5 @@ const initialState = {
   lastChange: Date.now(),
 }
 
+// Create a Redux store holding the state of the app. 
 export default createStore(systemsReducer, stateFromPath(initialState, 'traffic')); 
