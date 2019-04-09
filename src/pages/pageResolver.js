@@ -34,20 +34,24 @@ function PageResolver({location}) {
   return(
     <React.Fragment>
       <MobileRedirect></MobileRedirect>
-      {routes.map(({path, Component}) => (
+      {routes.map(({path, Component}) => {
+        console.log('route-change-' + path)
+        return (
         <Route key={path} exact path={path}>
           {({match}) => (
             <CSSTransition 
               in={match != null} 
+              // timeout={{enter: 9000, exit: 9000}} 
               timeout={{enter: 1800, exit: 999}} 
               classNames={`page-transition`} 
+              // classNames={`transition-to-${match && match.path.split('/')[1] || location.pathname.split('/')[1]}`} 
               unmountOnExit
             >
               <Component />
             </CSSTransition>
           )}
-        </Route>
-      ))}
+        </Route>)
+      })}
       <Switch>
         <Redirect exact from="/transition" to='/selector'/>
         <Redirect exact from="/simulation/" to='/simulation/traffic' />
