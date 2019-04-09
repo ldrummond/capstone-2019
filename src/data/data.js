@@ -4,6 +4,12 @@ import fishCover from '../assets/fish-cover.png';
 import crowdsCover from '../assets/crowds-cover.png';
 import moldCover from '../assets/mold-cover.png';
 
+import carInstructions from '../assets/car-instructions.png';
+import batInstructions from '../assets/bat-instructions.png';
+import fishInstructions from '../assets/fish-instructions.png';
+import crowdsInstructions from '../assets/crowds-instructions.png';
+import moldInstructions from '../assets/mold-instructions.png';
+
 import { ReactComponent as carIcon } from '../assets/car-icon.svg';
 import { ReactComponent as batIcon } from '../assets/bat-icon.svg';
 import { ReactComponent as fishIcon }  from '../assets/fish-icon.svg';
@@ -35,9 +41,8 @@ export default {
         alt: 'Car'
       },
       question: "What causes traffic?", 
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
-      rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: `Click your cursor to slow down a single car.`,
+      instructions: `Click your cursor to create a slowdown and see how drivers respond.`,
+      instructionPng: carInstructions,
       interactions: [
         "Each car is in a rush, staying as close to the next car as possible.",
         "Because of this, if one car slows down, there is a chain reaction.",
@@ -56,9 +61,8 @@ export default {
         alt: 'Bat'
       },
       question: "Why do bats coordinate their flight?", 
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
-      rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Click on the cave to adjust the height of the opening.",
+      instructions: "Click on the walls of the cave to adjust the height of the opening.",
+      instructionPng: batInstructions,
       interactions: [
         "Each bat maintains the optimum distance from its neighbors, so that they never collide.",
         "When the sun sets, the bats fly through the cave entrance in a tighly coordinate mass.",
@@ -77,9 +81,8 @@ export default {
         alt: 'Fish'
       },
       question: "How do fish avoid predators?", 
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
-      rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
       instructions: "Move your cursor to guide a predator towards the school of fish.",
+      instructionPng: fishInstructions,
       interactions: [
         "Each fish is only aware of its close neighbors. It turns and slows to match their speed and angle.",
         "When a predator attacks, only the closest fish can actually see and respond to the predator.",
@@ -97,14 +100,13 @@ export default {
         src: crowdsCover, 
         alt: 'crowd_crossing_street'
       },
-      question: "How do crowds navigate cities?", 
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.      ",
-      rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
-      instructions: "Move your cursor to guide the motion of the crowd.", 
+      question: "How do crowds interact in cities?", 
+      instructions: "Click the buttons to change the number of people and affect the interactions of the crowds.", 
+      instructionPng: crowdsInstructions,
       interactions: [
-        "Each fish is only aware of its close neighbors. It turns and slows to match their speed and angle.",
-        "When a predator attacks, only the closest fish can actually see and respond to the predator.",
-        "When they turn, the other fish respond, and the whole school moves as a unit overwhelming the predator."
+        "Each person travels at a similar pace towards their destination.",
+        "They avoid people traveling in opposite directions, and avoid colliding with neighbors.",
+        "As the crowds pass, lanes of efficient motion naturally form."
       ],
       color: crowdsColor,
       icon: crowdsIcon, 
@@ -119,9 +121,8 @@ export default {
         alt: 'mold_colony'
       },
       question: "How can mold build a network?", 
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tempus sem eget tellus feugiat, quis efficitur neque tempor. Pellentesque ut dui a nisi porta pharetra quis sit amet mi. Quisque ac ante nulla. Quisque ut est cursus, sodales nulla eget, scelerisque nisl. Maecenas nec mollis velit. Donec viverra leo eget auctor ultricies. Nullam faucibus placerat orci, vel rhoncus velit auctor in. Cras at nibh quis massa feugiat lobortis nec eu quam.", 
-      rules: "adsad jalskd k k ask kk dalsjdj klajsblgh lkak j llk jaskldj lkj alk",
       instructions: "Click your cursor to place food sources, guiding the mold network",
+      instructionPng: moldInstructions,
       interactions: [
         "Each mold cell is brainless, but in the presence of food, they release pheremones.",
         "Other mold cells are attracted to those pheremones - when they get close, they strengthen the pheremone trail.",
