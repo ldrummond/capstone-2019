@@ -46,6 +46,7 @@ class MobileRedirect extends Component {
     if(!locationIsMobile && locationShouldBeMobile) {
       return (
         <Switch>
+          <Redirect from='/' to='/mobile' />
           <Redirect from='/transition' to='/mobile' />
           <Redirect from='/selector' to='/mobile' />
           <Redirect from='/simulation' to='/mobile' />
