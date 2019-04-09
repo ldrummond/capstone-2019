@@ -7,6 +7,13 @@
 //
 //////////////////////////////////////////////////
 
+window.cout = (oneInNumber, ...messages) => {
+  if(Math.round(Math.random() * oneInNumber) === oneInNumber) {
+    console.log(...messages);
+  }
+}
+
+
 export default class RafController {
   constructor(options) {
     let {fps} = options; 
@@ -35,6 +42,7 @@ export default class RafController {
   }
 
   loop = () => {
+    // window.cout(10, this);
     this.rafId = requestAnimationFrame(this.loop);
     
     // Check the amount of time elapsed since previous animation frame. 

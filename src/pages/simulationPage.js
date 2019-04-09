@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
-import instructionPng from '../assets/instructionPng.png';
 import { SimpleFade } from '../components/fadeWrapper';
 import SimulationWrapper from '../simulations/simulationWrapper';
 import SvgOutline from '../components/svgOutline';
@@ -30,17 +29,14 @@ class SimulationPage extends Component {
 
     this.fadeDuration = 333;
     this.throttledNextClick = throttle(_ => {
-      props.onNextClick(); 
+      // console.log(props.nextSystem.path);
       props.history.push(`/simulation/${props.nextSystem.path}`);
+      props.onNextClick(); 
     }, 999); 
-    // this.rafController = new RafController({fps: 60}); 
   }
 
   componentDidMount() {
     this.setState({mounted:true});
-    // this.overlayTimeout = setTimeout(_ => {
-    //   this.setState({hideOverlay: true})
-    // }, 5000);
   }
 
   handleOverlayClick = () => {
@@ -53,21 +49,22 @@ class SimulationPage extends Component {
     this.setState(prevState => {return {hideOverlay: !prevState.hideOverlay}})
   }
 
-  // onMouseMove = (e) => {
-  //   if(this.rafController && this.rafController.ticker % 2 == 0) {
-  //     this.setState({mouseX: e.clientX, mouseY: e.clientY});
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    // If the simulation path changed, update hte simulation controller.
+    if(prevProps.curSystem.path !== this.props.curSystem.path) {
+      this.setState({hideOverlay: false})
+    }
+  }
   
   render() {
     let {curSystem = {}, nextSystem = {}, onNextClick} = this.props; 
-    // console.log('render', curSystem)
     
     let {
       index = 0, 
       question = "question", 
       path = 'path', 
       instructions = 'Chase the fish to see how they follow their neighbors, and avoid predators.',
+      instructionPng, 
     } = curSystem; 
 
     let {// path: nextPath,
@@ -76,16 +73,10 @@ class SimulationPage extends Component {
 
     return (
       <div className={classnames('page-wrapper', 'simulation-page', path)}>
-      <TransitionGroup component={null}>
-      {/* <div className={classnames('page-wrapper', 'simulation-page', path)} onMouseMove={this.onMouseMove}> */}
-        {/* <div className='pseudoCursor' style={{transform: `translate(${mouseX}px, ${mouseY}px)`}}></div> */}
-        {/* <SimpleFade in={this.state.showOverlay} duration={333}> */}
-    
         <span className='content'>
           <section className='nav-placeholder'></section>
           <section className='description-panel'>
               <SimpleFade key={curSystem.question} shouldRender={this.state.mounted} duration={this.fadeDuration}>
-                <h3 className='index'>{index + 1}/5</h3>
                 <h2 className='question'>{question}</h2>
                 <Squiggle className='squiggle'/>
               </SimpleFade>
@@ -104,28 +95,30 @@ class SimulationPage extends Component {
                 </Link> 
               </SimpleFade>
           </section>
-          <section className='simulation-panel'>
+          <section className={classnames('simulation-panel', {'overlay-hidden': this.state.hideOverlay})}>
               <SimpleFade key={curSystem.path} shouldRender={this.state.mounted} duration={this.fadeDuration}>
                 <SimulationWrapper curSystem={curSystem}/>
-                <div className={classnames('instructions-overlay', {hidden: this.state.hideOverlay})}>
+                <div className='instructions-overlay' onClick={this.handleOverlayClick}>
                   <div className='overlay-inner'>
                     <span className='content'>
+                      {/* <h3 className='index'>{index + 1}/5</h3> */}
                       {instructions}
                       <span className='instruction-graphic'>
                         <img src={instructionPng} alt='simulation_instruction_graphic'/>
                       </span>
-                      <button className='close-button unbuttoned' onClick={this.handleOverlayClick}>X</button>
+                      <button className='close-button'><span>X</span></button>
                     </span>
                   </div>
                 </div>
-                <ButtonWrapper className='show-instructions-button' onClick={this.handleQuestionClick}>?</ButtonWrapper>
+                <ButtonWrapper className='show-instructions-button' onClick={this.handleQuestionClick}>
+                  ?
+                </ButtonWrapper>
                 <ButtonWrapper 
                   className='next-sim' 
-                  onClick={
-                    throttle(_ => {
-                      onNextClick(); 
-                    }, this.props.lastChange, 999)} 
-                  >
+                  onClick={ _ => {
+                    this.props.history.push(`/simulation/${this.props.nextSystem.path}`);
+                    this.props.onNextClick(); 
+                  }}>
                   <h4>next</h4>
                   <h3>{nextButtonTitle}</h3>
                   <SvgOutline component={Arrow} color='black' style={{transform: 'rotate(180deg)'}}/>
@@ -133,12 +126,13 @@ class SimulationPage extends Component {
               </SimpleFade>
           </section>
         </span>
-          {/* <CSSTransition classNames='background' key={curSystem.color} timeout={{enter: 999, exit: 999}} > */}
+        {/* <CSSTransition classNames='background' in={curSystem.color} timeout={{enter: 999, exit: 999}} > */}
+          {/* <React.Fragment> */}
         <div className='color-front' style={{background: curSystem.color}}></div>
         <div className='texture'></div>
         <div className='color-back' style={{background: curSystem.color}}></div>
-          {/* </CSSTransition> */}
-      </TransitionGroup>
+          {/* </React.Fragment> */}
+        {/* </CSSTransition> */}
       </div>    
     );
   }
