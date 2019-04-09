@@ -34,13 +34,12 @@ class BackgroundResolver extends Component{
             return(
               <Fragment>
                 <div className='content'>
-                {/* TODO: ALT */}
                   <SimpleFade shouldRender={this.state.mounted} duration={333}>
                     <img className='system-image' alt={coverImage.alt || 'TODO'} src={coverImage.src}></img>
                     <Icon className='system-icon' style={{fill: color}}/>
                   </SimpleFade>
                 </div>
-                <img className='texture' alt='' src={background}></img>       
+                <img className='texture' alt='background_texture' src={background}></img>       
               </Fragment>
             )}
           }  
