@@ -19,24 +19,28 @@
   .content
     width: span(7 of 16)
     margin-left: span(6 of 16)
-    height: 60%
+    // height: 60%
     position: relative
+    .fade-wrapper
+      position: absolute
 
     .system-image
-      position: absolute
-      top: 0
-      left: span(1 of 7)
+      transform: translateY(-33%)
+      // position: absolute
+      // top: 0
+      // left: span(1 of 7)
       width: 100%
-      max-height: 90%
+      // max-height: 90%
       z-index: -5
-      transition: opacity $fast ease-in, transform $slow ease-in
+      transition: opacity $fast ease-in
       opacity: 1
 
     .system-icon
       position: absolute
-      top: 20%
-      width: span(4 of 7)
+      width: 50%
+      bottom: 0
       left: 0
+      transform: translate(-15%, 0)
       z-index: -10
 
   .texture
@@ -91,17 +95,16 @@
   // Simulation Page
   &.simulation
     .content
-      width: span(13 of 16)
+      width: span(12 of 16)
       margin-left: - span(5 of 16)
 
-    .system-image
-      opacity: 0.2
-      // position: absolute
-      left: span(2 of 16)
-      // transform: translateX(-50%)
-      top: 0
-      width: auto
-      // transition: opacity $slow ease-out
+      .system-image
+        opacity: 0.2
+        // position: absolute
+        // left: span(2 of 16)
+        // transform: translateX(-50%)
+        transform: translateY(0)
+        // transition: opacity $slow ease-out
 
     .system-icon
       opacity: 0

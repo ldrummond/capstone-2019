@@ -6,6 +6,27 @@ $pentagon-width: span(6 of 16)
 
 // SCOPED through page name
 .page-wrapper.selector-page
+  width: 100vw
+  height: 100vh
+
+  // Transition in
+  &.page-transition-enter
+    transition: opacity 1s cubic-bezier(.666,0,.333,1)
+    opacity: 0
+    // transform: translateX(-100%)
+
+  &.page-transition-enter-active
+    // transform: translateX(0)
+    opacity: 1
+       
+  // Transition out
+  &.page-transition-exit
+    transition: opacity 666ms cubic-bezier(.666,0,.333,1)
+    opacity: 1
+     
+  &.page-transition-exit-active
+    opacity: 0
+
   .content 
     display: flex
     align-items: center
@@ -16,6 +37,7 @@ $pentagon-width: span(6 of 16)
     .pentagon-icon
       display: inline-block
       width: $pentagon-width
+      // width: span(18 of 32)
       pointer-events: visible
       svg
         transform: scale(1)
@@ -26,13 +48,13 @@ $pentagon-width: span(6 of 16)
 
     .arrows-container
       display: inline-flex
-      width: span(1 of 16)
-      margin-right: span(1 of 16)
+      width: span(3 of 32)
+      // margin-right: span(1 of 32)
       float: left
       height: 100%
       flex-direction: column
       justify-content: center
-      align-items: center
+      align-items: flex-start
       .button-wrapper
         width: 70%
         +aspect-ratio(1, 1)
@@ -52,7 +74,7 @@ $pentagon-width: span(6 of 16)
       display: flex
       align-items: center
       justify-content: center
-      width: span(3 of 16)
+      width: span(4 of 16)
       left: span(2 of 16)
       fill: none
       stroke: black
@@ -94,7 +116,7 @@ $pentagon-width: span(6 of 16)
           opacity: 1
           h4
             display: inline
-            text-transform: percase
+            text-transform: lowercase
             font-weight: 200
             font-size: 14px
             letter-spacing: 0.08em
@@ -142,9 +164,27 @@ $pentagon-width: span(6 of 16)
   .page-wrapper.selector-page
     .content 
       .pentagon-icon
+        width: span(7 of 16)
+      .squiggle-container
+        stroke-width: 3px
+      .option-container
+        width: span(8 of 16)
+
+
++after-bg-mobile
+  .page-wrapper.selector-page
+    .content 
+      .pentagon-icon
         width: span(6 of 16)
       .squiggle-container
         stroke-width: 3px
+        width: span(3 of 16)
+      .option-container
+        width: span(7 of 16)
+      .arrows-container
+        width: span(1 of 16)
+        margin-right: span(1 of 16)
+        align-items: center
 
 +after-md-desktop
   .page-wrapper.selector-page
@@ -154,3 +194,5 @@ $pentagon-width: span(6 of 16)
         width: span(5 of 16)
       .squiggle-container
         stroke-width: 3px
+      .option-container
+        width: span(6 of 16)

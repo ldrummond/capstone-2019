@@ -7,7 +7,7 @@ $fish-color: #579CC6 // blue
 $crowd-color: #EFB2C5 // pink
 $mold-color: #79857E // green
 
-$about-color: rgba(0,0,0, 0.1)
+$about-color: rgba(0,0,0, 0.03)
 $light: #eee
 $dark: #000
 $sim-color: #000 // #43555F
@@ -22,13 +22,12 @@ $simulation-border: 1px solid rgba(255,255,255,0.2)
 $brothers-stack: brothers, Helvetica, sans-serif
 $calluna-stack: calluna, serif
 $poppins-stack: poppins, sans-serif
-$abolition-stack: abolition, sans-serif 
 $freight-stack: freight-sans-pro, sans-serif 
 
 // Z-stack
 $nav-z: 15
 $about-z: 10
-$base-page-z: 5
+$base-page-z: 0
 $background-z: -10
 
 // Query Sizes
@@ -66,8 +65,11 @@ $sm-mobile: 480px
   font-size: 36px
   line-height: 42px
   +after-sm-mobile
+    font-size: 48px
+    line-height: 50px
+  +after-bg-mobile
     font-size: 58px
-    line-height: 58px
+    line-height: 62px
   +after-md-desktop
     font-size: 66px
     line-height: 72px
@@ -78,8 +80,8 @@ $sm-mobile: 480px
   font-size: 38px
   line-height: 48px
   +after-sm-mobile
-    font-size: 34px
-    line-height: 38px
+    font-size: 33px
+    line-height: 36px
   +after-md-desktop
     font-size: 38px
     line-height: 41px
@@ -138,12 +140,6 @@ $sm-mobile: 480px
     font-size: 12px
     line-height: 18px
 
-@mixin abolition-font
-  font-family: $abolition-stack
-  font-weight: 400
-  font-size: 30
-  letter-spacing: 0.15em
-
 @mixin about-subheader-font
   font-family: $calluna-stack
   font-weight: 700
@@ -172,12 +168,12 @@ $sm-mobile: 480px
 
 @mixin nav-font
   font-family: $freight-stack
-  font-size: 12px
-  font-weight: 100
+  font-size: 11px
+  font-weight: 600
   +after-sm-mobile
-    font-size: 14px
+    font-size: 12px
   +after-md-desktop
-    font-size: 15px
+    font-size: 13px
 
 @mixin loader-font
   font-family: $calluna-stack
@@ -227,3 +223,23 @@ $hype: 150ms
   left: 0
   width: 100%
   height: 100%
+
+// Hover Styles
+@mixin hoverline 
+  position: relative
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    background: $dark
+    height: 1px
+    opacity: 0
+    transform: translateY(2px)
+    transition: transform $fast ease, opacity $fast ease 
+  &:hover
+    &:after
+      opacity: 1
+      transform: translateY(0px)

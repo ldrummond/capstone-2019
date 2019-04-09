@@ -2,21 +2,23 @@
 
 // SCOPED through page name
 .page-wrapper.about-page
-  position: absolute
+  +absolute-fill
+  overflow-y: scroll
   z-index: $about-z
   
   // Transition in
   &.page-transition-enter
-    transition: transform 1.2s cubic-bezier(.666,0,.333,1)
+    transition: transform 1s cubic-bezier(.666,0,.333,1)
     transform: translateY(-100%)
     .content
-      // transition: opacity $fast ease-out $med
-      // opacity: 0
       .page-header
-        transition: transform 1300ms cubic-bezier(.41,.64,.57,1) 500ms
+        transition: transform 1100ms cubic-bezier(.41,.64,.57,1) 500ms
         transform: translateY(-100%)
         .site-title
-          transition: opacity $med ease 1500ms
+          transition: opacity $slow ease-out 1100ms
+          opacity: 0
+        .site-subtitle
+          transition: opacity $slow ease-out 0ms
           opacity: 0
       .copy-block
         opacity: 0
@@ -25,10 +27,11 @@
   &.page-transition-enter-active
     transform: translateY(0)
     .content
-      // opacity: 1
       .page-header
         transform: translateY(0%)
         .site-title
+          opacity: 1
+        .sitle-subtitle
           opacity: 1
       .copy-block
         opacity: 1
@@ -38,17 +41,27 @@
     transition: transform 1s cubic-bezier(.666,0,.333,1)
     transform: translateY(0)
     .content
-      transition: opacity $med ease-out
-      opacity: 1
+      .page-header
+        .site-title, .site-subtitle
+          transition: opacity $fast ease-out
+          opacity: 1
+      .copy-block
+        transition: opacity $fast ease-out
+        transition-delay: 0ms !important
+        opacity: 1
   &.page-transition-exit-active
     transform: translateY(-100%)
     .content
-      opacity: 0
+      .page-header
+        .site-title, .site-subtitle
+          opacity: 0
+      .copy-block
+        opacity: 0
 
   .content
     width: 100%
-    height: 100%
-    overflow-y: scroll
+    position: relative
+    padding-bottom: 50px
 
     .page-header
       display: flex
@@ -60,17 +73,22 @@
       margin-bottom: 100px
       .site-title
         +middle-brother-font
-        // margin-left: span(5 of 16)
-        // display: block
-        // color: white
+        margin-bottom: 0.5em
       .site-subtitle
+        text-align: center
+        max-width: 300px
+        font-family: $calluna-stack
+        letter-spacing: 0.1em
+        font-weight: 100
+        font-size: 11px
+        line-height: 16px
         
-
     .copy-block
       position: relative
       display: block
       margin: auto
-      width: span(14 of 16)
+      width: 100%
+      padding: $nav-padding
       margin-bottom: 6em
 
       .index
@@ -80,7 +98,7 @@
         font-weight: 100
         position: absolute
         top: 0
-        left: -4em
+        left: -1em
         border-bottom: 1px solid rgba(255,255,255,1)
 
       .header
@@ -94,19 +112,24 @@
       .copy
         +about-copy-font
 
-  .bg-color, .bg-texture, .bg-solid
-    +absolute-fill
-    z-index: -15
-  .bg-color
-    background: $about-color
-  .bg-texture
-    opacity: 0.4
-  .bg-solid
-    background: white
-    z-index: -20
-
+    .bg-color, .bg-texture, .bg-solid
+      +absolute-fill
+      z-index: -5
+    .bg-color
+      background: $about-color
+    .bg-texture
+      opacity: 0.4
+    .bg-solid
+      background: white
+      z-index: -20
 
 +after-sm-mobile
+  .page-wrapper.about-page
+    .content    
+      .copy-block
+        width: span(12 of 16)
+
++after-bg-mobile
   .page-wrapper.about-page
     .content    
       .copy-block
@@ -119,4 +142,4 @@
   .page-wrapper.about-page
     .content    
       .copy-block
-        width: span(7 of 16)
+        width: span(8 of 16)
