@@ -15,7 +15,6 @@ class Pentagon extends Component {
     this.onHoverUp = _ => this.setState({offset: -1});
     this.onHoverDown = _ => this.setState({offset: 1});
     this.onHoverOff = _ => this.setState({offset: 0});
-
   }
 
   render() {
@@ -27,6 +26,7 @@ class Pentagon extends Component {
       let plusI = (props.curIndex + 1 < 5) ? props.curIndex + 1 : 0;
       let minusI = (props.curIndex - 1 >= 0) ? props.curIndex - 1 : 4;
       if(i === minusI) {onClick = props.onPrevClick; onEnter = this.onHoverDown}
+      if(i === props.curIndex) {onClick = props.onCenterClick;}
       if(i === plusI) {onClick = props.onNextClick; onEnter = this.onHoverUp}
       return {
         style: style,

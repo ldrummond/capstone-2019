@@ -37,7 +37,7 @@ export default class PentagonWheel extends Component {
         colors: [],
         stroke: true,
         fill: false,
-        strokeStyle: 'white', 
+        strokeStyle: '#333', 
         strokeWidth: 1,
         fillStyle: 'none', 
         hasNoise: false, 
@@ -60,9 +60,10 @@ export default class PentagonWheel extends Component {
       }
 
       let duration = 999;
-      this.pentagonController.easeOpacity(0, 1, duration); 
-      this.pentagonController.easeDiameter(0, this.width / 2 - 5, duration); 
-      // this.pentagonController.easeSides(3, 5, duration); 
+      this.pentagonController.easeOpacity(0, 1, duration * 3); 
+      this.pentagonController.easeDiameter(0, this.width / 2 - 5, duration * 3); 
+      this.pentagonController.easeSides(2, 5, duration * 3); 
+      // this.pentagonController.easeAngleTo(36, duration * 10);
       // 
       // setTimeout(() => {
         // this.pentagonController.easeSides(20, 3, duration); 
@@ -77,19 +78,33 @@ export default class PentagonWheel extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.rafController.stopLoop(); 
+  }
+
   componentDidUpdate() {
-    let duration = 3000;
+    let duration = 999;
 
     switch(this.props.stateIndex) {
       case 0: 
         break; 
 
       case 1:
-      break; 
+        this.pentagonController.easeAngleTo(36, duration * 5);
+        break; 
       
       case 2:
-        this.pentagonController.easeAngleTo(36, duration);
-        this.pentagonController.easeStrokeBrightness(255, 180, 999); 
+        break;
+      
+      case 3:
+        // this.pentagonController.easeStrokeBrightness(255, 180, 999); 
+        break;
+
+      case 6:
+        break;
+
+      case 8:
+        this.rafController.stopLoop(); 
         break;
     }
   }
@@ -104,9 +119,7 @@ export default class PentagonWheel extends Component {
       <div className='pentagon-container' ref={this.pentagonRef}>
         <div className='pentagon-inner'>
           {(this.state.width && this.state.height) &&
-            <CanvasBase 
-              hoistCanvas={hoistCanvas}
-            />
+            <CanvasBase hoistCanvas={hoistCanvas}/>
           }
         </div>
       </div>
