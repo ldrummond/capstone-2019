@@ -172,6 +172,16 @@ export function clamp(size, limit) {
 }
 
 /**
+* Min
+*/
+export function min(size, min) {
+  if(size < min) {
+    return min; 
+  }
+  return size; 
+}
+
+/**
  * Square
  * @param {number} val 
  */
@@ -191,27 +201,29 @@ export function squared(val) {
  * Active Bounds object for canvas
  */
 export function ActiveBounds() {
-  this.minX = Number.MAX_SAFE_INTEGER;
-  this.maxX = Number.MIN_SAFE_INTEGER; 
-  this.minY = Number.MAX_SAFE_INTEGER;
-  this.maxY = Number.MIN_SAFE_INTEGER;
+  this.minX = 100000;
+  this.maxX = -100000; 
+  this.minY = 100000;
+  this.maxY = -100000;
   
   this.reset = _ => {
-    this.minX = Number.MAX_SAFE_INTEGER;
-    this.maxX = Number.MIN_SAFE_INTEGER; 
-    this.minY = Number.MAX_SAFE_INTEGER;
-    this.maxY = Number.MIN_SAFE_INTEGER;
+    this.minX = 100000;
+    this.maxX = -100000; 
+    this.minY = 100000;
+    this.maxY = -100000;
   }
 
   this.update = pos => {
     if(pos.x > this.maxX) {
       this.maxX = pos.x;
-    } else if (pos.x < this.minX) {
+    } 
+    if (pos.x < this.minX) {
       this.minX = pos.x; 
     }
     if(pos.y > this.maxY) {
       this.maxY = pos.y;
-    } else if (pos.y < this.minY) {
+    } 
+    if (pos.y < this.minY) {
       this.minY = pos.y; 
     }
   }
