@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import data from '../data/data';
@@ -35,6 +35,7 @@ class SelectorPage extends Component {
 
   render() {
     let {curSystem, wheelIndex} = this.props
+    let destinationPath = `/transition/${curSystem.path}`;
 
     return (
       <div className='page-wrapper selector-page'>
@@ -44,6 +45,7 @@ class SelectorPage extends Component {
             curIndex={curSystem.index}
             colors={data.systems.map(system => system.color)} 
             onPrevClick={this.throttledPrevClick}
+            onCenterClick={_ => this.props.history.push(destinationPath)}
             onNextClick={this.throttledNextClick}  
             in={this.state.mounted}
           />
@@ -65,7 +67,7 @@ class SelectorPage extends Component {
                 timeout={{enter: 450, exit: 300}} 
                 classNames='rotate'
               >
-                <Link to={`/transition/${curSystem.path}`} className='option-inner'>
+                <Link to={destinationPath} className='option-inner'>
                   <h1 className='title'>{curSystem.question}</h1>
                   <span className='subtitle'>
                     <h4>system</h4>
@@ -103,6 +105,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-SelectorPage = connect(mapStateToProps, mapDispatchToProps)(SelectorPage)
+SelectorPage = withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectorPage))
 
 export default SelectorPage
