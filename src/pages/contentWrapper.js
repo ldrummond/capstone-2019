@@ -25,6 +25,8 @@ class ContentWrapper extends Component{
       console.log('wrapper constructor', 'update');
       props.updateCurrentSystem(simulationPath);
     } 
+    // Forces restart of experience
+    // props.history.push('/');
   }
 
   componentWillReceiveProps(nextProps) {

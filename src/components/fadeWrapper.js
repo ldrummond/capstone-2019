@@ -57,7 +57,7 @@ export class SimpleFade extends Component {
 	render() {
 		const { children, duration = 333, shouldRender } = this.props;
 		return (
-			<Transition in={shouldRender} timeout={duration}>
+			<Transition in={shouldRender} timeout={duration} className='fade-wrapper'>
 				{state =>
 					<span className={this.props.className} style={{ ...this.defaultStyle, ...this.transitionStyles[state] }}>
 						{children}
