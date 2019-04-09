@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom'
-// import LoaderPentagon from '../components/loaderPentagon'
-import loaderTexture from '../assets/backgroundTest.jpg'; 
+import { Link, withRouter } from 'react-router-dom'
+import LoaderPentagon from '../components/loaderPentagon'
+import background from '../assets/background-texture-white.jpg'; 
+import { SimpleFade } from '../components/fadeWrapper';
+// import loaderTexture from '../assets/backgroundTest.jpg'; 
+import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
 import classnames from 'classnames'; 
 import data from '../data/data';
 
@@ -11,14 +14,14 @@ import data from '../data/data';
 //
 //////////////////////////////////////////////////
 
-export default class IntroPage extends Component {
+class IntroPage extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       stateIndex: 0,
     }
-
+    this.fadeDuration = 666;
     this.mousePos = {x: 0, y: 0}; 
   }
   
@@ -28,12 +31,15 @@ export default class IntroPage extends Component {
   }
 
   componentDidMount() {
-    // this.stateInterval = setInterval(
-    //  _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
-    // 4000);
-    this.stateInterval = setTimeout(() => {
-      this.setState({shouldRedirect: true});
-    }, (5000));
+    this.stateInterval = setInterval(
+     _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
+    999);
+  }
+
+  handleClick = () => {
+    if(this.stateInterval >= 2) {
+      this.props.history.push('/selector');
+    }
   }
   
   componentWillUnmount() {
@@ -41,35 +47,47 @@ export default class IntroPage extends Component {
   }
 
   render() {
+    let stateIndex = this.state.stateIndex
     let states = [];
-    for(let i = 0; i < this.state.stateIndex; i++) {
+    for(let i = 0; i < stateIndex; i++) {
       states.push(`state${i}`);  
     }
-    if(this.state.stateIndex > 5) {
+    if(stateIndex > 8) {
       clearInterval(this.stateInterval);
     }
 
-    if(this.state.shouldRedirect) {
-      return (
-        <Redirect to='/selector' push/>
-      )
-    }
     return (
       <div 
         className={classnames('page-wrapper', 'intro-page', states)} 
         onMouseMove={this.onMouseMove}
+        onClick={this.handleClick}
       >
         <div className='content'>
-          <h2 className='site-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
-          {/* <LoaderPentagon mousePos={this.mousePos} stateIndex={this.state.stateIndex}/> */} */}
-          <img className='texture' src={loaderTexture} alt='background_texture'></img>
-          <div className='pattern'></div>
-          <section className='text-container'>
-            <h5>01</h5>
-            <p>{data.description[0]}</p>
-          </section>
+          <SimpleFade 
+            className='text-container' 
+            shouldRender={stateIndex >= 6} 
+            duration={this.fadeDuration}
+          >
+            <h2 className='project-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
+            {/* <img className='texture' src={loaderTexture} alt='background_texture'></img> */}
+            {/* <div className='pattern'></div>*/}
+            <h4>Exploring <em>emergent systems</em> in our world, through 5 interactive simulations</h4>
+            {/* <p dangerouslySetInnerHTML={{__html: data.description}}></p> */}
+          </SimpleFade>
+          <span className='pentagon-wrapper'>
+            <LoaderPentagon mousePos={this.mousePos}  stateIndex={stateIndex}/>
+          </span>
+          <SimpleFade className='start-button-container' shouldRender={stateIndex >= 6} duration={this.fadeDuration + 666}>
+            <Link to='/selector' className='start-button'>Choose A System</Link>
+          </SimpleFade>
+          {/* <Pentagon /> */}
         </div>
+        <span className='bg-color'/>
+        <img className='bg-texture' src={background} alt='background_texture'/>
+        <span className='bg-solid'/>
       </div>       
     );
   }
 }
+
+export default withRouter(IntroPage)
