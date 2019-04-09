@@ -65,15 +65,19 @@ export class NavResolver extends Component {
   
     this.titleLink = (
       <NavLink className='title-link unbuttoned' to={titleLinkDestination}>
-        {process.env.REACT_APP_PROJECT_TITLE}
+        <span className='link-inner'>
+          {process.env.REACT_APP_PROJECT_TITLE}
+        </span>
       </NavLink>
     )
   
     if(pageIsMobile || pageIsSelector) {
       this.titleLink = (
-        <button className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
-          {process.env.REACT_APP_PROJECT_TITLE}
-        </button>
+        <a className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
+          <span className='link-inner'>
+            {process.env.REACT_APP_PROJECT_TITLE}
+          </span>
+        </a>
       )
     }
   }
@@ -85,16 +89,15 @@ export class NavResolver extends Component {
       <nav className={
         classnames(
           'navbar', 
-          `${this.props.location.pathname.split('/')[1]}-page`,
+          `${this.props.location.pathname.split('/')[1] || 'intro'}-page`,
           { scrolled: this.state.hasScrolled },
         )}
       >
         {this.titleLink}
         <NavLink className='about-link unbuttoned' to={this.aboutLinkDestination}>
-          _ {/* Underscore is white, acts as sizer */}
-          <span className='slider'>
-            <span>Go Back</span><span>About</span>
-          </span> 
+          <div className='link-inner'>
+            <div>Go Back</div><div>About</div>
+          </div>
         </NavLink>
       </nav>
     )
