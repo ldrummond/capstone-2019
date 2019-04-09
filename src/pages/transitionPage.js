@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect} from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 //////////////////////////////////////////////////
@@ -20,7 +20,7 @@ class TransitionPage extends Component {
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({mounted: true})
-    }, (666));
+    }, (1800));
   }
   
   componentWillUnmount() {
@@ -28,32 +28,18 @@ class TransitionPage extends Component {
   }
 
   render() {
-    let {curSystem = {}, prevLocation} = this.props; 
-
-    let {
-      // index = 0, 
-      // question = "question", 
-      // description = "description", 
-      // rules = ["test", "test"], 
-      // type = "birds",
-      path = 'path', 
-      // instructions = 'Chase the fish to see how they follow their neighbors to avoid predators.',
-      // coverImage = {src: 'test'},
-    } = curSystem; 
+    let {curSystem = {}, prevLocation, history} = this.props; 
+    let {path = 'traffic'} = curSystem; 
 
     if(prevLocation) {
       console.log(prevLocation);
     }
-
+    console.log(history)
     return (
       <div className={`page-wrapper transition-page ${path}`}>
-        {this.state.mounted && 
+        {this.state.mounted && history.action !== 'REPLACE' &&
           <Redirect to={`/simulation/${path}`}/>
         }
-        {/* <Link to={`/simulation/${path}`} className='next-button'>
-          <span className='content'>
-          </span>
-        </Link> */}
       </div>    
     );
   }
@@ -61,27 +47,12 @@ class TransitionPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    nextSystem: state.nextSystem,
     curSystem: state.curSystem,
-    prevSystem: state.prevSystem,
     prevLocation: state.prevLocation, 
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onNextClick: id => {
-      dispatch({type: 'NEXT_SYSTEM'}); 
-    },
-    onPrevClick: id => {
-      dispatch({type: 'PREV_SYSTEM'}); 
-    },
-    onPath: path => {
-      dispatch({type: 'SYSTEM_FROM_PATH', path: path})
-    }
-  }
-}
 
-TransitionPage = connect(mapStateToProps, mapDispatchToProps)(TransitionPage)
+TransitionPage = withRouter(connect(mapStateToProps)(TransitionPage))
 
 export default TransitionPage
