@@ -7,7 +7,7 @@ import { CanvasTransition, clamp } from '../../components/helperFunctions';
 //
 //////////////////////////////////////////////////
 
-const settingsFps = 60; 
+const settingsFps = 40; 
 
 export default {
   rafSettings: {fps: settingsFps},
@@ -17,8 +17,8 @@ export default {
       isVisible: true,
       cursorVisible: true,
       clearFrames: true, 
-      color: 'rgba(0, 0, 0, 1)',
-      strokeWidth: 2,
+      strokeWidth: 4,
+      maxSpeed: 30,
       clickFn: cursorClickFn,
       initFn: cursorBoidInitFn,
       updateFn: cursorBoidUpdateFn, 
@@ -92,7 +92,6 @@ function cursorClickFn({boid, drawBuffer}) {
  * Cursor Boid Initializaion Function
  */
 function cursorBoidInitFn(boid) {
-  boid.maxSpeed = 12;
   boid.velocity.x = 0;
   boid.velocity.y = 0;
   boid.maxForce = 10;
@@ -103,9 +102,7 @@ function cursorBoidInitFn(boid) {
  * Cursor Boid Update Function
  */
 function cursorBoidUpdateFn({mousePos, boid, bounds}) {
-  // let center = bounds.width / 2; 
   let closestLaneX = getClosestLane(mousePos, lanes, laneWidth, bounds.width);
-
   if(Math.abs(mousePos.x - closestLaneX) > (bounds.width / 5)) {
     boid.position.x = -20;
   }
@@ -121,7 +118,10 @@ function cursorBoidUpdateFn({mousePos, boid, bounds}) {
  * Cursor Boid Draw Function
  */
 function cursorBoidDrawFn(ctx, boid, bounds) {
-  ctx.arc(boid.position.x, boid.position.y, 4, 0, 2 * Math.PI);
+  // ctx.arc(boid.position.x, boid.position.y, 4, 0, 2 * Math.PI);
+  // ctx.fill();
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.arc(boid.position.x, boid.position.y, 6, 0, 2 * Math.PI);
   ctx.fill();
 }
 
@@ -177,7 +177,7 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
   })
 
   let closestBoid,
-    closestDist = Number.MAX_SAFE_INTEGER;
+    closestDist = 100000;
 
   if(aheadBoids.length === 0) {
     laneBoids.map(otherBoid => {
@@ -215,12 +215,6 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
  * All Boids Click Function
  */
 function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
-  // let pos, 
-  // let xDiff,
-    // yDiff,
-    // closestBoid, 
-    // minYDiff = 10000;
-
   let closestLaneX = getClosestLane(mousePos, lanes, laneWidth, bounds.width);
   
   const obstacle = new CanvasTransition({
@@ -230,14 +224,25 @@ function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
     fps: settingsFps, 
     position: {x: closestLaneX, y: mousePos.y},
     onStep: (per, ctx) => {
-      // let slope = (per) => {
-      //   return Math.abs(-(Math.pow(per / 5 - 10, 2)) + 100);
-      // }
-      // ctx.fillStyle = `rgba(0, 0, 0, ${per / 100})`;
+      let radius = 30; 
+
+      ctx.fillStyle = `rgba(0, 0, 0, ${0.8 - per / 80})`;
       ctx.lineWidth = 1.5
       ctx.beginPath();
-      ctx.arc(closestLaneX + 2, mousePos.y + 2, 20 * (per / 100), 0, 2 * Math.PI);
-      ctx.stroke();
+      ctx.arc(closestLaneX + 2, mousePos.y + 2, radius * (per / 60), 0, 2 * Math.PI);
+      ctx.fill();
+      if(per >= 20) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${0.8 - ((per - 20) / 80)})`;
+        ctx.beginPath();
+        ctx.arc(closestLaneX + 2, mousePos.y + 2, radius * ((per - 20) / 80), 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      if(per >= 40) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${0.8 - ((per - 40) / 80)})`;
+        ctx.beginPath();
+        ctx.arc(closestLaneX + 2, mousePos.y + 2, radius * ((per - 40) / 100), 0, 2 * Math.PI);
+        ctx.fill();
+      }
     }
   })
   otherBoidPool.push(obstacle);

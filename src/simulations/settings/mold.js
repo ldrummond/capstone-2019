@@ -19,22 +19,24 @@ export default {
       isVisible: true,
       cursorVisible: true,
       clearFrames: true, 
-      color: 'black',
       width: 4,
-      maxSpeed: 3,
-      // initFn: cursorInitFn,
+      maxSpeed: 30,
       clickFn: cursorClickFn,
+      initFn: cursorBoidInitFn,
+      updateFn: cursorBoidUpdateFn, 
+      drawFn: cursorBoidDrawFn,
     },
     boidSettings: {
       isVisible: true,
-      clearFrames: false, 
-      drawActiveBounds: true, 
+      clearFrames: true, 
+      drawActiveBounds: false, 
       count: 100, 
       maxSpeed: 1,
-      minDistance: 30, 
-      maxDistance: 10, 
+      minDistance: 50, 
+      maxDistance: 200, 
       strokeColor: 'white',
       strokeWidth: 1,
+      arriveThreshold: 80,
       // initFn: boidInitFn,
       updateFn: boidUpdateFn,
       drawFn: boidDrawFn, 
@@ -43,6 +45,36 @@ export default {
       edgeBehavior: 'bounce',
     }
   }
+}
+
+/**
+ * 
+ * Cursor Boid Initializaion Function
+ */
+function cursorBoidInitFn(boid) {
+  boid.maxSpeed = 30;
+  boid.velocity.x = 0;
+  boid.velocity.y = 0;
+  boid.maxForce = 10;
+}
+
+/**
+ * 
+ * Cursor Boid Update Function
+ */
+function cursorBoidUpdateFn({mousePos, boid, bounds}) {
+  boid.position.x = boid.position.x + ((mousePos.x - boid.position.x) / 1.5);
+  boid.position.y = boid.position.y + ((mousePos.y - boid.position.y) / 1.5);
+}
+
+/**
+ * 
+ * Cursor Boid Draw Function
+ */
+function cursorBoidDrawFn(ctx, boid, bounds) {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.arc(boid.position.x, boid.position.y, 6, 0, 2 * Math.PI);
+  ctx.fill();
 }
 
 /**
@@ -58,7 +90,7 @@ function cursorClickFn({mousePos, drawBuffer}) {
     position: mousePos,
     onStep: (per, ctx) => {
       ctx.strokeStyle = `rgba(0, 0, 0, ${1 - per / 100})`;
-      ctx.lineWidth = 1.5
+      ctx.lineWidth = 1
       ctx.beginPath();
       ctx.arc(mousePos.x, mousePos.y, 25 * (per / 100), 0, 2 * Math.PI);
       ctx.stroke();
@@ -77,9 +109,10 @@ function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
   foodBoid.position.y = mousePos.y;
   foodBoid.velocity.x = 0;
   foodBoid.velocity.y = 0;
-  foodBoid.userData.pheremoneDist = 30;
+  foodBoid.userData.pheremoneDist = 45;
   foodBoid.userData.step = ctx => {
     ctx.strokeStyle = 'yellow';
+    ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.arc(mousePos.x, mousePos.y, 4, 0, 2 * Math.PI);
     ctx.stroke();
@@ -89,150 +122,64 @@ function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
     ctx.stroke();
   }
 
-  // const food = {
-  //   position: {...mousePos},
-  //   pheremoneDist: 20,
-  //   step: ctx => {
-  //     ctx.strokeStyle = 'yellow';
-  //     ctx.beginPath();
-  //     ctx.arc(mousePos.x, mousePos.y, 4, 0, 2 * Math.PI);
-  //     ctx.stroke();
-  //     ctx.beginPath();
-  //     ctx.strokeStyle = 'white';
-  //     ctx.arc(mousePos.x, mousePos.y, 20, 0, 2 * Math.PI);
-  //     ctx.stroke();
-  //   },
-  // }
-
   if(otherBoidPool.length >= 5) {
     otherBoidPool.shift();
   } 
   otherBoidPool.push(foodBoid);
 }
 
-
-
-// let boidInitFn = (boidPool, bounds) => {
-  
-// }
-
+/**
+ * 
+ *  Boid Update Function
+ * 
+ */
 function boidUpdateFn({boid, otherBoidPool, boidPool, chaser, bounds, center}) {
-  boid.flock(boidPool).update();
-  // let pos, 
-  //   dist, 
-  //   shouldWander, 
-  //   senseDist = 50, 
-  //   maxDist = 100;
+  let close = false; 
 
-  // boid.userData.pheremoneDist = 0;
-  // // window.cout(1000, otherBoidPool)
-  // if(otherBoidPool.length > 0) {
-  //   let i = Math.floor(Math.random() * otherBoidPool.length * 5); 
-  //   if(i < otherBoidPool.length) {
-  //     boid.arrive(Boid.vec2(otherBoidPool[i].position.x, otherBoidPool[i].position.y));
-  //   }
-  //   // otherBoidPool.map(foodBoid => {
-  //     // boid.arrive(Boid.vec2(foodBoid.position.x, foodBoid.position.y));
-  //     // boid.update();
-  //   // })
-  //   // boid.flock(boidPool);
-  // } else {
-  //   boid.wander();
+  // if(Math.round(Math.random() * 200) === 1) {
+  //   boid.position.x = Math.round(Math.random() * bounds.width); 
+  //   boid.position.y = Math.round(Math.random() * bounds.height); 
   // }
+  if(otherBoidPool.length > 0) {
+    boid.userData.neighborPos = []; 
+    // Seek food within 100px range
+    otherBoidPool
+      .filter(foodBoid => boid.position.distanceSq(foodBoid.position) < squared(foodBoid.userData.pheremoneDist * 1.2))
+      .map(foodBoid => {
+        if(boid.position.distanceSq(foodBoid.position) < squared(foodBoid.userData.pheremoneDist)) {
+          boid.flee(Boid.vec2(foodBoid.position.x, foodBoid.position.y));
+          boid.userData.pheremoneDist = foodBoid.userData.pheremoneDist * .9;
+          boid.userData.neighborPos.push(foodBoid.position);
+          close = true; 
+        } else {
+          boid.seek(Boid.vec2(foodBoid.position.x, foodBoid.position.y));  
+        }
+      });
 
-  // let allPool = [...otherBoidPool, ...boidPool]; 
-  // let near = false; 
-  // allPool.map(otherBoid => {
-  //   // If the other has pheremones
-  //   if(otherBoid.userData.pheremoneDist) {
-  //     // If this is within range of the other pheremones
-  //     if(boid.position.distanceSq(otherBoid.position) < squared(otherBoid.userData.pheremoneDist)) {
-  //       near = true; 
-  //       // If this already is within range of another pheremone
-  //       if(boid.userData.nearestPherDist) {
-  //         // If this pheremone is stronger, set it as nearest. 
-  //         if(otherBoid.userData.pheremoneDist > boid.userData.nearestPherDist) {
-  //           boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
-  //           boid.userData.nearestPherPos = otherBoid.position; 
-  //         }
-  //       }
-  //       else {
-  //         boid.userData.nearestPherDist = otherBoid.userData.pheremoneDist; 
-  //         boid.userData.nearestPherPos = otherBoid.position; 
-  //       }
-  //       boid.userData.pheremoneDist = boid.userData.nearestPherDist * 1; 
-  //     }
-  //   }
-  //   if(!near) {
-  //     boid.userData.pheremoneDist = undefined; 
-  //     boid.userData.nearestPherDist = undefined;
-  //     boid.userData.nearestPherPos = undefined; 
-  //   }
-  // })
+    boidPool
+      .filter(otherBoid => otherBoid.userData.pheremoneDist > 0)
+      .filter(otherBoid => boid.position.distanceSq(otherBoid.position) < squared(otherBoid.userData.pheremoneDist * 1.2))
+      .map(otherBoid => {
+        if(otherBoid !== boid) {
+          if(boid.position.distanceSq(otherBoid.position) < squared(otherBoid.userData.pheremoneDist)) {
+            boid.flee(Boid.vec2(otherBoid.position.x, otherBoid.position.y)); 
+            boid.userData.pheremoneDist = otherBoid.userData.pheremoneDist * .9;
+            boid.userData.neighborPos.push(otherBoid.position);
+            close = true; 
+          } else {
+            boid.seek(Boid.vec2(otherBoid.position.x, otherBoid.position.y));
+          }
+        }
+      });
 
-  // boid.update(); 
+    if(!close) {
+      boid.userData.pheremoneDist = 0; 
+    }
+  } else {
+    boid.wander();
+  }
 
-  //     let pos, 
-  //       dist,
-  //       target,
-  //       shouldWander, 
-  //       senseDist = 50, 
-  //       maxDist = 50;
-
-  //     // Reset boid pheremones. 
-  //     boidPool.map(boid => {
-  //       boid.userData.pheremoneDist = 0; 
-  //     })
-            
-  //     // If boids are within a food src, set their pheremone value to half that pheremone dist. 
-  //     boidPool.map(boid => {
-  //       shouldWander = true;
-  //       senseDist = 50; 
-        
-  //       this.clickBuffer.map(pos => {
-  //         dist = this.distance(boid.position, pos);
-  //         if(dist < senseDist) {
-  //           // boid.velocity.x = 0;
-  //           // boid.velocity.y = 0;
-  //           boid.flee(this.boidPoolController.getPos(pos.x, pos.y)).update();
-  //           boid.userData.pheremoneDist = maxDist * 1 / ((dist / 80) + 1);
-  //           shouldWander = false;
-  //         }
-  //         else if(dist < 100) {
-  //           boid.seek(this.boidPoolController.getPos(pos.x, pos.y)).update();
-  //           shouldWander = false;
-  //         }
-  //       });
-  //       boidPool.map(otherBoid => {
-  //         if(boid !== otherBoid && otherBoid.userData.pheremoneDist) {
-  //           let posA = boid.position,
-  //             posB = otherBoid.position;
-  //           dist = this.distance(posA, posB); 
-  //           let pherDist = otherBoid.userData.pheremoneDist; 
-            
-  //           if(dist < pherDist) {
-  //             boid.flee(this.boidPoolController.getPos(posB.x, posB.y)).update();
-  //             boid.userData.pheremoneDist = pherDist * 1 / ((dist / 80) + 1);
-  //           } 
-  //           else if(dist < pherDist * 2) {
-  //             boid.seek(this.boidPoolController.getPos(posB.x, posB.y)).update();
-  //           }
-  //         }  
-  //       });
-  //       if(shouldWander) {
-  //         boid.wander().update();
-  //       };
-  //     });
-  //   }
-
-  //   // Draw boid pheremone outlines
-  //   boidPool.map(boid => {
-  //     if(boid.userData.pheremoneDist) {
-  //       ctx.beginPath();
-  //       ctx.arc(boid.position.x, boid.position.y, boid.userData.pheremoneDist, 0, 2 * Math.PI);
-  //       ctx.stroke();
-  //     }
-  //   });
+  boid.update();
 }
 
 function otherBoidDrawFn(ctx, boid) {
@@ -244,17 +191,28 @@ function otherBoidDrawFn(ctx, boid) {
 
 function boidDrawFn(ctx, boid) {
   ctx.strokeRect(boid.position.x - 2, boid.position.y - 2, 4, 4);
-  // if(boid.userData.pheremoneDist) {
-  //   ctx.beginPath();
-  //   ctx.stroke();
-  // }
-  if(boid.userData.nearestPherPos) {
+  // window.cout(300, boid.userData)
+  if(boid.userData.pheremoneDist > 0) {
     ctx.beginPath();
-    ctx.strokeStyle = 'rgba(255,255,255, 0.5)';
+    ctx.fillStyle = 'rgba(255,255,255, 0.05)';
     ctx.arc(boid.position.x, boid.position.y, boid.userData.pheremoneDist * 0.5, 0, 2 * Math.PI);
-    ctx.moveTo(boid.position.x, boid.position.y);
-    ctx.lineTo(boid.userData.nearestPherPos.x, boid.userData.nearestPherPos.y);
-    ctx.stroke();
+    ctx.fill();
   }
+  // boid.userData.neighborPos && boid.userData.neighborPos.map(pos => {
+  //   ctx.beginPath();
+  //   ctx.strokeStyle = 'rgba(255,255,255, 0.5)';
+  //   ctx.moveTo(boid.position.x, boid.position.y);
+  //   ctx.lineTo(pos.x, pos.y);
+  //   ctx.stroke();
+  // })
+  // if(boid.userData.neighborPos) {
+  //   bo
+  //   // ctx.beginPath();
+  //   // ctx.strokeStyle = 'rgba(255,255,255, 0.5)';
+  //   // ctx.arc(boid.position.x, boid.position.y, boid.userData.pheremoneDist * 0.5, 0, 2 * Math.PI);
+  //   // ctx.moveTo(boid.position.x, boid.position.y);
+  //   // ctx.lineTo(boid.userData.nearestPherPos.x, boid.userData.nearestPherPos.y);
+  //   // ctx.stroke();
+  // }
 }
 

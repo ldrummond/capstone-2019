@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { squared } from '../../components/helperFunctions';
+import { squared, min } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -15,12 +15,15 @@ export default {
       isVisible: true,
       cursorVisible: true,
       clearFrames: true, 
+      drawActiveBounds: false,
       color: 'black',
-      strokeWidth: 4,
+      fillColor: 'black',
+      strokeWidth: 6,
       maxSpeed: 3,
       initFn: cursorBoidInitFn,
       updateFn: cursorUpdateFn,
       drawFn: cursorDrawFn,
+      // cursorPos: bounds => {return {x: bounds.width / 2, y: bounds.height / 2}}
     },
     boidSettings: {
       isVisible: true,
@@ -31,9 +34,8 @@ export default {
       maxSpeed: 3,
       maxDistance: 80,
       avoidDistance: 80, 
-      shape: 'line',
-      stroke: true, 
-      strokeColor: 'white',
+      stroke: false, 
+      fillColor: 'white',
       strokeWidth: 2,
       initFn: boidInitFn,
       updateFn: boidUpdateFn,
@@ -75,8 +77,18 @@ function boidUpdateFn({boid, boidPool, chaser, bounds, center}) {
  * 
  */
 function boidDrawFn(ctx, boid) {
-  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
-  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+  // ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3);
+  // ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+  ctx.beginPath();
+  ctx.ellipse(
+    boid.position.x, 
+    boid.position.y, 
+    2, 
+    1 + Math.abs(2 * boid.velocity.y), 
+    boid.velocity.angle + Math.PI / 2, 
+    0, 
+    2 * Math.PI);
+  ctx.fill();
 }
 
 /**
@@ -84,8 +96,10 @@ function boidDrawFn(ctx, boid) {
  * Cursor Boid Initialization Function
  * 
  */
-function cursorBoidInitFn(boid) {
+function cursorBoidInitFn(boid, bounds) {
   boid.arriveThreshold = 200; 
+  boid.position.x = bounds.width / 2;
+  boid.position.y = bounds.height / 2;
 }
 
 /**
@@ -111,7 +125,20 @@ function cursorUpdateFn({mousePos, boid}) {
  */
 function cursorDrawFn(ctx, boid) {
   ctx.beginPath();
-  ctx.moveTo(boid.position.x - boid.velocity.x * 3, boid.position.y - boid.velocity.y * 3)
-  ctx.lineTo(boid.position.x + boid.velocity.x * 3, boid.position.y + boid.velocity.y * 3);
+  let vX = boid.velocity.x * 3;
+  let vY = boid.velocity.y * 3;
+  ctx.moveTo(boid.position.x - vX, boid.position.y - vY)
+  ctx.lineTo(boid.position.x + vX, boid.position.y + vY);
   ctx.stroke()
+  // ctx.fillStyle = 'black';
+  // ctx.beginPath();
+  // ctx.ellipse(
+  //   boid.position.x, 
+  //   boid.position.y, 
+  //   5, 
+  //   2 + Math.abs(3 * boid.velocity.length), 
+  //   boid.velocity.angle + Math.PI / 2, 
+  //   0, 
+  //   2 * Math.PI);
+  // ctx.fill();
 }
