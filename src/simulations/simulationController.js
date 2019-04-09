@@ -1,6 +1,6 @@
 import BoidPoolController from './boidPoolController'; 
 import CursorBoidController from './cursorBoidController'; 
-import {ActiveBounds} from '../components/helperFunctions';
+import { ActiveBounds } from '../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -22,15 +22,13 @@ export default class SimulationController {
     } = options; 
 
     this.simulationType = simulationType;
-    this.caveContainer = caveContainer; // For the colony simulation
+    this.caveContainer = caveContainer; // Ref for the colony simulation
 
     // Creates the simulation bounds, with active bounds for drawing. 
     this.bounds = {x: x, y: y, width: width, height: height}
     this.activeBounds = new ActiveBounds(); 
-
     // Creates the pool controller.
     this.createBoidPoolController(boidSettings);
-
     // Creates the cursor controller. 
     this.createCursorBoid(cursorBoidSettings);
   }
@@ -44,7 +42,7 @@ export default class SimulationController {
         ...boidSettings,
       })
       this.boidSettings = boidSettings; 
-      this.clearBoidFrames = boidSettings.clearFrames || true; 
+      this.clearBoidFrames = boidSettings.clearFrames; 
       this.boidDrawFn = boidSettings.drawFn; 
       this.clickbufferDrawFn = boidSettings.clickbufferDrawFn; 
       this.drawActiveBounds = boidSettings.drawActiveBounds;
@@ -53,23 +51,16 @@ export default class SimulationController {
 
   createCursorBoid(cursorBoidSettings) {
     if(cursorBoidSettings.isVisible) {
-      this.clearCursorFrames = cursorBoidSettings.clearFrames || true; 
-      this.cursorVisible = cursorBoidSettings.cursorVisible;
       // Create the controller
       this.cursorController = new CursorBoidController({
+        simulationType: this.simulationType,
         bounds: this.bounds, 
         ...cursorBoidSettings, 
       }); 
+      this.clearCursorFrames = cursorBoidSettings.clearFrames; 
+      this.cursorVisible = cursorBoidSettings.cursorVisible;
+      this.drawCursorBounds = cursorBoidSettings.drawActiveBounds;
     }
-  }
-
-  clearCursor(ctx) {
-    this.cursorController.clear(ctx);
-  }
-
-  clearBounds(ctx, padding) {
-    this.activeBounds.clear(ctx, padding);
-    this.activeBounds.reset(); 
   }
 
   updateAndDrawCursor(ctx, mousePos) {
@@ -88,7 +79,7 @@ export default class SimulationController {
     ctx.strokeStyle = settings.strokeColor;
     ctx.fillStyle = settings.fillColor;
     ctx.beginPath(); 
-    // Update
+    // Update and Draw
     if(this.updateFn) {
       this.boidPoolController.boidPool.map(boid => {
         this.updateFn(boid)
@@ -98,32 +89,34 @@ export default class SimulationController {
     }
     if(settings.stroke) {ctx.stroke()}
     if(settings.fill) {ctx.fill()}
-    //
-    if(settings.otherDrawFn) {
-      settings.otherDrawFn(ctx, this.bounds);
-    }
   }
 
   step(ctx, mousePos) {
     // Clear cursor
     if(this.cursorController && this.clearCursorFrames) {
-      this.clearCursor(ctx); 
+      this.cursorController.clear(ctx, 20);
     }
     // Clear boid position and reset boid bounds
-    if(this.boidPoolController && (this.clearBoidFrames === true)) {
-      this.clearBounds(ctx, 20); 
+    if(this.boidPoolController && this.clearBoidFrames) {
+      this.activeBounds.clear(ctx, 20);
     }
     // Draw cursor if active
     if(this.cursorController) {
+      this.cursorController.activeBounds.reset(); 
       this.updateAndDrawCursor(ctx, mousePos);
     }
     // Draw boids if active
     if(this.boidPoolController) {
+      this.activeBounds.reset(); 
       this.boidPoolController.updateOtherBoids(ctx);
       this.updateAndDrawBoids(ctx);
     } 
     // If viewing bounds, draw them
-    if(this.drawBounds) {
+    if(this.drawCursorBounds) {
+      this.cursorController.activeBounds.draw(ctx, 20);
+    }
+    // If viewing bounds, draw them
+    if(this.drawActiveBounds) {
       this.activeBounds.draw(ctx)
     }
   }
@@ -137,15 +130,9 @@ export default class SimulationController {
     }
   }
 
-  onMouseLeave() {
-    if(this.cursorController) {
-      // this.cursorController.pause(); 
-    }
-  }
-  
-  onMouseEnter() {
-    if(this.cursorController) {
-      // this.cursorController.play(); 
+  handleCrowdClick(val) {
+    if(this.boidPoolController) {
+      this.boidPoolController.updateBoidCount(val);
     }
   }
 

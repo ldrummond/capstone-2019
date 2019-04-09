@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import CanvasBase from '../components/canvasBase';
 import RafController from '../components/rafController';
 import SimulationController from './simulationController';
-import deepmerge from 'deepmerge'
-// import { CSSTransition } from "react-transition-group";
-// import { SimpleFade } from '../components/fadeWrapper';
-import classnames from 'classnames';
 import defaultSettings from './settings/default';
 import trafficSettings from './settings/traffic';
 import colonySettings from './settings/colony';
@@ -14,7 +10,10 @@ import crowdsSettings from './settings/crowds';
 import moldSettings from './settings/mold'; 
 import { ReactComponent as CaveTop }  from '../assets/cave-top.svg';
 import { ReactComponent as CaveBottom }  from '../assets/cave-bottom.svg';
+import deepmerge from 'deepmerge';
+import classnames from 'classnames';
 import throttle from 'lodash/throttle';
+import has from 'lodash/has';
 
 
 //////////////////////////////////////////////////
@@ -41,8 +40,8 @@ export default class SimulationWrapper extends Component {
       this.canvas = _canvas; 
       this.canvasRect = this.canvas.getBoundingClientRect(); 
     }
-
     this.throttleResize = throttle(this.handleWindowSizeChange, 333);
+    this.throttledCrowdClick = throttle(this.handleCrowdClick, 1000);  
   }
 
   onMouseMove = (e) => {
@@ -62,16 +61,15 @@ export default class SimulationWrapper extends Component {
     }
   }
 
-  onMouseEnter = () => {
-    this.simulationController.onMouseEnter(); 
-  }
-
-  onMouseLeave = () => {
-    this.simulationController.onMouseLeave(); 
+  handleCrowdClick = (val) => {
+    if(this.simulationController) {
+      this.simulationController.handleCrowdClick(val); 
+    }
   }
 
   handleWindowSizeChange = () => {
     let simRect = this.simulation.getBoundingClientRect(); 
+    console.log('resize', simRect)
     // let prevWidth = this.width; 
     // let prevHeight = this.height; 
     this.width = simRect.width;
@@ -79,7 +77,7 @@ export default class SimulationWrapper extends Component {
     let newBounds = {x: this.width, y: this.height}; 
 
     // Simulation controller update
-    this.simulationController.resize(newBounds);
+    // this.simulationController.resize(newBounds);
 
     // // Sets the state to force a rerender of the canvas. 
     this.setState({
@@ -98,14 +96,14 @@ export default class SimulationWrapper extends Component {
     if(this.simulationRef) {
       this.simulation = this.simulationRef.current; 
       let simRect = this.simulation.getBoundingClientRect(); 
+      console.log('resize', simRect)
       
       // Defines bounds based on the simulation size. 
       this.width = simRect.width;
       this.height = simRect.height;
-      this.mousePos = {x: this.width / 2, y: this.height / 2};
+      this.mousePos = {x: 0, y: -10};
       this.center = {x: this.width / 2, y: this.height / 2};
 
-      this.rafController = new RafController({fps: 60});
       this.buildSimulation(); 
 
       // Sets the state to force a rerender of the canvas. 
@@ -117,6 +115,7 @@ export default class SimulationWrapper extends Component {
   }
 
   componentWillUnmount() {
+    this.rafController.stopLoop();
     window.removeEventListener('resize', this.throttleResize);
   }
 
@@ -143,9 +142,17 @@ export default class SimulationWrapper extends Component {
         break;      
     }
 
-    this.styles = { cursor: this.currentSettings && this.currentSettings.simulationSettings && this.currentSettings.simulationSettings.cursorBoidSettings && this.currentSettings.simulationSettings.cursorBoidSettings.cursorVisible ? 'pointer' : 'none',}
-    this.rafController.changeFps(this.currentSettings.rafSettings.fps)
+    if(this.rafController) {
+      this.rafController.stopLoop();
+    }
+    this.rafController = new RafController({fps: this.currentSettings.rafSettings.fps});
     
+    if(has(this.currentSettings.simulationSettings.cursorBoidSettings, 'mousePos')) {
+      this.mousePos = this.currentSettings.simulationSettings.cursorBoidSettings.mousePos(this.bounds);
+    } else {
+      this.mousePos = {x: 0, y: -10};
+    }
+
     // Creates the simulation controller for the simulation. 
     this.simulationController = new SimulationController({
       width: this.width,
@@ -160,31 +167,24 @@ export default class SimulationWrapper extends Component {
         this.simulationController.step(this.ctx, this.mousePos);
       }
     }
-    // }
   }
 
   componentDidUpdate(prevProps) {
     // If the simulation path changed, update hte simulation controller.
     if(prevProps.curSystem.path !== this.props.curSystem.path) {
-      // console.log('update')
       this.buildSimulation();
     }
   }
 
   render() {
-    // let shouldRender = Boolean(typeof (this.state.width) !== 'undefined' && typeof(this.state.height !== 'undefined'))
-    
     return (
       <div 
         className={classnames('simulation-canvas', this.props.path)} 
         ref={this.simulationRef} 
         onMouseMove={this.onMouseMove}
         onClick={this.onMouseClick}
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
         style={this.styles}
       > 
-        {/* <div className='cursorIcon' ref={this.cursorIconRef} ></div> */}
         <CanvasBase hoistCanvas={this.hoistCanvas}/>
         {this.props.curSystem.path === 'colony' && 
           (
@@ -193,6 +193,18 @@ export default class SimulationWrapper extends Component {
               <CaveBottom/>
             </div>
           )
+        }
+        {this.props.curSystem.path === 'crowds' && 
+          <div className='crowds-buttons' ref={this.crowdsRef}>
+            {[10, 60, 110].map((val, i) => (
+              <button 
+                key={`crowd-button-${i}`}
+                className='crowd-button unbuttoned' 
+                onClick={_ => this.throttledCrowdClick(val)}
+                style={{width: `${((i + 2) * 10)}px`, height: `${((i + 2) * 10)}px`}}
+              />)
+            )}
+          </div>
         }
       </div>
     );
