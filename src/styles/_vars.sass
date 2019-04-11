@@ -10,13 +10,14 @@ $mold-color: #79857E // green
 $about-color: rgba(0,0,0, 0.03)
 $light: #eee
 $dark: #000
-$sim-color: #000 // #43555F
+$sim-color: #222 // #43555F
 $loader: #333
 $grey-text: #444
 
 // Sizes
 $nav-height: 60px
 $nav-padding: 0 40px
+// $nav-padding: 0 span(1 of 16)
 $simulation-border: 1px solid rgba(255,255,255,0.2)
 
 // Fonts
@@ -66,14 +67,14 @@ $sm-mobile: 480px
   font-size: 36px
   line-height: 42px
   +after-sm-mobile
-    font-size: 48px
-    line-height: 50px
+    font-size: 44px
+    line-height: 46px
   +after-bg-mobile
     font-size: 58px
-    line-height: 62px
+    line-height: 60px
   +after-md-desktop
     font-size: 66px
-    line-height: 72px
+    line-height: 70px
   
 @mixin middle-brother-font
   font-family: $calluna-stack
@@ -82,10 +83,10 @@ $sm-mobile: 480px
   line-height: 48px
   +after-sm-mobile
     font-size: 33px
-    line-height: 36px
+    line-height: 35px
   +after-md-desktop
     font-size: 38px
-    line-height: 41px
+    line-height: 40px
 
 @mixin little-brother-font
   font-family: $calluna-stack
@@ -159,13 +160,13 @@ $sm-mobile: 480px
   font-weight: 100
   letter-spacing: 0.005em
   font-size: 16px
-  line-height: 23px
+  line-height: 22px
   +after-sm-mobile
     font-size: 15px
     line-height: 21px
   +after-md-desktop
     font-size: 16px
-    line-height: 23px
+    line-height: 22px
 
 @mixin nav-font
   font-family: $freight-stack

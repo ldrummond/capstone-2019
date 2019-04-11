@@ -1,9 +1,6 @@
 
 $pentagon-width: span(6 of 16)
 
-+after-md-desktop
-  $pentagon-width: span(5 of 16)
-
 // SCOPED through page name
 .page-wrapper.selector-page
   width: 100vw
@@ -48,6 +45,7 @@ $pentagon-width: span(6 of 16)
     .arrows-container
       display: inline-flex
       width: span(3 of 32)
+      max-height: 85%
       // margin-right: span(1 of 32)
       float: left
       height: 100%
@@ -74,7 +72,7 @@ $pentagon-width: span(6 of 16)
       align-items: center
       justify-content: center
       width: span(4 of 16)
-      left: span(2 of 16)
+      left: span(1 of 16)
       fill: none
       stroke: black
       stroke-width: 3.5px
@@ -163,7 +161,7 @@ $pentagon-width: span(6 of 16)
   .page-wrapper.selector-page
     .content 
       .pentagon-icon
-        width: span(7 of 16)
+        width: span(6 of 16)
       .squiggle-container
         stroke-width: 3px
       .option-container
@@ -178,6 +176,7 @@ $pentagon-width: span(6 of 16)
       .squiggle-container
         stroke-width: 3px
         width: span(3 of 16)
+        left: span(2 of 16)
       .option-container
         width: span(7 of 16)
       .arrows-container
@@ -188,9 +187,10 @@ $pentagon-width: span(6 of 16)
 +after-md-desktop
   .page-wrapper.selector-page
     .content 
+      margin-left: -$pentagon-width / 1.8
       .pentagon-icon
-        margin-left: span(1 of 16)
-        width: span(5 of 16)
+        // margin-left: span(3 of 16)
+        width: span(11 of 32)
       .squiggle-container
         stroke-width: 3px
       .option-container
