@@ -14,7 +14,7 @@
         transform: translateY(-100%)
         .site-title, .site-subtitle
           opacity: 0
-      .copy-block
+      .page-body
         opacity: 0
 
   &.page-transition-enter-active
@@ -27,7 +27,7 @@
         .site-title, .site-subtitle
           transition: opacity $med ease 1600ms
           opacity: 1
-      .copy-block
+      .page-body
         opacity: 1
         transition: opacity $med ease 1900ms
 
@@ -40,7 +40,7 @@
         .site-title, .site-subtitle
           transition: opacity $fast ease-out
           opacity: 1
-      .copy-block
+      .page-body
         transition: opacity $fast ease-out
         transition-delay: 0ms !important
         opacity: 1
@@ -50,7 +50,7 @@
       .page-header
         .site-title, .site-subtitle
           opacity: 0
-      .copy-block
+      .page-body
         opacity: 0
 
   $copy-color: #444
@@ -81,29 +81,35 @@
 
     .page-body
       display: flex
+      align-items: flex-start
+      flex-direction: column
 
     .question-text
       display: inline-block
+      width: span(16 of 16)
+      // margin-left: span(1 of 16)
+      padding: $nav-padding
+      // padding-left: 0
       padding-top: 100px
-      width: span(9 of 16)
-      margin-left: span(1 of 16)
 
     .project-text
       display: inline-block
-      // padding-top: 100px
+      padding: $nav-padding
       margin-top: 100px
-      width: span(6 of 16)
-      border-left: 1px solid rgba(255, 255, 255, 1)
+      width: span(16 of 16)
+      max-width: 380px
+      .copy
+        line-height: 1.3em !important
 
     .section-header
       +about-copy-font
+      display: inline-block
       font-family: $calluna-stack
       letter-spacing: 0.01em
       font-weight: 100
-      display: inline-block
       height: 1.6em
-      margin: $nav-padding
       margin-bottom: 2em
+      // width: 100%
       position: relative
       &:after
         content: ''
@@ -113,15 +119,14 @@
         bottom: 0
         width: 100%
         height: 1px
-        background: rgba(255,255,255,0.4)
+        background: rgba(255,255,255,1)
         
     .copy-block
       position: relative
       display: block
       margin: auto
       width: 100%
-      padding: $nav-padding
-      margin-bottom: 6em
+      margin-bottom: 3em
 
       .index
         display: none
@@ -142,6 +147,9 @@
       .copy
         +about-copy-font
 
+      a:hover
+        font-style: italic
+
     .bg-color, .bg-texture, .bg-solid
       +absolute-fill
       z-index: -5
@@ -157,18 +165,33 @@
 +after-sm-mobile
   .page-wrapper.about-page
     .content    
-      .copy-block
-        width: span(12 of 16)
+      .page-body
+        display: flex
+        flex-direction: unset
+      .question-text
+        width: span(8 of 16)
+        // margin-left: span(1 of 32)
+        margin-top: 100px
+        padding: $nav-padding
+
+      .project-text
+        width: span(8 of 16)
+        // margin-left: span(1 of 16)
+        padding: $nav-padding
 
 +after-bg-mobile
   .page-wrapper.about-page
     .content    
-      .copy-block
-        width: 100%
-        // width: span(9 of 16)
-        // margin-bottom: 4em
-        .index
-          display: block
+      .question-text
+        width: span(8 of 16)
+        margin-left: span(1 of 16)
+        padding: $nav-padding
+
+      .project-text
+        width: span(6 of 16)
+        margin-left: span(1 of 16)
+        padding: $nav-padding
+        border-left: 1px solid rgba(255, 255, 255, 1)
 
 +after-sm-desktop
   .page-wrapper.about-page

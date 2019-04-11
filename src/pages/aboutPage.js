@@ -96,12 +96,12 @@ export default class AboutPage extends Component {
                   Designed and developed by 
                   <a href='http://lucasbuilds.site' target='_blank'> Lucas Drummond {'\u2192'}</a>
                 </h2>
-                -
+                
                 <p className='copy'>
                   Created for a Senior Capstone Project, for the Communication Design Program at 
                   Washington University in St. Louis.
                 </p>
-                -
+                <br></br>
                 <p className='copy'>
                   Special thanks to Jonathan Hanahan, Craig Reynolds and Ian McGregor.
                 </p>
