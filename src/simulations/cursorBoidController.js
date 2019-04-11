@@ -99,7 +99,7 @@ export default class CursorBoidController {
     if(this.simulationType === 'colony') {
       this.activeBounds.maxY = this.bounds.height; 
     }
-    this.activeBounds.clear(ctx, 30); 
+    this.activeBounds.clear(ctx, 35); 
   }
 
   update(ctx) {
