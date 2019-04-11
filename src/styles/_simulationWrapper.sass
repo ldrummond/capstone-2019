@@ -1,0 +1,57 @@
+.crowds-buttons
+  display: flex
+  justify-content: space-evenly
+  align-items: flex-start
+  position: absolute
+  top: 30px
+  left: 30%
+  overflow: hidden
+  width: 40%
+  height: 20%
+  button
+    outline: none
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    border: 2px solid rgba(0, 0, 0, 0.05)
+    border-radius: 50%
+    &:after
+      content: ''
+      display: block
+      +absolute-fill
+      transform: scale(0.9)
+      border-radius: 50%
+      transition: background 111ms ease
+    &:hover
+      &:after
+        transition: background 111ms ease
+        background: rgba(0, 0, 0, 0.05)
+
+.cave-graphics
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: hidden
+  width: 100%
+  svg
+    position: absolute
+    width: 100%
+    stroke: rgba(0, 0, 0, 0.05)
+    fill: rgba(0, 0, 0, 0.05)
+    z-index: 0
+    transition: transform 2s ease
+    width: 100%
+  .cave-top
+    bottom: 50%
+    transform: translateY(-50px)
+  .cave-bottom
+    top: 50%
+    transform: translateY(50px)
+      
