@@ -58,7 +58,9 @@ class SelectorPage extends Component {
               </ButtonWrapper>
           </SimpleFade>
           <SimpleFade className='squiggle-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
+            <ButtonWrapper onClick={_ => this.props.history.push(destinationPath)}>
               <Squiggle />
+            </ButtonWrapper>
           </SimpleFade>
           <SimpleFade className='option-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
             <TransitionGroup component={null}>
