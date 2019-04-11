@@ -20,7 +20,7 @@ class TransitionPage extends Component {
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({mounted: true})
-    }, (1800));
+    }, (1300));
   }
   
   componentWillUnmount() {
@@ -31,10 +31,6 @@ class TransitionPage extends Component {
     let {curSystem = {}, prevLocation, history} = this.props; 
     let {path = 'traffic'} = curSystem; 
 
-    if(prevLocation) {
-      console.log(prevLocation);
-    }
-    console.log(history)
     return (
       <div className={`page-wrapper transition-page ${path}`}>
         {this.state.mounted && history.action !== 'REPLACE' &&
