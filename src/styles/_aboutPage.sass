@@ -8,33 +8,28 @@
   
   // Transition in
   &.page-transition-enter
-    transition: transform 1s cubic-bezier(.666,0,.333,1)
     transform: translateY(-100%)
     .content
       .page-header
-        transition: transform 1100ms cubic-bezier(.41,.64,.57,1) 500ms
         transform: translateY(-100%)
-        .site-title
-          transition: opacity $slow ease-out 1100ms
-          opacity: 0
-        .site-subtitle
-          transition: opacity $slow ease-out 0ms
+        .site-title, .site-subtitle
           opacity: 0
       .copy-block
         opacity: 0
-        transition: opacity $fast ease-out $slow
 
   &.page-transition-enter-active
     transform: translateY(0)
+    transition: transform 1s cubic-bezier(.666,0,.333,1)
     .content
       .page-header
+        transition: transform 1200ms cubic-bezier(.08,.25,.5,1) $med
         transform: translateY(0%)
-        .site-title
-          opacity: 1
-        .sitle-subtitle
+        .site-title, .site-subtitle
+          transition: opacity $med ease 1600ms
           opacity: 1
       .copy-block
         opacity: 1
+        transition: opacity $med ease 1900ms
 
   // Transition out
   &.page-transition-exit
@@ -90,6 +85,7 @@
       width: 100%
       padding: $nav-padding
       margin-bottom: 6em
+      color: #444
 
       .index
         display: none
@@ -102,12 +98,10 @@
         border-bottom: 1px solid rgba(255,255,255,1)
 
       .header
-        +about-subheader-font
+        // +about-subheader-font
+        +about-copy-font
         margin-bottom: 0.8em
-
-      .subheader
-        +about-subheader-font
-        margin-bottom: 1em
+        font-weight: 500
 
       .copy
         +about-copy-font
@@ -116,7 +110,8 @@
       +absolute-fill
       z-index: -5
     .bg-color
-      background: $about-color
+      background: black
+      opacity: 0.1
     .bg-texture
       opacity: 0.4
     .bg-solid

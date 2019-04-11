@@ -11,7 +11,7 @@ import classnames from 'classnames';
 //
 //////////////////////////////////////////////////
 
-const textData = [
+const qaText = [
   {
     header: 'What is an Emergent System?',
     copy: `
@@ -50,6 +50,24 @@ const textData = [
   },
 ]
 
+const projectText = [
+  {
+    header: 'This project investigates emergent systems.',
+    copy: `
+      An emergent system is one in which a number of simple parts interact, 
+      creating a resulting pattern that is more complex than the individual elements.
+      When a snowflake forms from ice crystals, no one crystal has a plan for the entire structure.
+      But the simple molecular interactions between crystals results in a unique, complex form. 
+    `,
+  },
+  {
+    header: 'Design and Development by Lucas Drummond',
+    copy: `
+      
+    `,
+  },
+]
+
 export default class AboutPage extends Component {
   constructor(props) {
     super(props)
@@ -81,9 +99,14 @@ export default class AboutPage extends Component {
               exploring emergent systems through 5 interactive simulations
               </h4>
           </div>
-          {textData.map((text, i) => 
-            <CopyBlock {...text} index={i} style={{transitionDelay: `${i * 300 + 1300}ms`}} key={`copy-${i}`}/>
-          )}
+          <section className='question-text'>
+            {qaText.map((text, i) => 
+              <CopyBlock {...text} index={i} key={`copy-${i}`}/>
+              // <CopyBlock {...text} index={i} style={{transitionDelay: `${i * 200 + 1800}ms`}} key={`copy-${i}`}/>
+            )}
+          </section>
+          <section className='project-text'>
+          </section>
           <span className='bg-color'/>
           <img className='bg-texture' src={background} alt='background_texture'/>
           <span className='bg-solid'/>
