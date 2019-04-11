@@ -32,24 +32,68 @@
     background: linear-gradient(rgba(0,0,0,.15),transparent)
     box-shadow: 0 -1px 0 hsla(0,0%,100%,.1)
   &.scrolled 
-  opacity: 1
-  transform: translateY(0)
-  transition: opacity $med ease-out
+    opacity: 1
+    transform: translateY(0)
+    transition: opacity $med ease-out
+  &.inactive
+    pointer-events: none
 
   .title-link, .about-link
     height: 24px
     letter-spacing: 0.1em
     top: 3px
     text-transform: capitalize
-
-  .title-link
-    cursor: pointer
-    +hoverline
-  
-  .about-link
     cursor: pointer
     overflow: hidden
     position: relative
+
+  .title-link
+    .link-inner
+      transition: transform $slow cubic-bezier(.666,0,.333,1) $med
+      transform: translateX(0em)
+      
+      $arrow-left: 12px
+      div:first-of-type
+        position: absolute
+        display: block
+        top: 0
+        width: 5px
+        // height: 22px
+        left: -$arrow-left
+        &:after
+          content: ''
+          display: block
+          position: absolute
+          top: 8px
+          left: 0px
+          width: 6px
+          height: 1px
+          border-radius: 50%
+          background: black
+        .small-arrow
+          display: none
+        //   height: 3px
+        //   fill: none
+        //   stroke: none
+        //   width: 3px
+        //   top: -11px
+        //   border-radius: 50%
+        //   background: black
+        //   stroke-width: 0.1em
+        //   .horizontal
+        //     stroke: none
+      div
+        height: 22px
+        position: absolute
+        top: -100%
+      div:last-of-type
+        padding-left: $arrow-left
+        left: -$arrow-left
+        +hoverline
+      &.active
+        transform: translateX($arrow-left)
+  
+  .about-link
     width: 5em
     .link-inner
       position: absolute

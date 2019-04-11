@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { ReactComponent as ArrowSmall } from '../assets/arrow-small.svg'; 
 import throttle from 'lodash/throttle';
 import classnames from 'classnames';
 
@@ -28,7 +29,7 @@ export class NavResolver extends Component {
   }
 
   handleScroll = (e) => {
-    console.log('scroll', window.scrollY);
+    // console.log('scroll', window.scrollY);
     if(window.scrollY <= 1) {
       this.setState((prevState, props) => {
         if(prevState.hasScrolled) {
@@ -44,10 +45,17 @@ export class NavResolver extends Component {
 
   defineRoutes = () => {
     let { location, prevLocation} = this.props; 
-    let pageIsAbout = (location && location.pathname === '/about'); 
-    let pageIsSelector = (location && location.pathname === '/selector'); 
-    let pageIsMobile = (location && location.pathname === '/mobile'); 
-    let titleLinkDestination = '/selector'; 
+    let pageIsAbout,
+      pageIsMobile;
+
+    if(location) {
+      pageIsAbout = (location.pathname === '/about'); 
+      pageIsMobile = (location.pathname === '/mobile'); 
+      this.pageIsSimulation = (location.pathname.split('/')[1] === 'simulation'); 
+      this.pageIsTransition = (location.pathname.split('/')[1] === 'transition'); 
+      this.pageIsSelector = (location.pathname === '/selector'); 
+    }
+    this.titleLinkDestination = '/selector'; 
     this.aboutLinkDestination = '/about';
     
     if(pageIsAbout && prevLocation && prevLocation !== '/about') {
@@ -56,29 +64,11 @@ export class NavResolver extends Component {
     else if(pageIsAbout) {
       this.aboutLinkDestination = '/selector';
     }
-    if(pageIsSelector) {
-      titleLinkDestination = '/selector';
+    if(this.pageIsSelector) {
+      this.titleLinkDestination = '/selector';
     }
     else if(pageIsMobile) {
-      titleLinkDestination = '/mobile'; 
-    }
-  
-    this.titleLink = (
-      <NavLink className='title-link unbuttoned' to={titleLinkDestination}>
-        <span className='link-inner'>
-          {process.env.REACT_APP_PROJECT_TITLE}
-        </span>
-      </NavLink>
-    )
-  
-    if(pageIsMobile || pageIsSelector) {
-      this.titleLink = (
-        <a className='title-link unbuttoned' onClick={_ => window.scrollTo(0, 0)}>
-          <span className='link-inner'>
-            {process.env.REACT_APP_PROJECT_TITLE}
-          </span>
-        </a>
-      )
+      this.titleLinkDestination = '/mobile'; 
     }
   }
 
@@ -87,14 +77,28 @@ export class NavResolver extends Component {
 
     return (
       <nav className={
-        classnames(
-          'navbar', 
+        classnames('navbar', 
           `${this.props.location.pathname.split('/')[1] || 'intro'}-page`,
-          { scrolled: this.state.hasScrolled },
+          { scrolled: this.state.hasScrolled,
+            inactive: this.pageIsTransition},
         )}
       >
-        {this.titleLink}
-        <NavLink className='about-link unbuttoned' to={this.aboutLinkDestination}>
+        {/* Top Left Link */}
+        <NavLink className='title-link unbuttoned' 
+          to={this.titleLinkDestination} 
+          onClick={_ => window.scrollTo(0, 0)}
+          replace={this.pageIsSelector}
+        >
+          <div className={classnames('link-inner', {active: this.pageIsSimulation})}>
+            <div><ArrowSmall /></div>
+            <div>{process.env.REACT_APP_PROJECT_TITLE}</div>
+          </div>
+        </NavLink>
+        {/* Top Right Link */}
+        <NavLink 
+          className='about-link unbuttoned' 
+          to={this.aboutLinkDestination}
+        >
           <div className='link-inner'>
             <div>Go Back</div><div>About</div>
           </div>
