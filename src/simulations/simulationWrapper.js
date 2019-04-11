@@ -69,7 +69,7 @@ export default class SimulationWrapper extends Component {
 
   handleWindowSizeChange = () => {
     let simRect = this.simulation.getBoundingClientRect(); 
-    console.log('resize', simRect)
+    // console.log('resize', simRect)
     // let prevWidth = this.width; 
     // let prevHeight = this.height; 
     this.width = simRect.width;
@@ -96,7 +96,6 @@ export default class SimulationWrapper extends Component {
     if(this.simulationRef) {
       this.simulation = this.simulationRef.current; 
       let simRect = this.simulation.getBoundingClientRect(); 
-      console.log('resize', simRect)
       
       // Defines bounds based on the simulation size. 
       this.width = simRect.width;
