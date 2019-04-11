@@ -9,6 +9,7 @@
   .content 
     +absolute-fill
     display: flex
+    color: $sim-color
 
     .nav-placeholder
       position: absolute
@@ -20,7 +21,8 @@
 
     .description-panel
       flex-basis: span(5 of 16)
-      max-width: 340px
+      max-width: 380px
+      min-width: 300px
       padding: $nav-padding
       padding-top: 22px
       padding-bottom: 22px
@@ -48,11 +50,21 @@
         height: 10px
 
       .answer
-        +subtitle-serif
-        letter-spacing: 0.2em
-        font-weight: 600
+        // +about-subheader-font
         display: inline-block
+        // font-family: $calluna-stack
+        text-transform: uppercase
+        letter-spacing: 0.01em
+        font-weight: 100
         height: 1.6em
+        font-style: italic
+        // margin-bottom: 1em
+        // +subtitle-serif
+        letter-spacing: 0.1em
+        // font-weight: 600
+        // display: inline-block
+        // height: 1.6em
+        font-size: 10px
         margin-bottom: 1.5em
         position: relative
         &:after
@@ -63,6 +75,7 @@
           bottom: 0
           width: 100%
           height: 1px
+          line-height: 0px
           background: rgba(255,255,255,0.4)
       
       h4
@@ -246,8 +259,7 @@
       top: 50%
       left: 10%
       transform: translate(-50%, -50%)
-      // opacity: 0.15
-      opacity: 0
+      opacity: 0.1
       z-index: -10
       width: span(12 of 16)
      
@@ -282,7 +294,7 @@
       transform: translateX(0)
     .simulation-backgrounds
       .system-image
-        opacity: 0.15
+        opacity: 0.1
         transition: opacity $slow ease 1300ms
   // If coming from ABOUT page, speed up!
   &.about-prev
@@ -300,7 +312,7 @@
       transform: translateX(0)
     .simulation-backgrounds
       .system-image
-        opacity: 0.2
+        opacity: 0.1
      
   &.page-transition-exit-active
     .content 
@@ -338,6 +350,7 @@
     transition: transform 1s cubic-bezier(.666,0,.333,1) 1500ms
     
 .simulation-transition-exit
+  pointer-events: none
   .content
     opacity: 1
   .simulation-backgrounds .system-image
@@ -347,9 +360,13 @@
     transform: translateY(0)
   
 .simulation-transition-exit-active
+  pointer-events: none
   .content
     opacity: 0
     transition: opacity $med ease
+    .simulation-panel
+      .next-sim
+        pointer-events: none
   .simulation-backgrounds .system-image
       opacity: 0
       transition: opacity $med ease
