@@ -25,7 +25,7 @@ export default class SizeWrapper extends Component {
     const { width, height } = this.state;
     // const isMobile = width <= 500;
     // the rest is the same...
-    console.log(width)
+    // console.log(width)
     return this.props.children(width, height);
     // if (isMobile) {
     //   return {...props.children}
