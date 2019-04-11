@@ -196,7 +196,7 @@ export default class SimulationWrapper extends Component {
         }
         {this.props.curSystem.path === 'crowds' && 
           <div className='crowds-buttons' ref={this.crowdsRef}>
-            {[10, 60, 110].map((val, i) => (
+            {[20, 60, 110].map((val, i) => (
               <button 
                 key={`crowd-button-${i}`}
                 className='crowd-button unbuttoned' 

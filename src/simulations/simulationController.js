@@ -94,11 +94,11 @@ export default class SimulationController {
   step(ctx, mousePos) {
     // Clear cursor
     if(this.cursorController && this.clearCursorFrames) {
-      this.cursorController.clear(ctx, 20);
+      this.cursorController.clear(ctx, 35);
     }
     // Clear boid position and reset boid bounds
     if(this.boidPoolController && this.clearBoidFrames) {
-      this.activeBounds.clear(ctx, 20);
+      this.activeBounds.clear(ctx, 35);
     }
     // Draw cursor if active
     if(this.cursorController) {

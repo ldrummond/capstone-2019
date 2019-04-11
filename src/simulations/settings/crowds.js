@@ -28,10 +28,10 @@ export default {
       isVisible: true,
       clearFrames: true, 
       drawActiveBounds: false, 
-      count: 10, 
-      maxSpeed: 1.2,
-      stroke: true,
-      strokeColor: 'white',
+      count: 20, 
+      maxSpeed: 1.5,
+      stroke: false,
+      // strokeColor: 'white',
       strokeWidth: 1,
       mass: 2,
       maxForce: 50,
@@ -87,14 +87,39 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
   let aBoids = boidPool.filter(boid => boid.userData.movingClockwise),
       bBoids = boidPool.filter(boid => !boid.userData.movingClockwise);
 
+
+  // Keep boids in the crosswalks
   let 
     xLeft = otherBoidPool[0].position.x,
     xRight = otherBoidPool[1].position.x,
     yTop = otherBoidPool[0].position.y,
     yBottom = otherBoidPool[3].position.y,
-    laneDistance = 50,
+    laneWidth = 10,
     pos = boid.position; 
 
+  // // Inside center rect
+  // if(
+  //   pos.x < (xRight - laneWidth) && 
+  //   pos.x > (xLeft + laneWidth) &&
+  //   pos.y < (yBottom - laneWidth) &&
+  //   pos.y > (yTop + laneWidth)
+  // ) {
+  //   boid.velocity.x = 0;
+  //   boid.velocity.y = 0;
+  //   boid.flee(Boid.vec2(center.x, center.y));
+  // }
+
+  // if(
+  //   pos.x > (xRight + laneWidth) || 
+  //   pos.x < (xLeft - laneWidth) ||
+  //   pos.y > (yBottom + laneWidth) ||
+  //   pos.y < (yTop - laneWidth) 
+  // ) {
+  //   boid.velocity.x = 0;
+  //   boid.velocity.y = 0;
+  //   boid.seek(Boid.vec2(center.x, center.y));
+  // }
+   
   boidPool.map(otherBoid => {
     if(otherBoid !== boid) {
       if(otherBoid.position.distanceSq(boid.position) < squared(14)) {
@@ -103,35 +128,12 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
     }
   })
 
-  // If is an a-boid
   if(boid.userData.movingClockwise) {
-    // Adjacent boids
-    // boid.flock(aBoids);
-    // boid.flock(aBoids.filter(aBoid => (boid !== aBoid && boid.position.distanceSq(aBoid.position) < squared(20))));
-    // Opposite boids
-    // bBoids.map(bBoid => {
-    //   if(boid !== bBoid) {
-    //     if(boid.position.distanceSq(bBoid.position) < squared(60)) {
-    //       boid.evade(bBoid); 
-    //     }
-    //   }
-    // })
-    
+    // boid.followPath([otherBoidPool[0], otherBoidPool[2]].map(point => Boid.vec2(point.position.x, point.position.y)), true);
     boid.followPath(otherBoidPool.map(point => Boid.vec2(point.position.x, point.position.y)), true);
-    // boid.flock(aBoids); 
   } else {
-    
-    // Adjacent boids
-    // boid.flock(bBoids);
-    // boid.flock(bBoids.filter(bBoid => (boid !== bBoid && boid.position.distanceSq(bBoid.position) < squared(20))));
-    // Opposite boids
-    // aBoids.map(aBoid => {
-    //   if(boid !== aBoid) {
-    //     if(boid.position.distanceSq(aBoid.position) < squared(60)) {
-    //       boid.evade(aBoid); 
-    //     }
-    //   }
-    // })
+    // boid.followPath([otherBoidPool[1], otherBoidPool[3]].map(point => Boid.vec2(point.position.x, point.position.y)), true);
+    // boid.followPath(otherBoidPool.map(point => Boid.vec2(point.position.x, point.position.y)).reverse(), true);
     boid.followPath(otherBoidPool.map(point => Boid.vec2(point.position.x, point.position.y)).reverse(), true);
   }
   boid.update();
@@ -142,12 +144,13 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
  * Boids Draw Function
  */
 function boidDrawFn(ctx, boid) {
+
   ctx.beginPath();
   if(boid.userData.movingClockwise) {
-    ctx.fillStyle = 'black';
+    ctx.strokeStyle = 'black';
   }
   else {
-    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'white';
   }
   // // ctx.strokeRect(boid.position.x, boid.position.y, 5, 5);
   // ctx.moveTo(boid.position.x - boid.velocity.x * 4, boid.position.y - boid.velocity.y * 4);
@@ -160,6 +163,6 @@ function boidDrawFn(ctx, boid) {
     boid.velocity.angle + Math.PI / 2, 
     0, 
     2 * Math.PI);
-  ctx.fill();
+  ctx.stroke();
   // ctx.stroke();
 }

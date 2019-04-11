@@ -64,7 +64,7 @@ function boidInitFn(boidPool, bounds) {
 function boidUpdateFn({boid, boidPool, chaser, bounds, center}) {
   if(boid.position.distanceSq(chaser) < squared(50)) {
     boid.flee(chaser).update();
-  } else if(boid.position.distanceSq(center) > squared(bounds.width * 0.3)) {
+  } else if(boid.position.distanceSq(center) > squared(bounds.width * 0.3) && Math.round(Math.random() * 2) == 2) {
     boid.seek(center).update();
   } else {
     boid.flock(boidPool).update();
@@ -84,7 +84,7 @@ function boidDrawFn(ctx, boid) {
     boid.position.x, 
     boid.position.y, 
     2, 
-    1 + Math.abs(2 * boid.velocity.y), 
+    1 + Math.abs(3 * boid.velocity.y), 
     boid.velocity.angle + Math.PI / 2, 
     0, 
     2 * Math.PI);
@@ -125,8 +125,8 @@ function cursorUpdateFn({mousePos, boid}) {
  */
 function cursorDrawFn(ctx, boid) {
   ctx.beginPath();
-  let vX = boid.velocity.x * 3;
-  let vY = boid.velocity.y * 3;
+  let vX = boid.velocity.x * 3.3;
+  let vY = boid.velocity.y * 3.3;
   ctx.moveTo(boid.position.x - vX, boid.position.y - vY)
   ctx.lineTo(boid.position.x + vX, boid.position.y + vY);
   ctx.stroke()
