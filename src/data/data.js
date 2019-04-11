@@ -13,14 +13,14 @@ import moldInstructions from '../assets/mold-instructions.png';
 import { ReactComponent as carIcon } from '../assets/car-icon.svg';
 import { ReactComponent as batIcon } from '../assets/bat-icon.svg';
 import { ReactComponent as fishIcon }  from '../assets/fish-icon.svg';
-import { ReactComponent as crowdsIcon }  from '../assets/crowd-icon.svg';
+import { ReactComponent as crowdsIcon }  from '../assets/crowds-icon.svg';
 import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
   trafficColor = '#AAA', //'#9e9e9e',
   batColor = '#F7A558',
   fishColor = '#579CC6',
-  crowdsColor = '#EFB2C5',
+  crowdsColor = '#f4adc3',
   moldColor = '#709170'; //'#79857E';
 
 export default {
@@ -40,7 +40,7 @@ export default {
         src: carCover, 
         alt: 'Car'
       },
-      question: "What causes traffic?", 
+      question: "What causes traffic to form?", 
       instructions: `Click your cursor to create a slowdown and see how drivers respond.`,
       instructionPng: carInstructions,
       interactions: [
