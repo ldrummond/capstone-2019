@@ -10,18 +10,12 @@
   &.page-transition-enter-active
     opacity: 1
        
-  // Transition out
   &.page-transition-exit
     transition: opacity 999ms ease-out
     opacity: 1
-      // z-index: 10
-      // transition: transform 999ms cubic-bezier(.666,0,.333,1)
-      // transform: translateY(0)
      
   &.page-transition-exit-active
     opacity: 0
-      // z-index: 10
-      // transform: translateY(-100%)
 
         
   .content
@@ -49,7 +43,6 @@
         display: block
         width: span(6 of 8)
         margin-left: span(2 of 8)
-        // text-align: center
 
 
     .pentagon-wrapper
@@ -72,78 +65,10 @@
       font-style: normal
       padding-bottom: 6px
       z-index: 10
-    // .pentagon-icon
-    //   display: none
-    //   position: absolute
-    //   width: 20%
-    //   top: 50%
-    //   left: 50%
-    //   transform: translate(-50%, -50%)
-    //   fill: none
-    //   stroke: #333
-
-    
       
   &.state3
     .pentagon-wrapper
       transform: translateX(-50%)
-
-
-  //   .text-container
-  //     position: absolute
-  //     top: 50%
-  //     left: 50%
-  //     width: 60%
-  //     height: auto
-  //     transform: translate(-50%, -50%)
-  //     color: white
-  //     display: flex
-  //     opacity: 0
-  //     transition: $slow opacity ease
-
-  //     h5
-  //       +little-brother-font
-  //       font-weight: 100
-  //       font-size: 24px
-  //       display: inline-block
-  //       margin-right: 3em
-  //       padding-top: 0.5em
-
-  //     p
-  //       +loader-font
-  //       font-weight: 100
-
-  // .texture
-  //   position: absolute
-  //   top: 0
-  //   left: 0
-  //   width: 100%
-  //   height: 100%
-  //   // transition: transform $slow ease-out
-  //   opacity: 0.2
-
-  // .pattern
-  //   position: absolute
-  //   top: 0
-  //   left: 0
-  //   width: 100%
-  //   height: 100%
-  //   background: url('../assets/texture-small.png')
-  //   background-size: 12px 12px
-  //   opacity: 0.1
-
-  // &.state1
-  //   .pentagon-container
-  //     left: 0%
-    
-  // &.state2
-  //   .text-container
-  //     opacity: 1
-  //     .text
-
-      
-  //   .texture
-      // transform: translateY(-100%)
 
   .bg-color, .bg-texture, .bg-solid
     +absolute-fill
@@ -155,3 +80,19 @@
   .bg-solid
     background: white
     z-index: -20
+  
+// +after-sm-mobile
+//   &.state3
+//     .pentagon-wrapper
+//       transform: translateX(-50%)
+
+// +after-bg-mobile
+//   &.state3
+//     .pentagon-wrapper
+//       transform: translateX(-50%)
+
+// +after-md-desktop
+//   &.state3
+//     .pentagon-wrapper
+//       transform: translateX(-50%)
+//       margin-left: 40px
