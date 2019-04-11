@@ -22,7 +22,7 @@ class ContentWrapper extends Component{
 
     if(matches && matches.length > 0 && typeof(matches[2]) != 'undefined') {
       simulationPath = matches[2]; 
-      console.log('wrapper constructor', 'update');
+      // console.log('wrapper constructor', 'update');
       props.updateCurrentSystem(simulationPath);
     } 
     // Forces restart of experience
