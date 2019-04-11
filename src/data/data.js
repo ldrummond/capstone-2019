@@ -23,6 +23,8 @@ const
   crowdsColor = '#f4adc3',
   moldColor = '#709b70'; //'#79857E';
 
+// "Each simulation presents simple components interacting to form a complex pattern"
+
 export default {
   description:
     `Ever wonder what causes a traffic jam? Why fish swim in schools? How crowds move through cities? 
