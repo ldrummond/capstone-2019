@@ -11,20 +11,19 @@ $pentagon-width: span(6 of 16)
 
   // Transition in
   &.page-transition-enter
-    transition: opacity 1s cubic-bezier(.666,0,.333,1)
     opacity: 0
     // transform: translateX(-100%)
 
   &.page-transition-enter-active
-    // transform: translateX(0)
+    transition: opacity 1s cubic-bezier(.666,0,.333,1) $slow
     opacity: 1
        
   // Transition out
   &.page-transition-exit
-    transition: opacity 666ms cubic-bezier(.666,0,.333,1)
     opacity: 1
      
   &.page-transition-exit-active
+    transition: opacity 666ms cubic-bezier(.666,0,.333,1)
     opacity: 0
 
   .content 

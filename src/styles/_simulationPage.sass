@@ -1,36 +1,14 @@
 
-
 // SCOPED through page name
 .page-wrapper.simulation-page
   width: 100vw
   height: 100vh
   overflow: hidden
 
-  // Transition in
-  &.page-transition-enter
-    transition: opacity 1s cubic-bezier(.666,0,.333,1) $fast
-    z-index: 40
-    opacity: 0
-    .content 
-      transition: opacity $fast ease-in $slow
-      opacity: 0
-
-  &.page-transition-enter-active
-    opacity: 1
-    .content 
-      opacity: 1
-       
-  // Transition out
-  &.page-transition-exit
-    transition: opacity 666ms cubic-bezier(.666,0,.333,1)
-    opacity: 1
-     
-  &.page-transition-exit-active
-    opacity: 0
-
+  // Content
   .content 
+    +absolute-fill
     display: flex
-    height: 100%
 
     .nav-placeholder
       position: absolute
@@ -75,7 +53,7 @@
         font-weight: 600
         display: inline-block
         height: 1.6em
-        margin-bottom: 2em
+        margin-bottom: 1.5em
         position: relative
         &:after
           content: ''
@@ -92,11 +70,24 @@
         font-weight: 100
         color: rgba(255,255,255,0.9)
         // letter-spacing: 0.02em
-        margin-bottom: 1.3em
+        margin-bottom: 1.2em
+        // max-width: 240px
 
       .pentagon-icon
         width: 50px
         margin-top: 1.2em
+        z-index: 5
+        &:hover ~ .colored-pentagon
+          transform: scale(1)
+          transition: transform $med cubic-bezier(.42,.39,.38,1)
+      .colored-pentagon
+        width: 50px
+        position: relative
+        left: -50px
+        transition: transform $med cubic-bezier(.42,.39,.38,1)
+        transform: scale(0)
+        pointer-events: none
+        z-index: -1
 
     .simulation-panel
       // flex-basis: span(16 of 16)
@@ -107,7 +98,6 @@
       overflow: hidden
       opacity: 1
       position: relative
-      // box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.1)
 
       .show-instructions-button
         position: absolute
@@ -135,10 +125,12 @@
         align-items: center
         z-index: 5
         overflow: hidden
+        // box-shadow: inset 0px 0px 50px 50px rgba(0, 0, 0, 0.03)
+        // background: rgba(0, 0, 0, 0.05)
         .overlay-inner
           border-radius: 50%
-          border: 1px solid rgba(255, 255, 255, 0.2)
-          background: rgba(255, 255, 255, 0.4)
+          border: 1px solid rgba(255, 255, 255, 0.5)
+          background: rgba(255, 255, 255, 0.1)
           // color: rgba(255, 255, 255, 0.7)
           color: black
           letter-spacing: 0.02em
@@ -150,6 +142,7 @@
           pointer-events: visible
           cursor: pointer
           +body-serif
+          // +subtitle-serif
           +aspect-ratio(1, 1)
           &:hover
             background: rgba(255,255,255, 0.2)
@@ -166,9 +159,9 @@
             margin-top: 2em
             width: 100%
             filter: brightness()
-            margin-bottom: 2em
+            margin-bottom: 1em
             img
-              width: 50%
+              width: 60%
           .close-button
             display: flex
             justify-content: center
@@ -195,72 +188,6 @@
         cursor: pointer
         opacity: 0.4
         transition: opacity $fast ease-out
-
-      .crowds-buttons
-        display: flex
-        justify-content: space-evenly
-        align-items: center
-        position: absolute
-        top: 0
-        left: 30%
-        overflow: hidden
-        width: 40%
-        height: 20%
-        // button
-          // display: block
-          // background: none
-          // // width: 40px
-          // // height: 40px
-          // margin: 10px
-          // position: relative
-        button
-          outline: none
-          display: flex
-          justify-content: center
-          align-items: center
-          position: relative
-          border: 1px solid rgba(255,255,255,0.8)
-          border-radius: 50%
-          &:after
-            content: ''
-            display: block
-            +absolute-fill
-            transform: scale(0.9)
-            border-radius: 50%
-            transition: background 111ms ease
-          &:hover
-            &:after
-              transition: background 111ms ease
-              background: rgba(255,255,255,0.8)
-
-      .cave-graphics
-        display: flex
-        flex-direction: column
-        justify-content: center
-        align-items: center
-        position: absolute
-        top: 0
-        bottom: 0
-        left: 0
-        right: 0
-        overflow: hidden
-        width: 100%
-        svg
-          position: absolute
-          width: 100%
-          // fill: none
-          // stroke: rgba(255, 255, 255, 0.3)
-          stroke: rgba(0, 0, 0, 0.05)
-          fill: rgba(0, 0, 0, 0.05)
-          z-index: 0
-          transition: transform 2s ease
-          width: 100%
-        .cave-top
-          bottom: 50%
-          transform: translateY(-50px)
-        .cave-bottom
-          top: 50%
-          transform: translateY(50px)
         
       .next-sim
         position: absolute
@@ -305,43 +232,128 @@
           opacity: 0
     
   // Sim backgrounds
-  .color-front,
-  .color-back,
-  .texture
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
+  .simulation-backgrounds
+    div
+      +absolute-fill
 
-  .color-front
-    z-index: 10
-    opacity: 0.6
-    z-index: -5
+    .color-front
+      z-index: 10
+      opacity: 0.6
+      z-index: -5
 
-  .texture
-    background: url('../assets/texture-small.png')
-    background-size: 10px 10px
-    opacity: 0.2
-    z-index: -10
+    .system-image
+      position: absolute
+      top: 50%
+      left: 10%
+      transform: translate(-50%, -50%)
+      // opacity: 0.15
+      opacity: 0
+      z-index: -10
+      width: span(12 of 16)
+     
+    .texture
+      background: url('../assets/texture-small.png')
+      background-size: 10px 10px
+      opacity: 0.2
+      z-index: -15
 
-  .color-back
-    z-index: -15
+    .color-back
+      z-index: -20
+      opacity: 1
+
+  // 
+  // PAGE TRANSITIONS
+  // 
+  &.page-transition-enter
+    .content 
+      opacity: 0
+    .color-front, .texture, .color-back
+      transform: translateX(100%)
+    .simulation-backgrounds
+      .system-image
+        opacity: 0
+    
+  &.page-transition-enter-active
+    .content 
+      opacity: 1
+      transition: opacity $slow ease 1300ms
+    .color-front, .texture, .color-back
+      transition: transform 1s cubic-bezier(.666,0,.333,1)
+      transform: translateX(0)
+    .simulation-backgrounds
+      .system-image
+        opacity: 0.15
+        transition: opacity $slow ease 1300ms
+  // If coming from ABOUT page, speed up!
+  &.about-prev
+    .content 
+      opacity: 1
+      transition: opacity $med ease $fast
+    .color-front, .texture, .color-back
+      transition: 0s
+      
+  &.page-transition-exit
+    pointer-events: none
+    .content 
+      opacity: 1
+    .color-front, .texture, .color-back
+      transform: translateX(0)
+    .simulation-backgrounds
+      .system-image
+        opacity: 0.2
+     
+  &.page-transition-exit-active
+    .content 
+      transition: opacity $med ease
+      opacity: 0
+      pointer-events: none
+    .color-front, .texture, .color-back
+      transition: transform 1s cubic-bezier(.666,0,.333,1) $med
+      transform: translateX(100%)
+    .simulation-backgrounds
+      .system-image
+        transition: opacity $med ease
+        opacity: 0
+
+// 
+// SIMULATION TRANSITIONS
+// 
+.simulation-transition-enter
+  .content
+    opacity: 0
+  .simulation-backgrounds .system-image
+    opacity: 0
+  .color-front, .texture, .color-back
+    transform: translateY(100%)
+  
+.simulation-transition-enter-active
+  .content
     opacity: 1
-
-  .sim-backgrounds
-    transition: transform $med ease
-    &.background-enter 
-      transition:  transform $slow ease
-      transform: translateY(100%)
-
-    &.background-enter.background-enter-active 
-      transform: translateY(0)
-
-    &.background-exit
-      transform: translateY(0)
-      transition: transform $slow ease
-
-    &.background-exit.background-exit-active
-      transform: translateY(-100%)
+    transition: opacity $med ease-out 2400ms
+  .simulation-backgrounds .system-image
+    opacity: 1
+    transition: opacity $med ease-out 2400ms
+  .color-front, .texture, .color-back
+    transform: translateY(0)
+    transition: transform 1s cubic-bezier(.666,0,.333,1) 1500ms
+    
+.simulation-transition-exit
+  .content
+    opacity: 1
+  .simulation-backgrounds .system-image
+    opacity: 0
+    transition: opacity $med ease
+  .color-front, .texture, .color-back
+    transform: translateY(0)
+  
+.simulation-transition-exit-active
+  .content
+    opacity: 0
+    transition: opacity $med ease
+  .simulation-backgrounds .system-image
+      opacity: 0
+      transition: opacity $med ease
+  .color-front, .texture, .color-back
+    transform: translateY(-100%)
+    transition: transform 1s cubic-bezier(.666,0,.333,1) $fast
 

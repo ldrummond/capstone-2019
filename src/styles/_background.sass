@@ -18,6 +18,7 @@
   overflow: hidden
   .content
     width: span(7 of 16)
+    max-width: 500px
     margin-left: span(6 of 16)
     // height: 60%
     position: relative
@@ -86,31 +87,23 @@
   &.transition
     .system-image
       opacity: 1
-      transition: opacity $fast ease-in
+      transition: $fast opacity $fast ease-in
 
     .system-icon
       opacity: 1
-      transition: $fast opacity 111ms ease-in
+      transition: $med opacity 111ms ease-in
 
   // Simulation Page
   &.simulation
-    .content
-      width: span(12 of 16)
-      margin-left: - span(5 of 16)
+      // .system-image
+      //   opacity: 0.2
+      //   transform: translateY(0)
 
-      .system-image
-        opacity: 0.2
-        // position: absolute
-        // left: span(2 of 16)
-        // transform: translateX(-50%)
-        transform: translateY(0)
-        // transition: opacity $slow ease-out
+      // .system-icon
+      //   opacity: 0
 
-    .system-icon
-      opacity: 0
-
-    .texture
-      opacity: 0
+      // .texture
+      //   opacity: 0
 
   // Mobile Page
   &.mobile
@@ -124,11 +117,18 @@
 
   // About Page
   &.about
-    .system-image
+    .content
       opacity: 0
+    //   width: span(12 of 16)
+    //   margin-left: - span(5 of 16)
+      // .system-image
+      //   opacity: 0
+      //   transition: $slow ease $slow
 
-    .system-icon
-      opacity: 0
+    //   // .system-icon
+    //   //   opacity: 0
+    //   //   transition: $slow ease $slow
 
-    .texture
-      opacity: 0
+    // .texture
+      // opacity: 0
+      // transition: $slow ease $slow
