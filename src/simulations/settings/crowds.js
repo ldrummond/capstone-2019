@@ -30,7 +30,7 @@ export default {
       drawActiveBounds: false, 
       count: 20, 
       maxSpeed: 1.5,
-      stroke: false,
+      // stroke: false,
       // strokeColor: 'white',
       strokeWidth: 1,
       mass: 2,
@@ -147,10 +147,10 @@ function boidDrawFn(ctx, boid) {
 
   ctx.beginPath();
   if(boid.userData.movingClockwise) {
-    ctx.strokeStyle = 'black';
+    ctx.fillStyle = '#555';
   }
   else {
-    ctx.strokeStyle = 'white';
+    ctx.fillStyle = '#eee';
   }
   // // ctx.strokeRect(boid.position.x, boid.position.y, 5, 5);
   // ctx.moveTo(boid.position.x - boid.velocity.x * 4, boid.position.y - boid.velocity.y * 4);
@@ -163,6 +163,6 @@ function boidDrawFn(ctx, boid) {
     boid.velocity.angle + Math.PI / 2, 
     0, 
     2 * Math.PI);
-  ctx.stroke();
   // ctx.stroke();
+  ctx.fill();
 }
