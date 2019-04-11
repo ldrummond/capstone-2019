@@ -25,10 +25,12 @@ const
 
 export default {
   description:
-    `Ever wonder what causes a traffic jam? Or why fish swim in schools or how crowds move through cities? 
+    `Ever wonder what causes a traffic jam? Why fish swim in schools? How crowds move through cities? 
      <div class='break'></div>
-     Surprisingly, these systems are all connected – they are all examples of <em>emergence</em>, where a complex pattern occurs through simple interactions 
-     between parts. This project explores the way emergent systems exist all around us, through 5 interactive simulations.`
+     Surprisingly, these systems are all connected – they are all examples of <em>emergence</em>, 
+     where a complex pattern occurs through simple interactions between parts.<div class='break'></div>
+     This project explores the way emergent systems throughout our world, through 5 interactive simulations 
+     revolving around seemingly unrelated questions.`
   ,
   systems: [
     {
@@ -121,7 +123,7 @@ export default {
         alt: 'mold_colony'
       },
       question: "How can mold build a network?", 
-      instructions: "Click your cursor to place food sources, guiding the mold network",
+      instructions: "Click your cursor to place 5 food sources, guiding the mold network",
       instructionPng: moldInstructions,
       interactions: [
         "Each mold cell is brainless, but in the presence of food, they release pheremones.",
