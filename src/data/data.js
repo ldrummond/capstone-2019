@@ -17,11 +17,11 @@ import { ReactComponent as crowdsIcon }  from '../assets/crowds-icon.svg';
 import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
-  trafficColor = '#AAA', //'#9e9e9e',
+  trafficColor = '#b5b5b5',
   batColor = '#F7A558',
   fishColor = '#579CC6',
   crowdsColor = '#f4adc3',
-  moldColor = '#709170'; //'#79857E';
+  moldColor = '#709b70'; //'#79857E';
 
 export default {
   description:
