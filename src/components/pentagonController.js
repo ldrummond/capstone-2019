@@ -338,7 +338,7 @@ class Polygon {
         ctx.lineTo(points[2].x, points[2].y);
       }
       
-      if(i == this.hitIndex) {
+      if(i === this.hitIndex) {
         ctx.lineTo(points[1].x, points[1].y);
         ctx.lineTo(points[2].x, points[2].y);
       }
