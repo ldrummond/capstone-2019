@@ -1,18 +1,18 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom'
 import { CSSTransition } from "react-transition-group";
+import { connect } from 'react-redux';
 import MobileRedirect from '../components/mobileRedirect';
 // const IntroPage = lazy(() => import('../pages/introPage'));
 // const AboutPage = lazy(() => import('../pages/aboutPage'));
 // const SelectorPage = lazy(() => import('../pages/selectorPage'));
 // const SimulationPage = lazy(() => import('../pages/simulationPage'));
-// const TransitionPage = lazy(() => import('../pages/transitionPage'));
 // const MobilePage = lazy(() => import('../pages/mobilePage'));
 import IntroPage from '../pages/introPage';
 import AboutPage from '../pages/aboutPage';
 import SelectorPage from '../pages/selectorPage'; 
-import SimulationPage from '../pages/simulationPage'; 
 import TransitionPage from '../pages/transitionPage'; 
+import SimulationPage from '../pages/simulationPage'; 
 import MobilePage from '../pages/mobilePage'; 
 
 //////////////////////////////////////////////////
@@ -21,7 +21,7 @@ import MobilePage from '../pages/mobilePage';
 //
 //////////////////////////////////////////////////
 
-function PageResolver({location}) {
+function PageResolver({prevLocation, location}) {
   const routes = [
     { path: '/', name: 'Intro', Component: IntroPage },
     { path: '/about', name: 'About', Component: AboutPage },
@@ -30,20 +30,23 @@ function PageResolver({location}) {
     { path: '/simulation/:type', name: 'Simulation', Component: SimulationPage },
     { path: '/mobile', name: 'Mobile', Component: MobilePage },
   ]
-
+  // console.log(`route-change, 
+  //   from: ${prevLocation},
+  //   to: ${location.pathname}
+  // `)
+  let prevPath = prevLocation.split('/')[1] !== location.pathname.split('/')[1] ? prevLocation.split('/')[1] : 'undef';
   return(
     <React.Fragment>
       <MobileRedirect></MobileRedirect>
       {routes.map(({path, Component}) => {
-        console.log('route-change-' + path)
         return (
         <Route key={path} exact path={path}>
           {({match}) => (
             <CSSTransition 
               in={match != null} 
-              // timeout={{enter: 9000, exit: 9000}} 
-              timeout={{enter: 1800, exit: 999}} 
-              classNames={`page-transition`} 
+              // timeout={{enter: 10000, exit: 10000}} 
+              timeout={{enter: 2200, exit: 2200}} 
+              classNames={`${prevPath}-prev page-transition`}
               // classNames={`transition-to-${match && match.path.split('/')[1] || location.pathname.split('/')[1]}`} 
               unmountOnExit
             >
@@ -53,11 +56,18 @@ function PageResolver({location}) {
         </Route>)
       })}
       <Switch>
-        <Redirect exact from="/transition" to='/selector'/>
+        <Redirect exact from="/transition/" to='/selector' />
         <Redirect exact from="/simulation/" to='/simulation/traffic' />
       </Switch>
     </React.Fragment>
   )
 }
 
-export default PageResolver;
+const mapStateToProps = state => {
+  return {
+    prevLocation: state.prevLocation,  
+  }
+}
+
+
+export default connect(mapStateToProps)(PageResolver)
