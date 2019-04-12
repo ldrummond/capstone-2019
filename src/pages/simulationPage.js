@@ -41,6 +41,9 @@ class SimulationPage extends Component {
     // setTimeout(_ => {
       this.setState({ mounted: true });
     // }, (0));
+    this.overlayTimeout = setTimeout(_ => {
+      this.setState({ hideOverlay: true });
+    }, 7000)
   }
 
   handleOverlayClick = () => {
@@ -56,7 +59,11 @@ class SimulationPage extends Component {
   componentDidUpdate(prevProps) {
     // If the simulation path changed, update the simulation controller.
     if (prevProps.curSystem.path !== this.props.curSystem.path) {
+      clearTimeout(this.overlayTimeout);
       this.setState({ hideOverlay: false })
+      this.overlayTimeout = setTimeout(_ => {
+        this.setState({ hideOverlay: true });
+      }, 8000)
     }
   }
 
