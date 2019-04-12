@@ -1,11 +1,13 @@
 
+$top-gap: 50px
 
 // SCOPED through page name
 .page-wrapper.about-page
   +absolute-fill
   overflow-y: scroll
   z-index: $about-z
-  
+  $copy-color: #444
+
   // Transition in
   &.page-transition-enter
     transform: translateY(-100%)
@@ -53,53 +55,66 @@
       .page-body
         opacity: 0
 
-  $copy-color: #444
   .content
     width: 100%
     position: relative
     padding-bottom: 50px
-    color: $copy-color
 
     .page-header
       display: flex
-      flex-direction: column
+      // flex-direction: column
       align-items: center
       justify-content: center
-      height: 40vh
+      height: 20vh
       background: rgba(255, 255, 255, 0.9)
+      color: #222
       .site-title
         +middle-brother-font
-        margin-bottom: 0.5em
-      .site-subtitle
-        text-align: center
-        max-width: 300px
-        font-family: $calluna-stack
-        letter-spacing: 0.1em
-        font-weight: 100
-        font-size: 11px
-        line-height: 16px
+        padding: $nav-padding
+        // margin-left: span(1 of 16)
+        // height: 100%
+        // margin-bottom: 1em
+      // .site-subtitle
+      //   text-align: center
+      //   max-width: 300px
+      //   font-family: $calluna-stack
+      //   letter-spacing: 0.1em
+      //   font-weight: 100
+      //   font-size: 11px
+      //   line-height: 16px
 
     .page-body
       display: flex
       align-items: flex-start
       flex-direction: column
+      color: #555
 
+    .description-text
+      display: inline-block
+      width: span(16 of 16)
+      padding: $nav-padding
+      padding-top: $top-gap
+      margin-bottom: 0em
+      .project-description
+        font-family: $calluna-stack
+        font-weight: 100
+        font-size: 18px
+        line-height: 1.4em
+  
     .question-text
       display: inline-block
       width: span(16 of 16)
       // margin-left: span(1 of 16)
       padding: $nav-padding
-      // padding-left: 0
-      padding-top: 100px
+      padding-top: $top-gap
 
     .project-text
       display: inline-block
       padding: $nav-padding
-      margin-top: 100px
+      margin-top: $top-gap
       width: span(16 of 16)
-      max-width: 380px
       .copy
-        line-height: 1.3em !important
+        // line-height: 1.35em !important
 
     .section-header
       +about-copy-font
@@ -167,31 +182,82 @@
     .content    
       .page-body
         display: flex
+        width: 100%
+        flex-wrap: wrap
         flex-direction: unset
-      .question-text
-        width: span(8 of 16)
-        // margin-left: span(1 of 32)
-        margin-top: 100px
+
+      .description-text
+        width: span(9 of 16)
+        margin-right: span(1 of 16)
         padding: $nav-padding
+        padding-right: 20px
+        margin-top: $top-gap
+        // padding-left: 0
 
       .project-text
-        width: span(8 of 16)
-        // margin-left: span(1 of 16)
+        float: right
+        width: span(5 of 16)
         padding: $nav-padding
+        padding-right: 0
+        border-left: 1px solid rgba(255, 255, 255, 1)
+        .section-title
+          font-size: 13px
+        .copy-block
+          .header, .copy
+            font-size: 13px
+            line-height: 1.3em
+         
+        // margin-left: span(1 of 32)
+
+      .question-text, 
+        width: span(16 of 16)
+        margin-top: $top-gap
+        padding: $nav-padding
+        .questions
+          display: flex
+          flex-wrap: wrap
+          align-items: flex-start
+          justify-content: space-between
+          .copy-block
+            margin: 0
+            margin-bottom: 2.5em
+            width: span(14 of 32)
+
 
 +after-bg-mobile
   .page-wrapper.about-page
     .content    
-      .question-text
-        width: span(8 of 16)
+      .description-text, .question-text
+        width: span(9 of 16)
         margin-left: span(1 of 16)
         padding: $nav-padding
+        // padding-left: 0
+
+      .description-text
+        .project-description
+          font-family: $calluna-stack
+          font-weight: 100
+          font-size: 25px
+          line-height: 1.4em
 
       .project-text
-        width: span(6 of 16)
-        margin-left: span(1 of 16)
+        // width: span(6 of 16)
+        // margin-right: span(1 of 16)
         padding: $nav-padding
-        border-left: 1px solid rgba(255, 255, 255, 1)
+        padding-right: span(3 of 32)
+        // max-width: 350px
+
+      .question-text
+        width: span(10 of 16)
+        padding-right: 0
+        padding-top: 50px
+
+        .section-header
+          margin-bottom: 2.2em
+
+        .questions
+          .copy-block
+            // width: span(8of 32)
 
 +after-sm-desktop
   .page-wrapper.about-page

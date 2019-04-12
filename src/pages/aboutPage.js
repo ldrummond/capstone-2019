@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-// import {Redirect} from 'react-router-dom'
 import background from '../assets/background-texture-white.jpg'; 
-import classnames from 'classnames'; 
-// import data from '../data/data';
+import throttle from 'lodash/throttle';
+import { connect } from 'react-redux';
 
 
 //////////////////////////////////////////////////
@@ -43,51 +42,52 @@ const qaText = [
   {
     header: 'What are other examples of Emergence?',
     copy: `
-      Emergence exists in nature, science, art and philosophy. 
       Examples include the layout of cities, the workings of the stock market, bee hives and ant nests, 
       the structure of galaxies, flocks of birds, plant leaves and the shapes of flowers.  
     `,
   },
 ]
 
-export default class AboutPage extends Component {
+class AboutPage extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       mounted: false,
     }
+    // this.throttledHandleScroll = throttle(this.handleScroll, 100); 
   }
 
-  componentDidMount() {
-    // this.mounting = setTimeout(_ => {
-    //   this.setState({mounted: false})
-    // }, 0)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.mounting);
+  handleScroll = (e) => {
+    if(e.target.scrollTop <= 1) {
+      this.props.setHasScrolled(false);
+    } else {
+      this.props.setHasScrolled(true);
+    }
   }
 
   render() {
     return (
-      <div 
-        className={'page-wrapper about-page'} 
-      >
+      <div className={'page-wrapper about-page'} onScroll={this.handleScroll}>
         <div className='content'>
           <div className='page-header'>
             <h2 className='site-title'>About</h2>
-            <h4 className='site-subtitle'>
+            {/* <h4 className='site-subtitle'>
               exploring emergent systems through 5 interactive simulations
-              </h4>
+              </h4> */}
           </div>
           <section className='page-body'>
-            <div className='question-text'>
-              <h4 className='section-header'>Some Questions</h4>
-              {qaText.map((text, i) => 
-                <CopyBlock {...text} index={i} key={`copy-${i}`}/>
-                // <CopyBlock {...text} index={i} style={{transitionDelay: `${i * 200 + 1800}ms`}} key={`copy-${i}`}/>
-              )}
+            <div className='description-text'>
+              <h2 className='project-description'>
+                Part to Whole, the name of this project, refers to a phenomenon called Emergence. 
+                <div className='break'></div>
+                Emergence is when a complex pattern (whole) arrises from simple interactions between components (part).
+                The 5 systems in this project are all examples of emergence systems, which exist in 
+                everything from nature, science, art and philosophy.
+                <div className='break'></div>
+                The hope of this project is that, by understanding some of the beauty, elegance and problem-solving 
+                power of emergent systems, we might learn to see problems of our world in a whole new way. 
+              </h2>
             </div>
             <div className='project-text'>
               <h4 className='section-header'>The Project</h4>
@@ -99,12 +99,21 @@ export default class AboutPage extends Component {
                 
                 <p className='copy'>
                   Created for a Senior Capstone Project, for the Communication Design Program at 
-                  Washington University in St. Louis.
+                  Washington University in St. Louis (2019).
                 </p>
                 <br></br>
                 <p className='copy'>
                   Special thanks to Jonathan Hanahan, Craig Reynolds and Ian McGregor.
                 </p>
+              </div>
+            </div>
+            <div className='question-text'>
+              <h4 className='section-header'>Some Questions</h4>
+              <div className='questions'>
+                {qaText.map((text, i) => 
+                  <CopyBlock {...text} index={i} key={`copy-${i}`}/>
+                  // <CopyBlock {...text} index={i} style={{transitionDelay: `${i * 200 + 1800}ms`}} key={`copy-${i}`}/>
+                )}
               </div>
             </div>
           </section>
@@ -122,18 +131,30 @@ function CopyBlock(props) {
   return (
     <div className='copy-block' style={style}>
       <h4 className='index'>Q{index}</h4>
-      {header && <h2 className='header'>{header}</h2>}
+      {header && <h2 className='header'>* {header}</h2>}
       <p className='copy'>{copy}</p>
     </div>
   )
 }
 
-function ProjectCopyBlock(props) {
-  let {header, copy, style} = props; 
-  return (
-    <div className='copy-block project' style={style}>
-      {header && <h2 className='header'>{header}</h2>}
-      {copy && <p className='copy'>{copy}</p>}
-    </div>
-  )
+const mapStateToProps = state => {
+  return {
+    nextSystem: state.nextSystem,
+    curSystem: state.curSystem,
+    prevSystem: state.prevSystem,
+    wheelIndex: state.wheelIndex,
+    prevWheelIndex: state.prevWheelIndex,  
+    lastChange: state.lastChange, 
+  }
 }
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    setHasScrolled: hasScrolled => {
+      dispatch({type: 'SCROLL_CHANGE', pageHasScrolled: hasScrolled}); 
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AboutPage);
+
