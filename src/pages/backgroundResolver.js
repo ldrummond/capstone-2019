@@ -32,19 +32,17 @@ class BackgroundResolver extends Component{
             let {coverImage = '', icon, color} = curSystem;
             let Icon = icon; 
             return(
-              <Fragment>
-                <div className='content'>
-                  <SimpleFade shouldRender={this.state.mounted} duration={333}>
-                    <img className='system-image' alt={coverImage.alt || 'TODO'} src={coverImage.src}></img>
-                    <Icon className='system-icon' style={{fill: color}}/>
-                  </SimpleFade>
-                </div>
-                <img className='texture' alt='background_texture' src={background}></img>       
-              </Fragment>
+              <div className='content'>
+                <SimpleFade shouldRender={this.state.mounted} duration={333}>
+                  <img className='system-image' alt={coverImage.alt || 'TODO'} src={coverImage.src}></img>
+                  <Icon className='system-icon' style={{fill: color}}/>
+                </SimpleFade>
+              </div>
             )}
           }  
           />
         </CSSTransition>
+        <img className='texture' alt='background_texture' src={background}></img>  
       </TransitionGroup>
     )
   }
