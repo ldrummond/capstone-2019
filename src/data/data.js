@@ -10,6 +10,12 @@ import fishInstructions from '../assets/fish-instructions.png';
 import crowdsInstructions from '../assets/crowds-instructions.png';
 import moldInstructions from '../assets/mold-instructions.png';
 
+import carVideo from '../assets/car-video.mp4';
+import batVideo from '../assets/bat-video.mp4';
+import fishVideo from '../assets/fish-video.mp4';
+import crowdsVideo from '../assets/crowds-video.mp4';
+import moldVideo from '../assets/mold-video.mp4';
+
 import { ReactComponent as carIcon } from '../assets/car-icon.svg';
 import { ReactComponent as batIcon } from '../assets/bat-icon.svg';
 import { ReactComponent as fishIcon }  from '../assets/fish-icon.svg';
@@ -17,10 +23,10 @@ import { ReactComponent as crowdsIcon }  from '../assets/crowds-icon.svg';
 import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
-  trafficColor = '#b5b5b5',
+  trafficColor = '#a7a7b7',
   batColor = '#F7A558',
   fishColor = '#579CC6',
-  crowdsColor = '#f4adc3',
+  crowdsColor = '#e5aabf', //'#f4adc3',
   moldColor = '#709b70'; //'#79857E';
 
 // "Each simulation presents simple components interacting to form a complex pattern"
@@ -31,8 +37,8 @@ export default {
      <div class='break'></div>
      Surprisingly, these systems are all connected – they are all examples of <em>emergence</em>, 
      where a complex pattern occurs through simple interactions between parts.<div class='break'></div>
-     This project explores the way emergent systems throughout our world, through 5 interactive simulations 
-     revolving around seemingly unrelated questions.`
+     This project explores the way emergent systems form throughout our world, looking at these systems
+     through 5 interactive simulations revolving around seemingly unrelated questions.`
   ,
   systems: [
     {
@@ -44,13 +50,17 @@ export default {
         src: carCover, 
         alt: 'Car'
       },
+      previewVideo: {
+        src: carVideo,
+      },
       question: "What causes traffic to form?", 
       instructions: `Click your cursor to create a slowdown and see how drivers respond.`,
       instructionPng: carInstructions,
       interactions: [
-        "Each car is in a rush, staying as close to the next car as possible.",
-        "Because of this, if one car slows down, there is a chain reaction.",
-        "Each car slows in response to its neighbors, but the slowdown stays in place."
+        "Each car is in a rush and staying as close to the next car as possible, ignoring the cars behind it.",
+        "Because of this, if one car slows down, there is a chain reaction where each car reacts to the one in front.",
+        `Each car adjusts its speed, but the slowdown stays in place, sometimes even moving traveling backwards
+        after the intial cars have sped on.`
       ],
       color: trafficColor,
       icon: carIcon, 
@@ -64,13 +74,18 @@ export default {
         src: batCover, 
         alt: 'Bat'
       },
+      previewVideo: {
+        src: batVideo,
+      },
       question: "Why do bats coordinate their flight?", 
       instructions: "Click on the walls of the cave to adjust the height of the opening.",
       instructionPng: batInstructions,
       interactions: [
-        "Each bat maintains the optimum distance from its neighbors, so that they never collide.",
-        "When the sun sets, the bats fly through the cave entrance in a tighly coordinate mass.",
-        "The bats adjust their position to the amount of available space and fly as a unit."
+        "Each bat has highly powerful sensing abilities for tracking the distance between it and its neighbors.",
+        `By adjusting its speed and position, each bat maintains a precise amount of space from its neighbors, 
+        even the ones behind it.`,
+        `This allows the bats to fly as a unit, rapidly modifying their distance for the amount of available space: 
+        and never getting into traffic jams or collisions.`
       ],
       color: batColor,
       icon: batIcon, 
@@ -84,13 +99,17 @@ export default {
         src: fishCover, 
         alt: 'Fish'
       },
+      previewVideo: {
+        src: fishVideo,
+      },
       question: "How do fish avoid predators?", 
       instructions: "Move your cursor to guide a predator towards the school of fish.",
       instructionPng: fishInstructions,
       interactions: [
         "Each fish is only aware of its close neighbors. It turns and slows to match their speed and angle.",
         "When a predator attacks, only the closest fish can actually see and respond to the predator.",
-        "When they turn, the other fish respond, and the whole school moves as a unit overwhelming the predator."
+        `When these fish turn, the other fish respond to their motion, and the whole school moves as a unit 
+        overwhelming the predator.`
       ],
       color: fishColor,
       icon: fishIcon, 
@@ -104,13 +123,16 @@ export default {
         src: crowdsCover, 
         alt: 'crowd_crossing_street'
       },
+      previewVideo: {
+        src: crowdsVideo,
+      },
       question: "How do crowds interact in cities?", 
       instructions: "Click the buttons to change the number of people and affect the interactions of the crowds.", 
       instructionPng: crowdsInstructions,
       interactions: [
         "Each person travels at a similar pace towards their destination.",
-        "They avoid people traveling in opposite directions, and avoid colliding with neighbors.",
-        "As the crowds pass, lanes of efficient motion naturally form."
+        "As they travel, they colliding with neighbors and people traveling in opposite directions.",
+        "As the crowds pass, lanes of efficient motion naturally form and grow."
       ],
       color: crowdsColor,
       icon: crowdsIcon, 
@@ -123,6 +145,9 @@ export default {
       coverImage: {
         src: moldCover, 
         alt: 'mold_colony'
+      },
+      previewVideo: {
+        src: moldVideo,
       },
       question: "How can mold build a network?", 
       instructions: "Click your cursor to place 5 food sources, guiding the mold network",

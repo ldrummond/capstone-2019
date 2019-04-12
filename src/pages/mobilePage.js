@@ -43,12 +43,15 @@ export default class MobilePage extends Component {
               {
                 let isOpen = i === this.state.openSystemId; 
                 return (
-                  <div 
-                    key={system.path} 
-                    className={classnames('system-block', {open: isOpen})} 
-                    style={{background: system.color}}
-                  >
+                  <div key={system.path} className={classnames('system-block', {open: isOpen})} >
                     <h3 className='question'>{system.question}</h3>
+                    <div className='preview-video-container' style={{background: system.color}}>
+                      <video className='video' width="680" height="520" autoPlay loop muted>
+                        <source src={system.previewVideo.src} type="video/mp4"></source>
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                    {/* <img className='preview' src={system.previewImage.src} alt={system.previewImage.alt} /> */}
                     <ButtonWrapper 
                       className='active-button' 
                       onClick={e => this.onSystemAboutClick(e, i, isOpen)}
@@ -82,3 +85,20 @@ export default class MobilePage extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    nextSystem: state.nextSystem,
+  }
+}
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    setHasScrolled: hasScrolled => {
+      dispatch({type: 'SCROLL_CHANGE', pageHasScrolled: hasScrolled}); 
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobilePage);
