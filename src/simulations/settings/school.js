@@ -64,7 +64,7 @@ function boidInitFn(boidPool, bounds) {
 function boidUpdateFn({boid, boidPool, chaser, bounds, center}) {
   if(boid.position.distanceSq(chaser) < squared(50)) {
     boid.flee(chaser).update();
-  } else if(boid.position.distanceSq(center) > squared(bounds.width * 0.3) && Math.round(Math.random() * 2) == 2) {
+  } else if(boid.position.distanceSq(center) > squared(bounds.width * 0.3) && Math.round(Math.random() * 3) <= 2) {
     boid.seek(center).update();
   } else {
     boid.flock(boidPool).update();
