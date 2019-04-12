@@ -39,7 +39,7 @@ class IntroPage extends Component {
   }
 
   handleClick = () => {
-    if(this.stateInterval >= 5) {
+    if(this.state.stateInterval >= 5) {
       this.props.history.push('/selector');
     }
   }
@@ -62,7 +62,7 @@ class IntroPage extends Component {
       <div 
         className={classnames('page-wrapper', 'intro-page', states)} 
         onMouseMove={this.onMouseMove}
-        onClick={this.handleClick}
+        // onClick={this.handleClick}
       >
         <div className='content'>
           <SimpleFade 
@@ -78,7 +78,7 @@ class IntroPage extends Component {
           </SimpleFade>
           <span className='pentagon-wrapper'>
           {/* <SimpleFade className='pentagon-wrapper' shouldRender={this.state.mounted}> */}
-            <LoaderPentagon mousePos={this.mousePos}  stateIndex={stateIndex}/>
+          <LoaderPentagon mousePos={this.mousePos}  stateIndex={stateIndex}/>
           {/* </SimpleFade> */}
           </span>
           <SimpleFade className='start-button-container' shouldRender={stateIndex >= 6} duration={this.fadeDuration + 666}>
