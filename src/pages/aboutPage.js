@@ -82,7 +82,7 @@ class AboutPage extends Component {
                 Part to Whole, the name of this project, refers to a phenomenon called Emergence. 
                 <div className='break'></div>
                 Emergence is when a complex pattern (whole) arrises from simple interactions between components (part).
-                The 5 systems in this project are all examples of emergence systems, which exist in 
+                The 5 systems in this project are all examples of emergent systems, which exist in 
                 everything from nature, science, art and philosophy.
                 <div className='break'></div>
                 The hope of this project is that, by understanding some of the beauty, elegance and problem-solving 
