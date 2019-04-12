@@ -118,7 +118,8 @@ function cursorClickFn({mousePos, boid, bounds, drawBuffer, caveContainer}) {
  */
 function cursorUpdateFn({mousePos, bounds, boid}) {
   let center = bounds.width / 2; 
-  let yPos = clamp(mousePos.y, bounds.height / 2 - 50);
+  let yDiff = min(Math.abs(bounds.height / 2 - mousePos.y), 50); 
+  let yPos = bounds.height / 2 - yDiff;
   boid.position.x = center;
   boid.velocity.x = 0;
   boid.arrive(Boid.vec2(center, yPos)).update();
@@ -193,41 +194,6 @@ function boidDrawFn(ctx, boid) {
   ctx.lineTo(p3.x, p3.y);
   ctx.stroke();
 }
-
-
-// /**
-//  * 
-//  *  All Boids Update Function
-//  * 
-//  */
-// function boidUpdateFn({boidPool, otherBoidPool, bounds, activeBounds}) {
-//   let radius = bounds.height / 2.1
-//   if(bounds.obstacleScale) {
-//     radius = bounds.height / 2 - (bounds.height / 2) * (bounds.obstacleScale / 100)
-//   }
-//   let obstacleA = {x: bounds.width / 2, y: 0}; 
-//   let obstacleB = {x: bounds.width / 2, y: bounds.height}; 
-//   let aDist, bDist; 
-
-//   boidPool.map(boid => {
-//     aDist = boid.position.distanceSq(obstacleA);
-//     bDist = boid.position.distanceSq(obstacleB);
-
-//     if(aDist < squared(radius)) {
-//       boid.flee(Boid.vec2(obstacleA.x, obstacleA.y));
-//     } else if(bDist < squared(radius)) {
-//       boid.flee(Boid.vec2(obstacleB.x, obstacleB.y));
-//     }
-//     else if(Math.round(Math.random() * 3) === 3) {
-//       boid.followPath(otherBoidPool.map(point => Boid.vec2(point.position.x, point.position.y)), false);
-//     } else {
-//       boid.flock(boidPool);
-//     }
-//     boid.update();
-//     activeBounds.update(boid.position);
-//   })
-// }
-
 
 /**
  * 
