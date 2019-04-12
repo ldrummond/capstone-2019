@@ -43,7 +43,7 @@ class SimulationPage extends Component {
     // }, (0));
     this.overlayTimeout = setTimeout(_ => {
       this.setState({ hideOverlay: true });
-    }, 7000)
+    }, 9000)
   }
 
   handleOverlayClick = () => {
