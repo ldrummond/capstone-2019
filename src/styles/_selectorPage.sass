@@ -66,6 +66,12 @@ $pentagon-width: span(6 of 16)
         &:last-of-type
           margin-top: $pentagon-width * 5
 
+    @keyframes squiggle
+      from 
+        transform: translateX(14px)    
+      to 
+        transform: translateX(0px)          
+
     .squiggle-container
       position: absolute
       display: flex
@@ -76,14 +82,15 @@ $pentagon-width: span(6 of 16)
       fill: none
       stroke: black
       stroke-width: 3.5px
-      transition: transform $fast ease
+      // transition: transform $fast ease
       .squiggle
+        // animation: squiggle $slow ease-in infinite alternate
         width: 70%
         height: 20px
       &:hover
         // transform: translateX(3px)
         & ~ .option-container .option-inner .title
-         transform: translateX(5px)
+         transform: translateX(5px)     
 
     .option-container
       width: span(6 of 16)

@@ -40,7 +40,7 @@ class SelectorPage extends Component {
     return (
       <div className='page-wrapper selector-page'>
         <section className='content'>
-          <Pentagon 
+          <PentagonSvg 
             wheelIndex={wheelIndex} 
             curIndex={curSystem.index}
             colors={data.systems.map(system => system.color)} 
@@ -107,6 +107,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-SelectorPage = withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectorPage))
-
-export default SelectorPage
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectorPage))

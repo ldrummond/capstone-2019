@@ -19,6 +19,7 @@ class IntroPage extends Component {
     super(props)
 
     this.state = {
+      mounted: false,
       stateIndex: 0,
     }
     this.fadeDuration = 666;
@@ -32,12 +33,13 @@ class IntroPage extends Component {
 
   componentDidMount() {
     this.stateInterval = setInterval(
-     _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
-    999);
+      _ => this.setState(prevState => {return {stateIndex: prevState.stateIndex + 1}}),
+      999);
+    this.setState({mounted: true})
   }
 
   handleClick = () => {
-    if(this.stateInterval >= 2) {
+    if(this.stateInterval >= 5) {
       this.props.history.push('/selector');
     }
   }
@@ -69,16 +71,20 @@ class IntroPage extends Component {
             duration={this.fadeDuration}
           >
             <h2 className='project-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
-            {/* <img className='texture' src={loaderTexture} alt='background_texture'></img> */}
-            {/* <div className='pattern'></div>*/}
-            <h4>Exploring <em>emergent systems</em> in our world, through 5 interactive simulations</h4>
-            {/* <p dangerouslySetInnerHTML={{__html: data.description}}></p> */}
+            {/* <h4>Exploring <em>emergent systems</em> in our world – through 5 interactive simulations.</h4> */}
+            {/* <h4>Exploring <em>emergent systems</em> – where simple components interact to form complex patterns – through 5 interactive simulations.</h4> */}
+            <h4>Exploring relationships between part and whole – and the emergent systems 
+            that form in our world – through 5 interactive questions.</h4>
           </SimpleFade>
           <span className='pentagon-wrapper'>
+          {/* <SimpleFade className='pentagon-wrapper' shouldRender={this.state.mounted}> */}
             <LoaderPentagon mousePos={this.mousePos}  stateIndex={stateIndex}/>
+          {/* </SimpleFade> */}
           </span>
           <SimpleFade className='start-button-container' shouldRender={stateIndex >= 6} duration={this.fadeDuration + 666}>
-            <Link to='/selector' className='start-button'>Choose A System</Link>
+            <button className='start-button unbuttoned' onClick={_ => this.props.history.push('/selector')}>
+              Choose a question
+            </button>
           </SimpleFade>
           {/* <Pentagon /> */}
         </div>
