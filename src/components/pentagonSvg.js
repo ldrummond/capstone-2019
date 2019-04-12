@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-class Pentagon extends Component {
+class PentagonSvg extends Component {
   constructor(props) {
     super(props)
 
@@ -64,4 +64,4 @@ class Pentagon extends Component {
   }
 }
 
-export default Pentagon
+export default PentagonSvg

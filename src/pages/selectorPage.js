@@ -6,7 +6,7 @@ import data from '../data/data';
 // Asset and components
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
-import Pentagon from '../components/pentagonSvg';
+import PentagonSvg from '../components/pentagonSvg';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { SimpleFade } from '../components/fadeWrapper';
