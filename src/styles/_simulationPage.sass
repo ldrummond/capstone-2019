@@ -21,7 +21,7 @@
 
     .description-panel
       flex-basis: span(5 of 16)
-      max-width: 380px
+      max-width: 355px
       min-width: 300px
       padding: $nav-padding
       padding-top: 22px
@@ -122,7 +122,6 @@
         right: 0
         padding: $nav-padding
         color: white
-        // border: 1px solid black
         transition: color $fast ease
         &.hovering
           color: black
@@ -259,9 +258,10 @@
       top: 50%
       left: 10%
       transform: translate(-50%, -50%)
-      opacity: 0.1
+      opacity: 0
       z-index: -10
       width: span(12 of 16)
+      transition: opacity $slow ease 1300ms
      
     .texture
       background: url('../assets/texture-small.png')
@@ -294,6 +294,7 @@
       transform: translateX(0)
     .simulation-backgrounds
       .system-image
+        display: none
         opacity: 0.1
         transition: opacity $slow ease 1300ms
   // If coming from ABOUT page, speed up!
