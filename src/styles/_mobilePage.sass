@@ -1,11 +1,8 @@
 
 // SCOPED through page name
 .page-wrapper.mobile-page
-  position: unset
-  overflow: unset
-  // display: block
-  // overflow: visible
-  // overflow-x: hidden
+  +absolute-fill
+  overflow-y: scroll
 
   &.scrolled 
     .content:after
@@ -50,19 +47,50 @@
         padding: $nav-padding
         padding-top: 40px
 
-        // About
+        // How does...
+        .question 
+          +middle-brother-font
+          transition: opacity $med ease-out $fast
+          opacity: 1
+        &.open .question
+          transition: opacity $med ease-in
+          opacity: 0
+
+        .preview-video-container
+          position: absolute
+          top: 0
+          bottom: 0
+          left: 0
+          right: 0
+          z-index: -5
+          display: flex
+          justify-content: center
+          align-items: center
+          .video
+            transition: opacity $fast ease 
+            height: 100%
+        &.open
+          .preview-video-container
+            .video
+              transition: opacity $fast ease $slow
+              opacity: 0.4
+
+        // About button
         .active-button
           position: absolute
           bottom: 40px
           z-index: 5
           color: black
-          transition: color $med cubic-bezier(.333,0,.666,1)
+          transition: color $med cubic-bezier(.333,0,.666,1), background $fast ease
           font-family: $freight-stack
           letter-spacing: 0.08em
           width: 60px
           height: 40px
           border: 1px solid rgba(255,255,255, 0.4)
+          background: rgba(255, 255, 255, 0.5)
           overflow: hidden
+          &:hover
+            background: rgba(255, 255, 255, 0.3)
           .active-area
             top: -40%
             left: -20%
@@ -79,21 +107,13 @@
               width: 50%
               text-align: center
         &.open .active-button
-          transition: $fast border $fast ease-in, $fast color $fast ease-in
+          transition: $fast border $fast ease-in, $fast color $fast ease-in, $fast background $fast ease-in
           border: 1px solid rgba(0,0,0, 0.9)
           color: white
+          background: rgba(0, 0, 0, 0.1)
           .slider
             transition: transform $med cubic-bezier(.666,0,.333,1) 333ms
             transform: translateX(-50%)
-
-        // How does...
-        .question 
-          +middle-brother-font
-          transition: opacity $med ease-out $fast
-          opacity: 1
-        &.open .question
-          transition: opacity $med ease-in
-          opacity: 0
 
         // Overlay
         .answer-block

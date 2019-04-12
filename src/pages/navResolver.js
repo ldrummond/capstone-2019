@@ -25,11 +25,11 @@ export class NavResolver extends Component {
   }
 
   componentWillUnmount() {
+    this.props.setHasScrolled(false);
     window.removeEventListener('scroll', this.throttledHandleScroll);
   }
 
   handleScroll = (e) => {
-    // console.log('scroll', window.scrollY);
     if(window.scrollY <= 1) {
       this.setState((prevState, props) => {
         if(prevState.hasScrolled) {
@@ -79,7 +79,7 @@ export class NavResolver extends Component {
       <nav className={
         classnames('navbar', 
           `${this.props.location.pathname.split('/')[1] || 'intro'}-page`,
-          { scrolled: this.state.hasScrolled,
+          { scrolled: this.state.hasScrolled || this.props.pageHasScrolled,
             inactive: this.pageIsTransition},
         )}
       >
@@ -110,8 +110,17 @@ export class NavResolver extends Component {
 
 const mapStateToProps = state => {
   return {
+    pageHasScrolled: state.pageHasScrolled, 
     prevLocation: state.prevLocation,  
   }
 }
 
-export default connect(mapStateToProps)(NavResolver)
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    setHasScrolled: hasScrolled => {
+      dispatch({type: 'SCROLL_CHANGE', pageHasScrolled: hasScrolled}); 
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavResolver)

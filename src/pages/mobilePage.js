@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import { SimpleFade } from '../components/fadeWrapper';
 import ButtonWrapper from '../components/buttonWrapper';
 import { ReactComponent as Pentagon } from '../assets/pentagon.svg'; 
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import data from '../data/data';
 
@@ -12,14 +13,21 @@ import data from '../data/data';
 //
 //////////////////////////////////////////////////
 
-export default class MobilePage extends Component {
+class MobilePage extends Component {
   constructor() {
     super()
     this.state = {
-      mounted: false,
       openSystemId: false, 
     }
     this.fadeDuration = 333;
+  }
+
+  handleScroll = (e) => {
+    if(e.target.scrollTop <= 1) {
+      this.props.setHasScrolled(false);
+    } else {
+      this.props.setHasScrolled(true);
+    }
   }
   
   onSystemAboutClick = (e, i, systemAlreadyOpen) => {
@@ -32,8 +40,8 @@ export default class MobilePage extends Component {
 
   render() {
     return (
-      <div className={classnames('page-wrapper', 'mobile-page', {scrolled: this.state.hasScrolled})}>
-        <section className='content' onScroll={this.handleScroll}>
+      <div className={'page-wrapper mobile-page'} onScroll={this.handleScroll}>
+        <section className='content'>
           <div className='intro-block'>
             <h2 className='project-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
             <p dangerouslySetInnerHTML={{__html: data.description}}></p>

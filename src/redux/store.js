@@ -53,7 +53,7 @@ function systemsReducer(state = [], action) {
     case 'SCROLL_CHANGE':  
       return {
         ...state,
-        hasScrolled: action.scrollState, 
+        pageHasScrolled: action.pageHasScrolled, 
       }
 
     case 'WHEEL_UP':

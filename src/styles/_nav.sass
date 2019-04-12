@@ -38,6 +38,42 @@
     transition: opacity $med ease-out
   &.inactive
     pointer-events: none
+  &.about-page
+    opacity: 1
+    background: none
+    border: none
+    transition: background $fast ease-out, opacity $fast ease-out
+    &:after
+      opacity: 0
+      transition: opacity $fast ease-out
+
+  &.scrolled
+    opacity: 1
+    &.about-page
+      border-bottom: 1px solid rgba(255, 255, 255, 1)
+      opacity: 0
+      pointer-events: none
+      // transform: translateY(-100%)
+      transition: opacity $fast ease-in
+      background: white
+      &:after
+        content: ''
+        position: absolute
+        top: $nav-height
+        left: 0
+        right: 0
+        height: 50px
+        opacity: 0.3
+        pointer-events: none
+        position: fixed
+        transition: opacity $fast ease-in
+        background: linear-gradient(rgba(0,0,0,.15),transparent)
+        box-shadow: 0 -1px 0 hsla(0,0%,100%,.1)
+      &.scrolled 
+        opacity: 1
+        transform: translateY(0)
+        transition: opacity $med ease-out
+        
 
   .title-link, .about-link
     height: 24px
@@ -121,17 +157,22 @@
 
 // +after-bg-mobile
 
-
 // 
 // DESKTOP
 // 
 +after-sm-mobile
   .navbar
-    border: none
-    opacity: 1
-    background: none
-    &:after
-      opacity: 0
+    // border: none
+    // opacity: 1
+    // background: none
+    // &:after
+    opacity: 1 
     &.intro-page
       display: none
       transform: translateY(-100%)
+    &.selector-page, &.transition-page, &.simulation-page
+      background: none
+      border: none
+      &:after
+        opacity: 0
+      // background: rgba(255, 255, 255, 0.3)
