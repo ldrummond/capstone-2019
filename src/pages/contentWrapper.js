@@ -32,6 +32,7 @@ class ContentWrapper extends Component{
   componentWillReceiveProps(nextProps) {
     if(this.props.location && nextProps && nextProps.location && this.props.location !== nextProps.location) {
       this.props.updatePrevLocation(this.props.location.pathname); 
+      this.props.setHasScrolled(false);
     }
   }
 
@@ -61,6 +62,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updatePrevLocation: prevLocation => {
       dispatch({type: 'SET_PREV_LOCATION', prevLocation: prevLocation}); 
+    },
+    setHasScrolled: hasScrolled => {
+      dispatch({type: 'SCROLL_CHANGE', pageHasScrolled: hasScrolled}); 
     },
   }
 }
