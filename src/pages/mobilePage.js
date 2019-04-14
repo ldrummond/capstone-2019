@@ -54,7 +54,7 @@ class MobilePage extends Component {
                   <div key={system.path} className={classnames('system-block', {open: isOpen})} >
                     <h3 className='question'>{system.question}</h3>
                     <div className='preview-video-container' style={{background: system.color}}>
-                      <video className='video' width="680" height="520" autoPlay loop muted>
+                      <video className='video' width="680" height="520" autoPlay loop muted playsinline>
                         <source src={system.previewVideo.src} type="video/mp4"></source>
                         Your browser does not support the video tag.
                       </video>
