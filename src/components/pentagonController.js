@@ -52,8 +52,6 @@ class Polygon {
     this.cursor = {x: 0, y: 0};
     this.transitions = []; 
     this.magnitude = 0;   
-    this.hitIndex = -1; 
-    this.hitBufferColors = this.generateHitBufferColors(); 
     this.triangles = this.getTrianglesPoints(); 
 
     // Methods for defining redraws, to save performance. 
@@ -128,12 +126,13 @@ class Polygon {
     this.transitions.push(growTransition);
   }
 
-  easeSides(startSides, endSides, duration, onComplete) {
+  easeSides({start: startSides, end: endSides, duration, onComplete, isSine}) {
     const growTransition = new CanvasTransition({
       startValue: startSides, 
       endValue: endSides, 
       durationMs: duration, 
       fps: 60, 
+      sine: isSine,
       onStep: res => {this.sides = res}, 
       onComplete: onComplete,
     })
@@ -198,7 +197,7 @@ class Polygon {
       curPoint = {x: curX, y: curY};
       nextPoint = {x: nextX, y: nextY};
       
-      triangle = [this.center, curPoint, nextPoint]; 
+      triangle = [this.center, curPoint, nextPoint, this.center]; 
       triangles.push(triangle); 
     }
     
@@ -221,27 +220,6 @@ class Polygon {
       })
     }
   }
-
-  // drawHidden(ctx, colors) {
-  //   if(colors) {
-  //     this.triangles.map((points, i) => {
-  //       ctx.beginPath(); 
-  
-  //       // Draw triangle as three points
-  //       ctx.lineTo(points[0].x, points[0].y);
-  //       ctx.lineTo(points[1].x, points[1].y);
-  //       ctx.lineTo(points[2].x, points[2].y); 
-  
-  //       // Fill points. 
-  //       ctx.fillStyle = colors[i]; 
-  //       ctx.strokeStyle = colors[i];    
-  //       ctx.lineWidth = 10;     
-  //       ctx.fill();
-  //       ctx.stroke();
-  //       ctx.closePath(); 
-  //     })
-  //   }
-  // }
  
   update() {
     this.updateTransitions(); 
@@ -270,78 +248,11 @@ class Polygon {
       this.hasChanged = false; 
 
       ctx.beginPath(); 
-
-      if(this.magnitude) {
-        // console.log(this.magnitude)
-      }
-
-      // let t = 100; 
-      // for(let i = 0; i < t; i++) {
-      //   ctx.lineTo(this.center.x + i - (t / 2), this.center.y - 10 + slope(i, tick / 10, this.amp, this.freq));
-      // }
-
-      // ctx.stroke();
-      // ctx.beginPath();
-
-      // for(let i = 0; i < t; i++) {
-      //   ctx.lineTo(this.center.x + i - (t / 2), this.center.y + 10 + slope(i, tick / 10, this.amp, this.freq));
-      // }
-      
-      
-      // function sinLine(ctx, start, end, numPoints, amp, freq, xOff) {
-      //   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
-      //   // const lineEq = x => amp * Math.sin(x * freq + xOff);
-
-      //   ctx.moveTo(start.x, start.y);
-      //   let xUnit = (end.x - start.x) / numPoints
-      //   let yUnit = (end.y - start.y) / numPoints
-
-      //   for(let i = 1; i <= numPoints; i++) {
-      //     let x = start.x + (xUnit * i) + (Math.sin(i) * amp / 50); 
-      //     let y = start.y + (yUnit * i) + (Math.sin(i) * amp / 50);
-      //     ctx.lineTo(x, y); 
-      //   }
-      // }
-
-      // function slope(x, xOffset, amp, freq) {
-      //   return amp * Math.sin(x * freq + xOffset) 
-      // }
-      
-
-      // export function drawLerpLine(ctx, start, end, numPoints = 1, magnitude = 5) {
-      //   if(!ctx || typeof ctx.moveTo == 'undefined') {throw new Error("Context is undefined")}
-      //   ctx.moveTo(start.x, start.y);
-      //   let xUnit = (end.x - start.x) / numPoints
-      //   let yUnit = (end.y - start.y) / numPoints
-      //   for(let i = 1; i <= numPoints; i++) {
-      //     let x = start.x + (xUnit * i) + ((Math.random() - 0.5) * magnitude); 
-      //     let y = start.y + (yUnit * i) + ((Math.random() - 0.5) * magnitude);
-      //     ctx.lineTo(x, y); 
-      //   }
-      // }
-
-      
-      // this.hasChanged = true; 
-
-      if(this.hasNoise) {
-        // sinLine(ctx, points[0], points[1], 20, this.magnitude * this.amp, this.freq); 
-        // sinLine(ctx, points[1], points[2], 20, this.magnitude * this.amp, this.freq); 
-        drawLerpLine(ctx, points[0], points[1], 5, this.magnitude * this.amp); 
-        drawLerpLine(ctx, points[1], points[2], 5, this.magnitude * this.amp); 
-        ctx.lineTo(points[0].x, points[0].y);
-        this.hasChanged = true; 
-      }
-      else {
-        ctx.moveTo(points[0].x, points[0].y);
-        ctx.fillStyle = this.colors[i]; 
-        ctx.lineTo(points[1].x, points[1].y);
-        ctx.lineTo(points[2].x, points[2].y);
-      }
-      
-      if(i === this.hitIndex) {
-        ctx.lineTo(points[1].x, points[1].y);
-        ctx.lineTo(points[2].x, points[2].y);
-      }
+      ctx.moveTo(points[0].x, points[0].y);
+      ctx.fillStyle = this.colors[i]; 
+      ctx.lineTo(points[1].x, points[1].y);
+      ctx.lineTo(points[2].x, points[2].y);
+      ctx.lineTo(points[3].x, points[3].y);
 
       if(this.stroke) {
         ctx.stroke(); 
@@ -350,7 +261,6 @@ class Polygon {
         ctx.fill(); 
       }
     })
-    // ctx.closePath();  // Whether or not to draw the final path line. 
   }
 }
 
