@@ -24,7 +24,7 @@ import { ReactComponent as moldIcon }  from '../assets/mold-icon.svg';
 
 const 
   trafficColor = '#a7a7b7',
-  batColor = '#F7A558',
+  batColor = '#e99242',
   fishColor = '#579CC6',
   crowdsColor = '#e5aabf', //'#f4adc3',
   moldColor = '#709b70'; //'#79857E';
@@ -35,10 +35,10 @@ export default {
   description:
     `Ever wonder what causes a traffic jam? Why fish swim in schools? How crowds move through cities? 
      <div class='break'></div>
-     Surprisingly, these systems are all connected – they are all examples of <em>emergence</em>, 
+     Surprisingly, these systems are all connected: they are all examples of <em>emergence</em>, 
      where a complex pattern occurs through simple interactions between parts.<div class='break'></div>
      This project explores the way emergent systems form throughout our world, looking at these systems
-     through 5 interactive simulations revolving around seemingly unrelated questions.`
+     through 5 seemingly unrelated questions.`
   ,
   systems: [
     {
@@ -84,8 +84,7 @@ export default {
         "Each bat has highly powerful sensing abilities for tracking the distance between it and its neighbors.",
         `By adjusting its speed and position, each bat maintains a precise amount of space from its neighbors, 
         even the ones behind it.`,
-        `This allows the bats to fly as a unit, rapidly modifying their distance for the amount of available space: 
-        and never getting into traffic jams or collisions.`
+        `This allows the bats to fly as a unit, rapidly modifying their distance and never colliding.`
       ],
       color: batColor,
       icon: batIcon, 
