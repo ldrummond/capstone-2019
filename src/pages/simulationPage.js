@@ -41,29 +41,29 @@ class SimulationPage extends Component {
     // setTimeout(_ => {
       this.setState({ mounted: true });
     // }, (0));
-    this.overlayTimeout = setTimeout(_ => {
-      this.setState({ hideOverlay: true });
-    }, 9000)
+    // this.overlayTimeout = setTimeout(_ => {
+    //   this.setState({ hideOverlay: true });
+    // }, 9000)
   }
 
   handleOverlayClick = () => {
-    clearTimeout(this.overlayTimeout);
+    // clearTimeout(this.overlayTimeout);
     this.setState({ hideOverlay: true });
   }
 
   handleQuestionClick = () => {
-    clearTimeout(this.overlayTimeout);
+    // clearTimeout(this.overlayTimeout);
     this.setState(prevState => { return { hideOverlay: !prevState.hideOverlay } })
   }
 
   componentDidUpdate(prevProps) {
     // If the simulation path changed, update the simulation controller.
     if (prevProps.curSystem.path !== this.props.curSystem.path) {
-      clearTimeout(this.overlayTimeout);
+      // clearTimeout(this.overlayTimeout);
       this.setState({ hideOverlay: false })
-      this.overlayTimeout = setTimeout(_ => {
-        this.setState({ hideOverlay: true });
-      }, 8000)
+      // this.overlayTimeout = setTimeout(_ => {
+      //   this.setState({ hideOverlay: true });
+      // }, 8000)
     }
   }
 
@@ -82,7 +82,7 @@ class SimulationPage extends Component {
     let {// path: nextPath,
       nextButtonTitle = '',
     } = nextSystem;
-    console.log(curSystem.color)
+    // console.log(curSystem.color)
     return (
       <div className={classnames('page-wrapper', 'simulation-page', path)}>
         {this.state.mounted &&
@@ -141,7 +141,7 @@ class SimulationPage extends Component {
               <span className='simulation-backgrounds'>
                 <div className='color-front' style={{ background: curSystem.color }}></div>
                 <div className='texture'></div>
-                <img className='system-image' alt={coverImage.alt || 'TODO'} src={coverImage.src}></img>
+                <img className='system-image' alt={coverImage.alt} src={coverImage.src}></img>
                 <div className='color-back' style={{ background: curSystem.color }}></div>
               </span>
               </span>
