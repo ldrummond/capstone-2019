@@ -2,7 +2,6 @@
 //////////////////////////////////////////////////
 //
 // Easing Functions
-// https://github.com/danro/jquery-easing/blob/master/jquery.easing.js
 // https://hackernoon.com/writing-an-easing-function-a-slightly-interesting-story-70ce667c212a
 //
 //////////////////////////////////////////////////
@@ -28,29 +27,50 @@ export function CanvasTransition({
   onStep, 
   onComplete = _ => {},
   data = {},
+  sine = true, 
 }) 
 {
   this.data = data;
   this.position = position; 
   this.isDone = false; 
+  this.sine = sine; 
   
-  this.stepCount = Math.floor(durationMs / (1000 / fps));
-  this.valueIncrement = (endValue - startValue) / this.stepCount;
-  this.sinValueIncrement = Math.PI / this.stepCount;
-  
-  this.currentValue = startValue;
-  this.currentSinValue = 0;
-  
-  this.step = (...args) => {
-    this.currentSinValue += this.sinValueIncrement;
-    this.currentValue += this.valueIncrement * (Math.sin(this.currentSinValue) ** 2) * 2;
+  if(this.sine) {
+    this.stepCount = Math.floor(durationMs / (1000 / fps));
+    this.valueIncrement = (endValue - startValue) / this.stepCount;
+    this.sinValueIncrement = Math.PI / this.stepCount;
     
-    if (this.currentSinValue < Math.PI) {
-      onStep(this.currentValue, ...args);
-    } else {
-      onStep(endValue, ...args);
-      onComplete();
-      this.isDone = true; 
+    this.currentValue = startValue;
+    this.currentSinValue = 0;
+
+    this.step = (...args) => {
+      this.currentSinValue += this.sinValueIncrement;
+      this.currentValue += this.valueIncrement * (Math.sin(this.currentSinValue) ** 2) * 2;
+  
+      if (this.currentSinValue < Math.PI) {
+        onStep(this.currentValue, ...args);
+      } else {
+        onStep(endValue, ...args);
+        onComplete();
+        this.isDone = true; 
+      }
+    }
+
+  } else {
+    this.stepCount = durationMs / 16; // how many steps will we take
+    this.stepSize = (endValue - startValue) / this.stepCount; // the size of each step
+    this.currentValue = startValue;
+
+    this.step = (...args) => {
+      this.currentSinValue += this.stepSize;
+  
+      if (this.currentValue < endValue) {
+        onStep(this.currentValue, ...args);
+      } else {
+        onStep(endValue, ...args);
+        onComplete();
+        this.isDone = true; 
+      }
     }
   }
 }
