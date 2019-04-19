@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import $ from 'jquery'; 
+import throttle from 'lodash/throttle';
 
 export default class Canvas extends PureComponent {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class Canvas extends PureComponent {
     this.ctx = undefined; 
 
     this.hoistCanvas = props.hoistCanvas || function(){}; 
+    this.throttleResize = throttle(this.sizeCanvasRender, 333);
   }
 
   componentDidMount() {
@@ -21,6 +23,13 @@ export default class Canvas extends PureComponent {
 
     // Passes the context and canvas to the parent when the ref is defined. 
     this.hoistCanvas(this.canvas, this.ctx); 
+
+    // Listen for resize.
+    window.addEventListener('resize', this.throttleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.throttleResize);
   }
 
   sizeCanvasRender = () => {
