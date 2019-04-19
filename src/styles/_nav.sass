@@ -6,11 +6,11 @@
   position: fixed
   top: 0
   width: 100%
-  height: $nav-height
+  height: $nav-height-mobile
   display: flex
   justify-content: space-between
   align-items: center
-  padding: $nav-padding
+  padding: $nav-padding-mobile
   z-index: $nav-z
   +nav-font
   border-bottom: 1px solid rgba(255, 255, 255, 1)
@@ -22,7 +22,7 @@
   &:after
     content: ''
     position: absolute
-    top: $nav-height
+    top: $nav-height-mobile
     left: 0
     right: 0
     height: 50px
@@ -59,7 +59,7 @@
       &:after
         content: ''
         position: absolute
-        top: $nav-height
+        top: $nav-height-mobile
         left: 0
         right: 0
         height: 50px
@@ -72,12 +72,12 @@
       &.scrolled 
         opacity: 1
         transform: translateY(0)
-        transition: opacity $med ease-out
+        transition: opacity $fast ease-out
         
 
   .title-link, .about-link
     height: 24px
-    letter-spacing: 0.1em
+    letter-spacing: 0.05em
     top: 3px
     text-transform: capitalize
     cursor: pointer
@@ -85,12 +85,14 @@
     overflow: hidden
     position: relative
 
+
   .title-link
+    letter-spacing: 0.1em
     .link-inner
       transition: transform $slow cubic-bezier(.666,0,.333,1) $med
-      transform: translateX(0em)
+      transform: translateX(0em) skew(0)
       
-      $arrow-left: 12px
+      $arrow-left: 18px
       div:first-of-type
         position: absolute
         display: block
@@ -102,34 +104,22 @@
           content: ''
           display: block
           position: absolute
-          top: 8px
+          top: 9px
           left: 0px
-          width: 6px
+          width: 10px
           height: 1px
           border-radius: 50%
           background: black
-        .small-arrow
-          display: none
-        //   height: 3px
-        //   fill: none
-        //   stroke: none
-        //   width: 3px
-        //   top: -11px
-        //   border-radius: 50%
-        //   background: black
-        //   stroke-width: 0.1em
-        //   .horizontal
-        //     stroke: none
       div
         height: 22px
         position: absolute
         top: -100%
       div:last-of-type
-        padding-left: $arrow-left
+        margin-left: $arrow-left
         left: -$arrow-left
         +hoverline
       &.active
-        transform: translateX($arrow-left)
+        transform: translateX($arrow-left) skew(-7deg)
   
   .about-link
     width: 5em
@@ -162,11 +152,11 @@
 // 
 +after-sm-mobile
   .navbar
-    // border: none
-    // opacity: 1
-    // background: none
-    // &:after
+    height: $nav-height
+    padding: $nav-padding
     opacity: 1 
+    &:after
+      top: $nav-height
     &.intro-page
       display: none
       transform: translateY(-100%)
@@ -176,3 +166,9 @@
       &:after
         opacity: 0
       // background: rgba(255, 255, 255, 0.3)
+    .title-link, .about-link
+      pointer-events: visible
+    &.scrolled
+      &.about-page
+        &:after
+          top: $nav-height

@@ -10,13 +10,16 @@ $mold-color: #79857E // green
 $about-color: rgba(0,0,0, 0.03)
 $light: #eee
 $dark: #000
-$sim-color: #111 // #43555F
+$sim-color: #000 // #43555F
 $loader: #333
 $grey-text: #444
 
 // Sizes
-$nav-height: 60px
-$nav-padding: 0 40px
+$nav-height: 80px
+$nav-height-mobile: 60px
+$nav-padding-mobile: 0 40px
+$nav-pad-single: 60px
+$nav-padding: 0 $nav-pad-single
 // $nav-padding: 0 span(1 of 16)
 $simulation-border: 1px solid rgba(255,255,255,0.2)
 
@@ -78,12 +81,12 @@ $sm-mobile: 480px
   font-family: $calluna-stack
   font-weight: 100
   font-size: 38px
-  line-height: 48px
+  line-height: 42px
   +after-sm-mobile
-    font-size: 33px
-    line-height: 35px
+    font-size: 35px
+    line-height: 37px
   +after-md-desktop
-    font-size: 38px
+    font-size: 39px
     line-height: 40px
 
 @mixin little-brother-font
@@ -107,11 +110,11 @@ $sm-mobile: 480px
   font-size: 16px
   line-height: 23px
   +after-sm-mobile
-    font-size: 13px
-    line-height: 17px
-  +after-md-desktop
-    font-size: 14px
+    font-size: 15px
     line-height: 19px
+  +after-md-desktop
+    font-size: 16px
+    line-height: 20px
 
 @mixin body-serif
   font-family: $calluna-stack
@@ -168,12 +171,12 @@ $sm-mobile: 480px
 
 @mixin nav-font
   font-family: $freight-stack
-  font-size: 11px
-  font-weight: 600
+  font-size: 13px
+  font-weight: 500
   +after-sm-mobile
-    font-size: 12px
+    font-size: 14px
   +after-md-desktop
-    font-size: 13px
+    font-size: 15px
 
 @mixin loader-font
   font-family: $calluna-stack
@@ -232,14 +235,15 @@ $hype: 150ms
     display: block
     position: absolute
     left: 0
-    bottom: 0
+    bottom: -2px
     width: 100%
     background: $dark
     height: 1px
-    opacity: 0
-    transform: translateY(2px)
-    transition: transform $fast ease, opacity $fast ease 
+    opacity: 1
+    transform: scaleX(0) 
+    transition: transform $med cubic-bezier(0.666, 0, 0.333, 1)
   &:hover
     &:after
       opacity: 1
-      transform: translateY(0px)
+      transition: transform $med cubic-bezier(0.666, 0, 0.333, 1)
+      transform: scaleX(1)
