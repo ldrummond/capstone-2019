@@ -1,8 +1,8 @@
 {
-  "name": "capstone-app",
+  "name": "part-to-whole",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lucasbuilds.site/capstone-2019",
+  "homepage": "https://part-to-whole.netlify.com/",
   "dependencies": {
     "@babel/core": "7.1.6",
     "@svgr/webpack": "2.4.1",
