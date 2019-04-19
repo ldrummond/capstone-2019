@@ -21,11 +21,12 @@
 
     .description-panel
       flex-basis: span(5 of 16)
-      max-width: 355px
-      min-width: 300px
+      max-width: 375px
+      min-width: 330px
       padding: $nav-padding
       padding-top: 22px
       padding-bottom: 22px
+      padding-right: 40px
       display: flex
       flex-direction: column
       justify-content: space-between
@@ -50,21 +51,10 @@
         height: 10px
 
       .answer
-        // +about-subheader-font
+        +subtitle-serif
         display: inline-block
-        // font-family: $calluna-stack
-        text-transform: uppercase
-        letter-spacing: 0.01em
-        font-weight: 100
-        height: 1.6em
-        font-style: italic
-        // margin-bottom: 1em
-        // +subtitle-serif
+        font-weight: 600
         letter-spacing: 0.1em
-        // font-weight: 600
-        // display: inline-block
-        // height: 1.6em
-        font-size: 10px
         margin-bottom: 1.5em
         position: relative
         &:after
@@ -115,7 +105,7 @@
       .show-instructions-button
         position: absolute
         top: $nav-height
-        margin-top: 22px
+        margin-top: 30px
         font-family: $freight-stack
         font-weight: 300
         font-size: 22px
@@ -184,7 +174,7 @@
             font-weight: 100
             font-size: 19px
             transform: scaleX(1.3)
-            // border: 1px solid rgba(255,255,255, 0.5)
+            font-family: $freight-stack
             transition: color $fast ease, background $fast ease
             background: transparent
             &:hover
@@ -204,7 +194,7 @@
       .next-sim
         position: absolute
         bottom: 24px
-        right: 40px
+        right: $nav-pad-single
         text-align: right
         z-index: 10
         .active-area
@@ -216,9 +206,9 @@
           width: 50px
           height: 50px
           position: absolute
-          right: 20px
+          right: 28px
           // top: -20px
-          bottom: 3px
+          bottom: 6px
           z-index: -1
         h4
           +body
