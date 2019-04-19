@@ -26,7 +26,7 @@ class ContentWrapper extends Component{
       props.updateCurrentSystem(simulationPath);
     } 
     // Forces restart of experience
-    props.history.push('/');
+    // props.history.push('/');
   }
 
   componentWillReceiveProps(nextProps) {

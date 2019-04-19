@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import $ from 'jquery'
 import PentagonController from './pentagonController'
 import CanvasBase from './canvasBase'
-import RafController from '../components/rafController'
-import data from '../data/data'
-import { mergeObjects, posToCanvas } from './helperFunctions';
+import RafController from './rafController'
+import { posToCanvas } from './helperFunctions';
 
-export default class PentagonWheel extends Component {
+export default class IntroPentagon extends Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +30,7 @@ export default class PentagonWheel extends Component {
 
       const pentagonOpts = {
         center: this.center,
-        diameter: this.width / 2 - 5, // 0,
+        diameter: this.width / 9 - 5, // 0,
         rotation: 18,
         sides: 5,
         colors: [],
@@ -46,66 +45,74 @@ export default class PentagonWheel extends Component {
       };
 
       this.pentagonController = new PentagonController(pentagonOpts)
+      this.rotateDegrees = -1;
+      this.slowRotation = false; 
 
       // Executing the step function for the given framerate. 
       this.rafController.onStep = ticker => {
         if(this.ctx) {
           this.pentagonController.update(); 
-          // this.pentagonController.rotateBy(0.2)
           if(this.pentagonController.shouldDraw) {
             this.ctx.clearRect(0, 0, this.width, this.height);
-            this.pentagonController.draw(this.ctx, posToCanvas(this.mousePos, this.canvasRect), ticker);
+            this.pentagonController.draw(this.ctx, {x: 1, y: 1}, ticker);
+            if(Math.abs(this.rotateDegrees) >= 0.05) {
+              if(this.slowRotation) {this.rotateDegrees *= 0.95};
+              this.pentagonController.rotateBy(this.rotateDegrees);
+            }
           }
         }
       }
 
       let duration = 999;
-      this.pentagonController.easeOpacity(0, 1, duration * 3); 
-      this.pentagonController.easeDiameter(0, this.width / 2 - 5, duration * 3); 
-      this.pentagonController.easeSides(2, 5, duration * 3); 
+      // this.pentagonController.easeOpacity(0, 1, 666); 
       // this.pentagonController.easeAngleTo(36, duration * 10);
       // 
       // setTimeout(() => {
         // this.pentagonController.easeSides(20, 3, duration); 
         // this.pentagonController.easeAngle(-180, 18, duration);
-      // }, (duration))
-
-      this.setState({
-        width: this.width,
-        height: this.height,
-        mounted: true, 
-      })
+        // }, (duration))
+        
+        this.setState({
+          width: this.width,
+          height: this.height,
+          mounted: true, 
+        })
+      }
     }
-  }
-
-  componentWillUnmount() {
-    this.rafController.stopLoop(); 
-  }
-
-  componentDidUpdate() {
-    let duration = 999;
-
-    switch(this.props.stateIndex) {
-      case 0: 
-        break; 
-
-      case 1:
-        this.pentagonController.easeAngleTo(36, duration * 5);
-        break; 
+    
+    componentWillUnmount() {
+      this.rafController.stopLoop(); 
+    }
+    
+    componentDidUpdate() {
+      let duration = 999;
       
-      case 2:
+      switch(this.props.stateIndex) {
+        case 0: 
+          // this.pentagonController.easeAngleTo(360, duration * 3);
+          break; 
+        
+        case 1:
+        // this.pentagonController.easeDiameter(this.width / 9 - 5, this.width / 2 - 5, duration * 3); 
+        break; 
+        
+        case 2:
         break;
-      
-      case 3:
-        // this.pentagonController.easeStrokeBrightness(255, 180, 999); 
-        break;
-
-      case 6:
-        break;
+        
+        case 3:
+          this.slowRotation = true; 
+          // this.pentagonController.rotateBy(this.pentagonController.rotation / 360, duration * 3);
+          // this.pentagonController.easeSides({start: 2, end: 5, duration: duration * 3}); 
+          // this.pentagonController.easeStrokeBrightness(255, 180, 999); 
+          break;
+        
+        case 8:
+          this.pentagonController.easeAngleTo(36, duration * 5);
+          break;
 
       case 8:
         this.rafController.stopLoop(); 
-        break;
+          break;
     }
   }
 

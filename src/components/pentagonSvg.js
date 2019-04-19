@@ -6,16 +6,32 @@ class PentagonSvg extends Component {
     super(props)
 
     this.state = {
-      offset: 0
+      offset: 0,
+      // spinning: false, 
     }
 
     this.offset = 0;
     this.duration = 666; 
     
-    this.onHoverUp = _ => this.setState({offset: -1});
-    this.onHoverDown = _ => this.setState({offset: 1});
-    this.onHoverOff = _ => this.setState({offset: 0});
+    // let setOffset = offset => {
+    //   console.log(this.state.spinning);
+    //   if(this.state.spinning) {
+    //     this.setState({offset: offset})
+    //   };
+    // };
+    // this.onHoverUp = _ => setOffset(-1);
+    // this.onHoverDown = _ => setOffset(1);
+    // this.onHoverOff = _ => setOffset(0);
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if(prevProps.curIndex !== this.props.curIndex) {
+  //     this.setState({spinning: true}); 
+  //     setTimeout(_ => {
+  //       this.setState({spinning: false})
+  //     }, (this.duration))
+  //   }
+  // }
 
   render() {
     let props = this.props; 
@@ -31,8 +47,8 @@ class PentagonSvg extends Component {
       return {
         style: style,
         onClick: onClick,
-        onMouseEnter: onEnter,
-        onMouseLeave: this.onHoverOff,
+        // onMouseEnter: onEnter,
+        // onMouseLeave: this.onHoverOff,
       }
     }
 

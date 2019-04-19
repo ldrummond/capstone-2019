@@ -47,16 +47,42 @@
         display: block
         width: span(6 of 8)
         margin-left: span(2 of 8)
+        
+    .spinner-pentagon
+      position: absolute
+      top: 50%
+      left: 50%
+      $width: 60px
+      margin-left: -$width / 2
+      margin-top: -$width / 2
+      width: $width
+      animation: spin 4s linear infinite
+      fill: none
+      stroke: black
+      stroke-width: 2px
+      transition: opacity $fast ease-in
+    
+    @keyframes spin 
+      from
+        transform: rotate(0deg)
+      to
+        transform: rotate(360deg)
 
-    .pentagon-wrapper
+    .static-pentagon-wrapper
       +absolute-fill
       display: flex
       justify-content: center
       align-items: center
-      transition: transform 2s cubic-bezier(.666,0,.333,1)
+      transition: transform 2s cubic-bezier(.666,0,.333,1) 1s
+      // transition: opacity $slow ease-out
       pointer-events: none
-      .pentagon-container
-        width: 300px
+      .static-pentagon
+        transition: opacity $slow ease-out 2s
+        width: 180px
+        fill: none
+        stroke: black
+        stroke-width: 1px
+        opacity: 0
 
     .start-button
       +hoverline
@@ -78,6 +104,16 @@
   &.state3
     .pentagon-wrapper
       transform: translateX(-50%)
+
+  &.state1
+    .spinner-pentagon
+      opacity: 0
+      pointer-events: none
+    .static-pentagon-wrapper .static-pentagon
+      opacity: 1
+
+  &.state7
+    // transform: translateX(-50%)
 
   .bg-color, .bg-texture, .bg-solid
     +absolute-fill
