@@ -69,15 +69,12 @@ export default class SimulationWrapper extends Component {
 
   handleWindowSizeChange = () => {
     let simRect = this.simulation.getBoundingClientRect(); 
-    // console.log('resize', simRect)
-    // let prevWidth = this.width; 
-    // let prevHeight = this.height; 
     this.width = simRect.width;
     this.height = simRect.height;
-    let newBounds = {x: this.width, y: this.height}; 
+    let newBounds = {x: 0, y: 0, width: this.width, height: this.height}; 
 
     // Simulation controller update
-    // this.simulationController.resize(newBounds);
+    this.simulationController.resize(newBounds);
 
     // // Sets the state to force a rerender of the canvas. 
     this.setState({

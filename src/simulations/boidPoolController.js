@@ -107,36 +107,36 @@ export default class BoidPoolController {
   }
 
   updateBoidCount(count) {
-    if(this.boidPool.length > count) {
-      this.boidPool.splice(0, this.boidPool.length - count);
-    } 
-    else if (this.boidPool.length < count) {
-      let newBoidPool = [],
-        sampleBoid = this.boidPool[0], 
-        newBoid;
+    // if(this.boidPool.length > count) {
+    //   this.boidPool.splice(0, this.boidPool.length - count);
+    // } 
+    // else if (this.boidPool.length < count) {
+    let newBoidPool = [],
+      sampleBoid = this.boidPool[0], 
+      newBoid;
 
-      for(let i = 0; i < count - this.boidPool.length; i++) {
-        newBoid = new Boid(); 
-        newBoid.edgeBehavior = sampleBoid.edgeBehavior;
-        newBoid.position.x = this.bounds.width * Math.random();
-        newBoid.position.y = this.bounds.height * Math.random(); 
-        newBoid.velocity.x = Math.random() - 0.5;
-        newBoid.velocity.y = Math.random() - 0.5;
-        newBoid.maxSpeed = sampleBoid.maxSpeed;
-        newBoid.maxForce = sampleBoid.maxForce; 
-        newBoid.mass = sampleBoid.mass; 
-        newBoid.avoidDistance = sampleBoid.avoidDistance;
-        newBoid.arriveThreshold = sampleBoid.arriveThreshold; 
-        newBoid.maxDistance = sampleBoid.maxDistance;
-        newBoid.minDistance = sampleBoid.minDistance; 
-        newBoid.setBounds(this.bounds.width, this.bounds.height, this.bounds.x, this.bounds.y);
-        newBoidPool.push(newBoid);
-      }
-      if(this.initFn) {
-        this.initFn(newBoidPool, this.bounds, this.otherBoidPool); 
-      }
-      this.boidPool = [...this.boidPool, ...newBoidPool];
+    for(let i = 0; i < count; i++) {
+      newBoid = new Boid(); 
+      newBoid.edgeBehavior = sampleBoid.edgeBehavior;
+      newBoid.position.x = this.bounds.width * Math.random();
+      newBoid.position.y = this.bounds.height * Math.random(); 
+      newBoid.velocity.x = Math.random() - 0.5;
+      newBoid.velocity.y = Math.random() - 0.5;
+      newBoid.maxSpeed = sampleBoid.maxSpeed;
+      newBoid.maxForce = sampleBoid.maxForce; 
+      newBoid.mass = sampleBoid.mass; 
+      newBoid.avoidDistance = sampleBoid.avoidDistance;
+      newBoid.arriveThreshold = sampleBoid.arriveThreshold; 
+      newBoid.maxDistance = sampleBoid.maxDistance;
+      newBoid.minDistance = sampleBoid.minDistance; 
+      newBoid.setBounds(this.bounds.width, this.bounds.height, this.bounds.x, this.bounds.y);
+      newBoidPool.push(newBoid);
     }
+    if(this.initFn) {
+      this.initFn(newBoidPool, this.bounds, this.otherBoidPool); 
+    }
+    this.boidPool = newBoidPool;
+    // }
   }
 
   updateTarget(x, y) {
@@ -152,9 +152,9 @@ export default class BoidPoolController {
   }
 
   // Updates for individual boids. 
-  setBounds(width, height) {
-    this.bounds.width = width;
-    this.bounds.height = height; 
-    this.boidPool.map(boid => boid.setBounds(width, height))
+  updateBounds(bounds) {
+    this.bounds.width = bounds.width;
+    this.bounds.height = bounds.height; 
+    this.boidPool.map(boid => boid.setBounds(bounds.width, bounds.height))
   }
 }

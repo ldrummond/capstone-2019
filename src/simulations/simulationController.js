@@ -144,12 +144,7 @@ export default class SimulationController {
       this.cursorBoidController.updateBounds(newBounds);
     }
     if(this.boidPoolController) {
-      this.boidPoolController.setBounds(
-        this.bounds.width, 
-        this.bounds.height,
-        this.bounds.x,
-        this.bounds.y,
-      ) 
+      this.boidPoolController.updateBounds(newBounds);
     }
   }
 }
