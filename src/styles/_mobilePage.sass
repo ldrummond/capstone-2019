@@ -13,25 +13,41 @@
     height: 100%
     width: 100%
     align-items: center
+    // &:after
+    //   content: ''
+    //   display: block
+    //   position: absolute
+    //   left: 33%
+    //   right: 33%
+    //   bottom: 0
+    //   background: #222
+    //   height: 2px
 
     .intro-block
-      margin-top: -$nav-height
-      display: flex
       width: 100vw
-      height: 100vh
+      // height: 100%
       flex-direction: column
       align-items: center
       justify-content: center
-      padding: $nav-padding
+      padding: $nav-padding-mobile
+      padding-top: 100px
+      padding-bottom: 100px
 
       .project-title
         +big-brother-font
-        margin-bottom: 2em
+        margin-bottom: 1.4em
+        text-align: center
 
       p
         +body
-        // text-align: left
+        line-height: 22px
         text-align: left
+        // font-size: 1px
+        // font-family: $freight-stack
+        // font-weight: 100
+        // font-size: 18px
+        // line-height: 20px
+        // text-align: left
 
     .systems-container
       display: flex   
@@ -44,7 +60,7 @@
         width: 100%
         position: relative
         overflow: hidden
-        padding: $nav-padding
+        padding: $nav-padding-mobile
         padding-top: 40px
 
         // How does...
@@ -121,7 +137,7 @@
           background: rgba(0, 0, 0, 0.6)
           transition: transform $slow cubic-bezier(.666,0,.333,1)
           transform: translateX(100%)
-          padding: $nav-padding
+          padding: $nav-padding-mobile
           padding-top: 38px
           color: white
           .answer
@@ -162,7 +178,7 @@
       justify-content: center
       align-items: center
       background: rgba(0, 0, 0, 0.6)
-      padding: $nav-padding
+      padding: $nav-padding-mobile
       position: relative
       &:after
         content: ''
