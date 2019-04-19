@@ -34,7 +34,7 @@ class BackgroundResolver extends Component{
             return(
               <div className='content'>
                 <SimpleFade shouldRender={this.state.mounted} duration={333}>
-                  <img className='system-image' alt={coverImage.alt || 'TODO'} src={coverImage.src}></img>
+                  <img className='system-image' alt={coverImage.alt} src={coverImage.src}></img>
                   <Icon className='system-icon' style={{fill: color}}/>
                 </SimpleFade>
               </div>
