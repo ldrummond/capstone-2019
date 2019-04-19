@@ -186,7 +186,9 @@ function boidUpdateFn({boid, boidPool, otherBoidPool, chaser, bounds, center}) {
         closestBoid = otherBoid; 
       }
     })
-    closestBoid = {position: {x: closestBoid.position.x, y: closestBoid.position.y + bounds.height}}
+    if(closestBoid) {
+      closestBoid = {position: {x: closestBoid.position.x, y: closestBoid.position.y + bounds.height}}
+    }
   } 
   else {
     aheadBoids.map(otherBoid => {

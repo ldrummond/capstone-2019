@@ -170,7 +170,7 @@ function boidInitFn(boidPool, bounds, otherBoidPool) {
 function boidDrawFn(ctx, boid) {
   let pos = boid.position,
   velocity = boid.velocity,
-  magnitude = 3; 
+  magnitude = 4; 
   
   let p1 = {
     x: pos.x + velocity.y * magnitude / 3,

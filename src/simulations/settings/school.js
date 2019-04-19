@@ -1,5 +1,5 @@
 import Boid from 'boid';
-import { squared, min } from '../../components/helperFunctions';
+import { squared, min, CanvasTransition } from '../../components/helperFunctions';
 
 //////////////////////////////////////////////////
 //
@@ -7,8 +7,11 @@ import { squared, min } from '../../components/helperFunctions';
 //
 //////////////////////////////////////////////////
 
+const settingsFps = 60;
+const maxCursorSpeed = 3;  
+
 export default {
-  rafSettings: {fps: 60},
+  rafSettings: {fps: settingsFps},
   simulationSettings: {
     simulationType: 'school',
     cursorBoidSettings: {
@@ -19,8 +22,9 @@ export default {
       color: 'black',
       fillColor: 'black',
       strokeWidth: 6,
-      maxSpeed: 3,
+      maxSpeed: maxCursorSpeed,
       initFn: cursorBoidInitFn,
+      clickFn: cursorBoidClickFn,
       updateFn: cursorUpdateFn,
       drawFn: cursorDrawFn,
       // cursorPos: bounds => {return {x: bounds.width / 2, y: bounds.height / 2}}
@@ -104,6 +108,33 @@ function cursorBoidInitFn(boid, bounds) {
 
 /**
  * 
+ * Cursor Boid Initialization Function
+ * 
+ */
+function cursorBoidClickFn({mousePos, boid, drawBuffer}) {
+  const ripple = new CanvasTransition({
+    startValue: 0, 
+    endValue: 100, 
+    durationMs: 666, 
+    fps: settingsFps, 
+    position: {...mousePos},
+    onStep: (per, ctx) => {
+      let pos = {...mousePos}
+      ctx.strokeStyle = `rgba(0, 0, 0, ${1 - per / 100})`;
+      ctx.lineWidth = 1.5
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 20 * (per / 100), 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+  })
+  drawBuffer.push(ripple);
+  if(boid.maxSpeed === maxCursorSpeed) {
+    boid.maxSpeed *= 1.4; 
+  }
+}
+
+/**
+ * 
  * Cursor Boid Update Function
  * 
  */
@@ -114,6 +145,9 @@ function cursorUpdateFn({mousePos, boid}) {
     boid.update();
   } else {
     boid.seek(Boid.vec2(mousePos.x, mousePos.y)).update();   
+  }
+  if(boid.maxSpeed > maxCursorSpeed) {
+    boid.maxSpeed = min(boid.maxSpeed *= 0.99, maxCursorSpeed); 
   }
 }
 
