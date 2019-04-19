@@ -17,17 +17,45 @@ class MobilePage extends Component {
   constructor() {
     super()
     this.state = {
+      mounted: false, 
       openSystemId: false, 
+      scrollValue: 0, 
     }
     this.fadeDuration = 333;
+    
+    this.videoBlockRefs = [];
+    this.setVideoBlockRef = (video, i) => {
+      this.videoBlockRefs.push({ref: video, index: i});
+    };
   }
 
   handleScroll = (e) => {
+    // let prevScroll = this.state.scrollValue; 
     if(e.target.scrollTop <= 1) {
       this.props.setHasScrolled(false);
     } else {
       this.props.setHasScrolled(true);
     }
+    let windowRect = e.target.getBoundingClientRect(),
+      windowTop = windowRect.top,
+      windowBottom = windowRect.bottom;
+
+    this.videoBlockRefs.map(group => {
+      if(group.ref) {
+        const container = group.ref,
+          vidRect =  container.getBoundingClientRect(),
+          vidTop = vidRect.top,
+          vidBottom = vidRect.bottom,
+          video = container.childNodes[1].childNodes[0];
+
+        // If vidTop or vidBottom is visible.  
+        if((vidTop < windowBottom && vidTop > windowTop) || (vidBottom < windowBottom && vidBottom > windowTop)) {
+          video.play(); 
+        } else {
+          video.pause(); 
+        }
+      }
+    }); 
   }
   
   onSystemAboutClick = (e, i, systemAlreadyOpen) => {
@@ -38,28 +66,34 @@ class MobilePage extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({mounted: true}); 
+  }
+
   render() {
     return (
-      <div className={'page-wrapper mobile-page'} onScroll={this.handleScroll}>
+      <div className={classnames('page-wrapper', 'mobile-page', {scrolled: this.props.pageHasScrolled})} 
+        onScroll={this.handleScroll}>
         <section className='content'>
           <div className='intro-block'>
             <h2 className='project-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
             <p dangerouslySetInnerHTML={{__html: data.description}}></p>
+            {/* <h4>scroll to explore the questions</h4> */}
           </div>
           <div className='systems-container'>
             {data.systems.map((system, i) => 
               {
                 let isOpen = i === this.state.openSystemId; 
                 return (
-                  <div key={system.path} className={classnames('system-block', {open: isOpen})} >
+                  <div key={system.path} className={classnames('system-block', {open: isOpen})} ref={e => this.setVideoBlockRef(e, i)}>
                     <h3 className='question'>{system.question}</h3>
                     <div className='preview-video-container' style={{background: system.color}}>
-                      <video className='video' width="680" height="520" autoPlay loop muted playsinline>
-                        <source src={system.previewVideo.src} type="video/mp4"></source>
-                        Your browser does not support the video tag.
-                      </video>
+                      {this.state.mounted && 
+                        <video className='video' width="680" height="520" loop muted playsInline>
+                          <source src={system.previewVideo.src} type="video/mp4"></source>
+                          Your browser does not support the video tag.
+                        </video>}
                     </div>
-                    {/* <img className='preview' src={system.previewImage.src} alt={system.previewImage.alt} /> */}
                     <ButtonWrapper 
                       className='active-button' 
                       onClick={e => this.onSystemAboutClick(e, i, isOpen)}
@@ -96,7 +130,7 @@ class MobilePage extends Component {
 
 const mapStateToProps = state => {
   return {
-    nextSystem: state.nextSystem,
+    pageHasScrolled: state.pageHasScrolled, 
   }
 }
 
