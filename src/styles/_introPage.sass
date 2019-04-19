@@ -60,7 +60,10 @@
 
     .start-button
       +hoverline
-      +subtitle-serif
+      font-family: $calluna-stack
+      font-size: 14px
+      text-transform: uppercase
+      font-weight: 100
       letter-spacing: 0.12em
       position: absolute
       left: 50%
@@ -70,6 +73,8 @@
       font-style: normal
       padding-bottom: 6px
       z-index: 10
+      &:after
+        background: #666
   &.state3
     .pentagon-wrapper
       transform: translateX(-50%)
