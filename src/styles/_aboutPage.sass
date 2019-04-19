@@ -63,25 +63,15 @@ $top-gap: 50px
     .page-header
       display: flex
       // flex-direction: column
-      align-items: center
+      align-items: flex-end
       justify-content: center
-      height: 20vh
+      height: 180px
       background: rgba(255, 255, 255, 0.9)
       color: #444
       .site-title
         +middle-brother-font
-        padding: $nav-padding
-        // margin-left: span(1 of 16)
-        // height: 100%
-        // margin-bottom: 1em
-      // .site-subtitle
-      //   text-align: center
-      //   max-width: 300px
-      //   font-family: $calluna-stack
-      //   letter-spacing: 0.1em
-      //   font-weight: 100
-      //   font-size: 11px
-      //   line-height: 16px
+        padding: $nav-padding-mobile
+        margin-bottom: 1em
 
     .page-body
       display: flex
@@ -92,7 +82,7 @@ $top-gap: 50px
     .description-text
       display: inline-block
       width: span(16 of 16)
-      padding: $nav-padding
+      padding: $nav-padding-mobile
       padding-top: $top-gap
       margin-bottom: 0em
       .project-description
@@ -105,16 +95,14 @@ $top-gap: 50px
       display: inline-block
       width: span(16 of 16)
       // margin-left: span(1 of 16)
-      padding: $nav-padding
+      padding: $nav-padding-mobile
       padding-top: $top-gap
 
     .project-text
       display: inline-block
-      padding: $nav-padding
+      padding: $nav-padding-mobile
       margin-top: $top-gap
       width: span(16 of 16)
-      .copy
-        // line-height: 1.35em !important
 
     .section-header
       +about-copy-font
@@ -180,6 +168,8 @@ $top-gap: 50px
 +after-sm-mobile
   .page-wrapper.about-page
     .content    
+      .page-header
+        height: 20vh
       .page-body
         display: flex
         width: 100%
@@ -246,6 +236,11 @@ $top-gap: 50px
         padding: $nav-padding
         padding-right: span(3 of 32)
         // max-width: 350px
+        .copy-block
+          .header, .copy
+            font-size: 14px
+            
+        
 
       .question-text
         width: span(10 of 16)
@@ -262,5 +257,12 @@ $top-gap: 50px
 +after-sm-desktop
   .page-wrapper.about-page
     .content    
-      .copy-block
-        // width: span(8 of 16)
+      .project-text
+        // width: span(6 of 16)
+        // margin-right: span(1 of 16)
+        padding: $nav-padding
+        padding-right: span(3 of 32)
+        // max-width: 350px
+        .copy-block
+          .header, .copy
+            font-size: 15px
