@@ -90,7 +90,8 @@ export class NavResolver extends Component {
           replace={this.pageIsSelector}
         >
           <div className={classnames('link-inner', {active: this.pageIsSimulation})}>
-            <div><ArrowSmall /></div>
+            <div></div>
+            {/* <div>{'\u2190'}</div> */}
             <div>{process.env.REACT_APP_PROJECT_TITLE}</div>
           </div>
         </NavLink>
