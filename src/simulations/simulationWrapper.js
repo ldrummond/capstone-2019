@@ -144,7 +144,7 @@ export default class SimulationWrapper extends Component {
     this.rafController = new RafController({fps: this.currentSettings.rafSettings.fps});
     
     if(has(this.currentSettings.simulationSettings.cursorBoidSettings, 'mousePos')) {
-      this.mousePos = this.currentSettings.simulationSettings.cursorBoidSettings.mousePos(this.bounds);
+      this.mousePos = this.currentSettings.simulationSettings.cursorBoidSettings.mousePos({width: this.width, height: this.height});
     } else {
       this.mousePos = {x: 0, y: -10};
     }
