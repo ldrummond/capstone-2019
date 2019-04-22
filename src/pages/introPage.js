@@ -26,9 +26,8 @@ class IntroPage extends Component {
   }
 
   handleClick = () => {
-    if(this.state.stateInterval >= 5) {
-      this.props.history.push('/selector');
-    }
+    this.props.history.push('/selector');
+    clearInterval(this.stateInterval); 
   }
 
   componentDidMount() {
@@ -51,40 +50,62 @@ class IntroPage extends Component {
     if(stateIndex > 8) {
       clearInterval(this.stateInterval);
     }
+    const textEnterStateIndex = 2;
 
     return (
       <div 
         className={classnames('page-wrapper', 'intro-page', states)} 
         onMouseMove={this.onMouseMove}
-        // onClick={this.handleClick}
+        onClick={this.handleClick}
       >
         <div className='content'>
-          <SimpleFade 
-            className='text-container' 
-            shouldRender={stateIndex >= 6} 
-            duration={this.fadeDuration}
-          >
-            <h2 className='project-title'>{process.env.REACT_APP_PROJECT_TITLE}</h2>
-            <h4>
-              Exploring relationships between part and whole–and the 
-              emergent systems that guide our world.
-            </h4>
-          </SimpleFade>
-          <Pentagon className='spinner-pentagon' />
-          <span className='static-pentagon-wrapper'>
-            <Pentagon className='static-pentagon' />
+          <span className='text-container'>
+            <h2 className='project-title'>
+            {['Part', 'to', 'Whole'].map((text, i) => (
+              <SimpleFade 
+                shouldRender={stateIndex >= textEnterStateIndex} 
+                duration={this.fadeDuration}
+                delay={333 * i}
+                key={i + 'title'}
+              >
+                <span>{text}</span>
+              </SimpleFade>
+            ))}
+            </h2>
+            <SimpleFade 
+              className='text-container' 
+              shouldRender={stateIndex >= textEnterStateIndex} 
+              duration={this.fadeDuration + 333}
+              delay={1000}
+            >
+              {/* <h4>
+                Exploring relationships between part and whole–and the 
+                emergent systems that guide our world.
+              </h4> */}
+              <h4>
+                Exploring the complex patterns and emergent systems that guide our world, through 5 interactive simulations.
+              </h4>
+            </SimpleFade>
+            <SimpleFade 
+              className='static-pentagon-wrapper' 
+              shouldRender={stateIndex >= textEnterStateIndex} 
+              duration={this.fadeDuration + 333}
+              delay={1000}
+            >
+              <Pentagon className='static-pentagon' />
+            </SimpleFade>
           </span>
-          {/* <span className='pentagon-wrapper'> */}
-          {/* <SimpleFade className='pentagon-wrapper' shouldRender={this.state.mounted}> */}
-          {/* <IntroPentagon stateIndex={stateIndex}/> */}
-          {/* </SimpleFade> */}
-          {/* </span> */}
-          <SimpleFade className='start-button-container' shouldRender={stateIndex >= 6} duration={this.fadeDuration + 666}>
+          <Pentagon className='spinner-pentagon' />
+          <SimpleFade 
+            className='start-button-container' 
+            shouldRender={stateIndex >= textEnterStateIndex} 
+            duration={this.fadeDuration + 666}
+            delay={1500}
+          >
             <button className='start-button unbuttoned' onClick={_ => this.props.history.push('/selector')}>
-              Choose a question
+              Choose a system
             </button>
           </SimpleFade>
-          {/* <Pentagon /> */}
         </div>
         <span className='bg-color'/>
         <img className='bg-texture' src={background} alt='background_texture'/>
