@@ -82,6 +82,17 @@
     .system-icon
       opacity: 0
       transition: $fast opacity ease-out
+      filter: grayscale(1)
+  &.selector.hovering-selector
+    .system-image
+      opacity: 0.2
+      transition: opacity $med ease-out
+
+    .system-icon
+      // opacity: 0.05
+      // filter: grayscale(1)
+      transition: $fast opacity ease-out
+    
 
   // Transition Page
   &.transition
