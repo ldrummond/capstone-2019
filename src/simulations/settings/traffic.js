@@ -250,12 +250,15 @@ function boidClickFn(mousePos, boidPool, otherBoidPool, bounds) {
   otherBoidPool.push(obstacle);
 }
 
+const carWidth = 6,
+  carHeight = 12; 
+
 /**
  * 
  * All Boids Draw Function
  */
 function boidDrawFn(ctx, boid) {
-  ctx.strokeRect(boid.position.x, boid.position.y, 5, 10);
+  ctx.strokeRect(boid.position.x, boid.position.y, carWidth, carHeight);
 }
 
 
