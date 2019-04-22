@@ -54,13 +54,14 @@ export default {
         src: carVideo,
       },
       question: "What causes traffic to form?", 
-      instructions: `Click your cursor to create a slowdown and see how drivers respond.`,
+      instructions: `Click your cursor to create a slowdown and modify the flow of traffic.`,
       instructionPng: carInstructions,
       interactions: [
-        "Each car is in a rush and staying as close to the next car as possible, ignoring the cars behind it.",
-        "Because of this, if one car slows down, there is a chain reaction where each car reacts to the one in front.",
-        `Each car adjusts its speed, but the slowdown stays in place, sometimes even moving traveling backwards
-        after the intial cars have sped on.`
+        "Each car is in a rush, staying as close to the next car as possible while ignoring the cars behind it.",
+        "Because of this, if one car slows down there is a chain reaction as the cars behind it slow.",
+        `When the first cars begin to travel forward again, the slowdown stays in place, sometimes even traveling backwards
+        after the intial cars have sped on. This is because each car is only responding to its nearest forward neighbor, 
+        rather than maintaining an even distance between all cars.`
       ],
       color: trafficColor,
       icon: carIcon, 
@@ -83,8 +84,9 @@ export default {
       interactions: [
         "Each bat has highly powerful sensing abilities for tracking the distance between it and its neighbors.",
         `By adjusting its speed and position, each bat maintains a precise amount of space from its neighbors, 
-        even the ones behind it.`,
-        `This allows the bats to fly as a unit, rapidly modifying their distance and never colliding.`
+        including the ones behind it.`,
+        `This allows the bats to fly as a unit, rapidly modifying their distance and never colliding. The unit can
+        respond to available space, compressing when there is less room.`
       ],
       color: batColor,
       icon: batIcon, 
@@ -129,9 +131,9 @@ export default {
       instructions: "Click the buttons to change the number of people and affect the interactions of the crowds.", 
       instructionPng: crowdsInstructions,
       interactions: [
-        "Each person travels at a similar pace towards their destination.",
-        "As they travel, they colliding with neighbors and people traveling in opposite directions.",
-        "As the crowds pass, lanes of efficient motion naturally form and grow."
+        "Each person in the crowd is traveling at a similar pace, even though they may be heading to different destinations.",
+        "As they travel, each person maintains an even distance to avoid colliding with their neighbors and with people traveling in the opposite direction.",
+        `As the crowds pass, lanes of efficient motion naturally form and grow— without the direction of any leader.`
       ],
       color: crowdsColor,
       icon: crowdsIcon, 
@@ -152,8 +154,9 @@ export default {
       instructions: "Click your cursor to place 5 food sources, guiding the mold network",
       instructionPng: moldInstructions,
       interactions: [
-        "Each mold cell is brainless, but in the presence of food, they release pheremones.",
-        "Other mold cells are attracted to those pheremones - when they get close, they strengthen the pheremone trail.",
+        "Each mold cell wanders through its environment searching for food. When it reaches a food source, the cell releases pheremones.",
+        `Other mold cells are attracted to those pheremones - when they get close to the pheremones, and the food source
+        , they add their own pheremones and strengthen the pheremone trail.`,
         "As the trails refine, the mold cells build an efficient network between multiple food sources."
       ],
       color: moldColor,
