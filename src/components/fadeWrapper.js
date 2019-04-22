@@ -48,8 +48,8 @@ export class SimpleFade extends Component {
 
 		this.transitionStyles = {
 			entering: { opacity: 0, pointerEvents: "none" },
-			entered: { opacity: 1, pointerEvents: "all" },
-			exiting: { opacity: 1, pointerEvents: "all" },
+			entered: { opacity: 1},
+			exiting: { opacity: 1},
 			exited: { opacity: 0, pointerEvents: "none" },
 		};
 	}
