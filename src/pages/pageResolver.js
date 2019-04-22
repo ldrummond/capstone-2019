@@ -30,10 +30,8 @@ function PageResolver({prevLocation, location}) {
     { path: '/simulation/:type', name: 'Simulation', Component: SimulationPage },
     { path: '/mobile', name: 'Mobile', Component: MobilePage },
   ]
-  // console.log(`route-change, 
-  //   from: ${prevLocation},
-  //   to: ${location.pathname}
-  // `)
+
+  const transitionTime = 2200; 
   let prevPath = prevLocation.split('/')[1] !== location.pathname.split('/')[1] ? prevLocation.split('/')[1] : 'undef';
   return(
     <React.Fragment>
@@ -45,7 +43,7 @@ function PageResolver({prevLocation, location}) {
             <CSSTransition 
               in={match != null} 
               // timeout={{enter: 10000, exit: 10000}} 
-              timeout={{enter: 2200, exit: 2200}} 
+              timeout={{enter: transitionTime, exit: transitionTime}} 
               classNames={`${prevPath}-prev page-transition`}
               // classNames={`transition-to-${match && match.path.split('/')[1] || location.pathname.split('/')[1]}`} 
               unmountOnExit
@@ -69,5 +67,4 @@ const mapStateToProps = state => {
   }
 }
 
-
-export default connect(mapStateToProps)(PageResolver)
+export default connect(mapStateToProps)(PageResolver);
