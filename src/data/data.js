@@ -57,11 +57,10 @@ export default {
       instructions: `Click your cursor to create a slowdown and modify the flow of traffic.`,
       instructionPng: carInstructions,
       interactions: [
-        "Each car is in a rush, staying as close to the next car as possible while ignoring the cars behind it.",
-        "Because of this, if one car slows down there is a chain reaction as the cars behind it slow.",
-        `When the first cars begin to travel forward again, the slowdown stays in place, sometimes even traveling backwards
-        after the intial cars have sped on. This is because each car is only responding to its nearest forward neighbor, 
-        rather than maintaining an even distance between all cars.`
+        "Most often on the road, each car is in a rush and stays as close to the next car as possible, while ignoring the cars behind it.",
+        "Because of this, if one car slows down there is a chain reaction as the cars behind it slow in response.",
+        `When the first cars begin to move forward again, the slowdown stays in place, sometimes even traveling backwards
+        after the intial cars have sped on.`
       ],
       color: trafficColor,
       icon: carIcon, 
@@ -155,8 +154,7 @@ export default {
       instructionPng: moldInstructions,
       interactions: [
         "Each mold cell wanders through its environment searching for food. When it reaches a food source, the cell releases pheremones.",
-        `Other mold cells are attracted to those pheremones - when they get close to the pheremones, and the food source
-        , they add their own pheremones and strengthen the pheremone trail.`,
+        `Other mold cells are attracted to those pheremones—when they get close to the source, they add their own pheremones and strengthen the trail.`,
         "As the trails refine, the mold cells build an efficient network between multiple food sources."
       ],
       color: moldColor,
