@@ -9,11 +9,19 @@ $pentagon-width: span(6 of 16)
   // Transition in
   &.page-transition-enter
     opacity: 0
-    // transform: translateX(-100%)
+    .content
+      .pentagon-icon
+        svg
+          transform: scale(0)
 
   &.page-transition-enter-active
     transition: opacity 1s cubic-bezier(.666,0,.333,1) $slow
     opacity: 1
+    .content
+      .pentagon-icon
+        svg
+          transition: transform 1s ease-in $slow
+          transform: scale(1)
        
   // Transition out
   &.page-transition-exit
