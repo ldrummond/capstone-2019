@@ -27,6 +27,7 @@ export default {
       clickFn: cursorBoidClickFn,
       updateFn: cursorUpdateFn,
       drawFn: cursorDrawFn,
+      mousePos: bounds => {return {x: bounds.width / 2, y: bounds.height / 2}}
       // cursorPos: bounds => {return {x: bounds.width / 2, y: bounds.height / 2}}
     },
     boidSettings: {
