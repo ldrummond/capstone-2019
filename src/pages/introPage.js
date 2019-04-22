@@ -83,14 +83,14 @@ class IntroPage extends Component {
                 emergent systems that guide our world.
               </h4> */}
               <h4>
-                Exploring the complex patterns and emergent systems that guide our world, through 5 interactive simulations.
+                Exploring the complex patterns and emergent systems that guide our world—through 5 interactive simulations.
               </h4>
             </SimpleFade>
             <SimpleFade 
               className='static-pentagon-wrapper' 
               shouldRender={stateIndex >= textEnterStateIndex} 
               duration={this.fadeDuration + 333}
-              delay={1000}
+              delay={1333}
             >
               <Pentagon className='static-pentagon' />
             </SimpleFade>
@@ -103,7 +103,7 @@ class IntroPage extends Component {
             delay={1500}
           >
             <button className='start-button unbuttoned' onClick={_ => this.props.history.push('/selector')}>
-              Choose a system
+              Start
             </button>
           </SimpleFade>
         </div>
