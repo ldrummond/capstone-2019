@@ -30,6 +30,15 @@ class ContentWrapper extends Component{
   }
 
   componentWillReceiveProps(nextProps) {
+    // HOOK INTO ROUTE UPDATES
+
+    // Starts a transition timeout to block navigation until transitions resolve
+    this.props.onTransitionStart(); 
+    setTimeout(_ => {
+      this.props.onTransitionEnd(); 
+    }, (2200 * 2));
+
+    // Tracking previous location and scroll position
     if(this.props.location && nextProps && nextProps.location && this.props.location !== nextProps.location) {
       this.props.updatePrevLocation(this.props.location.pathname); 
       this.props.setHasScrolled(false);
@@ -66,6 +75,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setHasScrolled: hasScrolled => {
       dispatch({type: 'SCROLL_CHANGE', pageHasScrolled: hasScrolled}); 
     },
+    onTransitionStart: _ => {
+      dispatch({type: 'START_TRANSITION'}); 
+    },
+    onTransitionEnd: _ => {
+      dispatch({type: 'END_TRANSITION'}); 
+    }
   }
 }
 

@@ -77,7 +77,31 @@ function systemsReducer(state = [], action) {
         ...state,
         prevLocation: action.prevLocation
       };
-    
+
+    case 'SELECTION_ENTER': 
+      return {
+        ...state,
+        isHoveringSelector: true
+      }
+
+    case 'SELECTION_EXIT': 
+      return {
+        ...state,
+        isHoveringSelector: false
+      }
+
+    case 'START_TRANSITION': 
+      return {
+        ...state,
+        isTransitioning: true
+      }
+
+    case 'END_TRANSITION': 
+      return {
+        ...state,
+        isTransitioning: false
+      }
+     
     default:
       return state
   }
@@ -88,6 +112,7 @@ const initialState = {
   prevWheelIndex: -1,
   wheelIndex: 0,
   lastChange: Date.now(),
+  isHoveringSelector: false, 
 }
 
 // Create a Redux store holding the state of the app. 
