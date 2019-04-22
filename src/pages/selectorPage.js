@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import data from '../data/data';
+import throttle from 'lodash/throttle';
+import classnames from 'classnames';
 // Asset and components
 import { ReactComponent as Arrow } from '../assets/arrow.svg'; 
 import { ReactComponent as Squiggle } from '../assets/squiggle.svg'; 
@@ -10,7 +12,6 @@ import PentagonSvg from '../components/pentagonSvg';
 import SvgOutline  from '../components/svgOutline';
 import ButtonWrapper from '../components/buttonWrapper';
 import { SimpleFade } from '../components/fadeWrapper';
-import throttle from 'lodash/throttle';
 
 //////////////////////////////////////////////////
 //
@@ -34,18 +35,20 @@ class SelectorPage extends Component {
   }
 
   render() {
-    let {curSystem, wheelIndex} = this.props
+    let {curSystem, wheelIndex, isHoveringSelector = false, onSelectionEnter, onSelectionExit} = this.props
     let destinationPath = `/transition/${curSystem.path}`;
 
     return (
-      <div className='page-wrapper selector-page'>
-        <section className='content'>
+      <div className={'page-wrapper selector-page'}>
+        <section className={classnames('content', {'hovering-selector': isHoveringSelector})}>
           <PentagonSvg 
             wheelIndex={wheelIndex} 
             curIndex={curSystem.index}
             colors={data.systems.map(system => system.color)} 
             onPrevClick={this.throttledPrevClick}
             onCenterClick={_ => this.props.history.push(destinationPath)}
+            onCenterHover={onSelectionEnter}
+            onCenterLeave={onSelectionExit}
             onNextClick={this.throttledNextClick}  
             in={this.state.mounted}
           />
@@ -58,9 +61,7 @@ class SelectorPage extends Component {
               </ButtonWrapper>
           </SimpleFade>
           <SimpleFade className='squiggle-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
-            <ButtonWrapper onClick={_ => this.props.history.push(destinationPath)}>
-              <Squiggle />
-            </ButtonWrapper>
+            <Squiggle />
           </SimpleFade>
           <SimpleFade className='option-container' duration={this.fadeDuration} shouldRender={this.state.mounted}>
             <TransitionGroup component={null}>
@@ -69,7 +70,7 @@ class SelectorPage extends Component {
                 timeout={{enter: 450, exit: 300}} 
                 classNames='rotate'
               >
-                <Link to={destinationPath} className='option-inner'>
+                <Link to={destinationPath} className='option-inner' onMouseEnter={onSelectionEnter} onMouseLeave={onSelectionExit}>
                   <h1 className='title'>{curSystem.question}</h1>
                   <span className='subtitle'>
                     <h4>system</h4>
@@ -79,6 +80,7 @@ class SelectorPage extends Component {
               </CSSTransition> 
             </TransitionGroup>
           </SimpleFade>
+          <div className='indicator' style={{backgroundColor: curSystem.color}}></div>
         </section>
       </div>
     );
@@ -93,17 +95,24 @@ const mapStateToProps = state => {
     wheelIndex: state.wheelIndex,
     prevWheelIndex: state.prevWheelIndex,  
     lastChange: state.lastChange, 
+    isHoveringSelector: state.isHoveringSelector
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onPrevClick: id => {
+    onPrevClick: _ => {
       dispatch({type: 'WHEEL_UP'}); 
     },
-    onNextClick: id => {
+    onNextClick: _ => {
       dispatch({type: 'WHEEL_DOWN'}); 
     },
+    onSelectionEnter: _ => {
+      dispatch({type: 'SELECTION_ENTER'});
+    },
+    onSelectionExit: _ => {
+      dispatch({type: 'SELECTION_EXIT'});
+    }
   }
 }
 

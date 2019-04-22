@@ -66,12 +66,6 @@ $pentagon-width: span(6 of 16)
         &:last-of-type
           margin-top: $pentagon-width * 5
 
-    @keyframes squiggle
-      from 
-        transform: translateX(14px)    
-      to 
-        transform: translateX(0px)          
-
     .squiggle-container
       position: absolute
       display: flex
@@ -82,15 +76,12 @@ $pentagon-width: span(6 of 16)
       fill: none
       stroke: black
       stroke-width: 3.5px
-      // transition: transform $fast ease
+      pointer-events: none
       .squiggle
-        // animation: squiggle $slow ease-in infinite alternate
         width: 70%
         height: 20px
-      &:hover
-        // transform: translateX(3px)
-        & ~ .option-container .option-inner .title
-         transform: translateX(5px)     
+        pointer-events: none
+        transition: transform $fast ease
 
     .option-container
       width: span(6 of 16)
@@ -135,9 +126,6 @@ $pentagon-width: span(6 of 16)
             display: inline-block
             letter-spacing: 0.1em
 
-    .option-container:hover .option-inner .title
-      transform: translateX(5px)
-
     .option-container
       .option-inner
         // // transform-origin: -200px 50%
@@ -163,6 +151,20 @@ $pentagon-width: span(6 of 16)
           .title
             opacity: 1
 
+    .indicator
+      display: none
+
+    &.hovering-selector
+      .squiggle-container
+        .squiggle
+          transform: translateX(1px)
+      .option-container .option-inner .title
+        transform: translateX(3px)
+        // transform: skew(-2deg)
+      .indicator
+        transform: scale(1)
+        transition: transform $fast ease-in
+
 
 +after-sm-mobile
   .page-wrapper.selector-page
@@ -173,7 +175,6 @@ $pentagon-width: span(6 of 16)
         stroke-width: 3px
       .option-container
         width: span(8 of 16)
-
 
 +after-bg-mobile
   .page-wrapper.selector-page
@@ -190,6 +191,18 @@ $pentagon-width: span(6 of 16)
         width: span(1 of 16)
         margin-right: span(1 of 16)
         align-items: center
+      .indicator
+        display: block
+        position: absolute
+        right: $nav-pad-single
+        top: 50%
+        $indicator-radius: 12px
+        margin-top: -$indicator-radius / 2
+        border-radius: 50%
+        height: $indicator-radius
+        width: $indicator-radius
+        transition: transform $fast ease-out
+        transform: scale(0.5)
 
 +after-md-desktop
   .page-wrapper.selector-page
@@ -202,3 +215,9 @@ $pentagon-width: span(6 of 16)
         stroke-width: 3px
       .option-container
         width: span(6 of 16)
+      .indicator
+        $indicator-radius: 20px
+        margin-top: -$indicator-radius / 2
+        border-radius: 50%
+        height: $indicator-radius
+        width: $indicator-radius
