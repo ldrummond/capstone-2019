@@ -1,4 +1,4 @@
-import { toRad, ranRGB, CanvasTransition, mergeObjects, drawLerpLine} from './helperFunctions'
+import { toRad, ranRGB, CanvasTransition, mergeObjects} from './helperFunctions'
 
 //////////////////////////////////////////////////
 //
@@ -21,7 +21,6 @@ class Polygon {
       strokeStyle,
       strokeWidth = 1,
       fill = true,
-      fillStyle,
       hasNoise = false,
       colors = [],
       amp = 20, 
