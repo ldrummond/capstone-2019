@@ -88,6 +88,7 @@ export class NavResolver extends Component {
           to={this.titleLinkDestination} 
           onClick={_ => window.scrollTo(0, 0)}
           replace={this.pageIsSelector}
+          style={{pointerEvents: this.props.isTransitioning ? 'none' : 'auto'}}
         >
           <div className={classnames('link-inner', {active: this.pageIsSimulation})}>
             <div></div>
@@ -99,6 +100,8 @@ export class NavResolver extends Component {
         <NavLink 
           className='about-link unbuttoned' 
           to={this.aboutLinkDestination}
+          style={{pointerEvents: this.props.isTransitioning ? 'none' : 'auto'}}
+
         >
           <div className='link-inner'>
             <div>Go Back</div><div>About</div>
@@ -112,7 +115,8 @@ export class NavResolver extends Component {
 const mapStateToProps = state => {
   return {
     pageHasScrolled: state.pageHasScrolled, 
-    prevLocation: state.prevLocation,  
+    prevLocation: state.prevLocation, 
+    isTransitioning: state.isTransitioning,  
   }
 }
 
