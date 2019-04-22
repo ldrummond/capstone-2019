@@ -103,7 +103,7 @@ class IntroPage extends Component {
             delay={1500}
           >
             <button className='start-button unbuttoned' onClick={_ => this.props.history.push('/selector')}>
-              Start
+              Choose a system
             </button>
           </SimpleFade>
         </div>
