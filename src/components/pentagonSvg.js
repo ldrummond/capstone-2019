@@ -38,17 +38,19 @@ class PentagonSvg extends Component {
     this.triAttributes = function(i) {
       let style = {fill: props.colors[i], cursor: 'pointer'};
       let onClick = _ => {}; 
-      let onEnter = _ => {}; 
+      let onMouseEnter = _ => {};
+      let onMouseLeave = _ => {};
       let plusI = (props.curIndex + 1 < 5) ? props.curIndex + 1 : 0;
       let minusI = (props.curIndex - 1 >= 0) ? props.curIndex - 1 : 4;
-      if(i === minusI) {onClick = props.onPrevClick; onEnter = this.onHoverDown}
-      if(i === props.curIndex) {onClick = props.onCenterClick;}
-      if(i === plusI) {onClick = props.onNextClick; onEnter = this.onHoverUp}
+      if(i === minusI) {onClick = props.onPrevClick}
+      if(i === props.curIndex) {onClick = props.onCenterClick}
+      if(i === props.curIndex) {onMouseEnter = props.onCenterHover; onMouseLeave = props.onCenterLeave}
+      if(i === plusI) {onClick = props.onNextClick}
       return {
         style: style,
         onClick: onClick,
-        // onMouseEnter: onEnter,
-        // onMouseLeave: this.onHoverOff,
+        onMouseEnter: onMouseEnter,
+        onMouseLeave: onMouseLeave,
       }
     }
 
