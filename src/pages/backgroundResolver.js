@@ -4,6 +4,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import background from '../assets/background-texture-white.jpg'; 
 import { connect } from 'react-redux'
 import { SimpleFade } from '../components/fadeWrapper';
+import classnames from 'classnames'; 
 
 //////////////////////////////////////////////////
 //
@@ -24,9 +25,11 @@ class BackgroundResolver extends Component{
   }
   
   render() {
-    const {location, curSystem = {}} = this.props;
+    const {location, curSystem = {}, isHoveringSelector = false} = this.props;
     return(
-      <TransitionGroup className={`background ${location.pathname.split('/')[1]}`}>
+      <TransitionGroup className={
+        classnames('background', location.pathname.split('/')[1], {'hovering-selector':isHoveringSelector})}
+      >
         <CSSTransition key={curSystem.coverImage.src} timeout={{enter: 666, exit: 333}} classNames='back'>
           <Route path="/(selector|transition|simulation|mobile|about)" render={_ => {
             let {coverImage = '', icon, color} = curSystem;
@@ -42,14 +45,19 @@ class BackgroundResolver extends Component{
           }  
           />
         </CSSTransition>
-        <img className='texture' alt='background_texture' src={background}></img>  
+        <CSSTransition key={'true'} timeout={0}>
+          <img className='texture' alt='background_texture' src={background}></img>  
+        </CSSTransition>
       </TransitionGroup>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return {curSystem: state.curSystem}
+  return {
+    curSystem: state.curSystem,
+    isHoveringSelector: state.isHoveringSelector
+  }
 }
 
 export default connect(mapStateToProps)(BackgroundResolver);
