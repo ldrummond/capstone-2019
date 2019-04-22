@@ -150,7 +150,7 @@ export default {
         src: moldVideo,
       },
       question: "How can mold build a network?", 
-      instructions: "Click your cursor to place 5 food sources, guiding the mold network",
+      instructions: "Click your cursor to place 5 food sources, guiding the mold network.",
       instructionPng: moldInstructions,
       interactions: [
         "Each mold cell wanders through its environment searching for food. When it reaches a food source, the cell releases pheremones.",
