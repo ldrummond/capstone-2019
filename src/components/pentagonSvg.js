@@ -12,26 +12,7 @@ class PentagonSvg extends Component {
 
     this.offset = 0;
     this.duration = 666; 
-    
-    // let setOffset = offset => {
-    //   console.log(this.state.spinning);
-    //   if(this.state.spinning) {
-    //     this.setState({offset: offset})
-    //   };
-    // };
-    // this.onHoverUp = _ => setOffset(-1);
-    // this.onHoverDown = _ => setOffset(1);
-    // this.onHoverOff = _ => setOffset(0);
   }
-
-  // componentDidUpdate(prevProps) {
-  //   if(prevProps.curIndex !== this.props.curIndex) {
-  //     this.setState({spinning: true}); 
-  //     setTimeout(_ => {
-  //       this.setState({spinning: false})
-  //     }, (this.duration))
-  //   }
-  // }
 
   render() {
     let props = this.props; 
