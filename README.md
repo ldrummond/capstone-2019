@@ -68,8 +68,8 @@ For this project, due to limited experience with openGL, implementations of **bo
 
 - [Histography](https://histography.io/)
 - [17 Issues](https://art4globalgoals.com/en)
-- 
-- 
+- [Nicole Fox](https://nicolefoxdesign.com/classical-concert-event-poster)
+- [Wilderness Downtown](http://www.thewildernessdowntown.com/)
 
 #### Images Sources
 [Unsplash](https://unsplash.com/)
