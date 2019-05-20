@@ -1,5 +1,5 @@
 
-# *Emergence* - Capstone Project
+# *Part To Whole* - Capstone Project
 Web Application (http://lucasbuilds.site/capstone-2019)
 
 
