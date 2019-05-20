@@ -1,6 +1,6 @@
 
 # *Part To Whole* - Capstone Project
-Web Application (http://lucasbuilds.site/capstone-2019)
+Web Application (https://part-to-whole.netlify.com)
 
 
 *"In philosophy, systems theory, science, and art, emergence is the condition of an entity having properties its parts do not have, due to interactions among the parts."*
@@ -74,9 +74,10 @@ For this project, due to limited experience with openGL, implementations of **bo
 #### Images Sources
 [Unsplash](https://unsplash.com/)
 
-- [Fish](https://unsplash.com/photos/ekthrVC_DVs), David Clode
-- [Bat]
--
+- [Fish](https://unsplash.com/photos/ekthrVC_DVs), David Clode on Unsplash
+- [Bat](https://unsplash.com/photos/_f8IZ0gGS6E) James Wainscoat on Unsplash
+- [Car](https://unsplash.com/photos/1cgAXEzomgc), Hayes Potter on Unsplash
+- [Crowd](https://unsplash.com/photos/nApljhT9kfM), Patrick Tomasso on Unsplash
 
 ***
 
@@ -96,9 +97,7 @@ This project is built with [React](https://reactjs.org/) and bootstrapped with [
 - [Create React App](https://github.com/facebook/create-react-app)
 - [Redux](https://redux.js.org/introduction/getting-started)
 - [React Router](https://github.com/ReactTraining/react-router)
-- [Lodash](https://lodash.com/) (Throttle)
-- Deepmerge
-- Classnames
+- [Lodash](https://lodash.com/)
 
 ***
 
@@ -118,9 +117,3 @@ $ npm run start
 ```shell
 $ npm run build
 ```
-
-#### Test
-```shell
-$ npm run test
-``` 
-
