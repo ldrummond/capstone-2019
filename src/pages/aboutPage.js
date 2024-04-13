@@ -94,17 +94,17 @@ class AboutPage extends Component {
               <div className='copy-block project'>
                 <h2 className='header'>
                   Designed and developed by 
-                  <a href='http://lucasbuilds.site' target='_blank'> Lucas Drummond {'\u2192'}</a>
+                  <a href='http://lucas-builds.netlify.app' target='_blank'> Lucas Drummond {'\u2192'}</a>
                 </h2>
                 
-                <p className='copy'>
-                  Created for a Senior Capstone Project, for the Communication Design Program at 
-                  Washington University in St. Louis (2019).
-                </p>
-                <br></br>
-                <p className='copy'>
-                  Special thanks to Jonathan Hanahan, Craig Reynolds and Ian McGregor.
-                </p>
+                // <p className='copy'>
+                //   Created for a Senior Capstone Project, for the Communication Design Program at 
+                //   Washington University in St. Louis (2019).
+                // </p>
+                // <br></br>
+                // <p className='copy'>
+                //   Special thanks to Jonathan Hanahan, Craig Reynolds and Ian McGregor.
+                // </p>
               </div>
             </div>
             <div className='question-text'>
